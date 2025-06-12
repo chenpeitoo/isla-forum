@@ -1,0 +1,19 @@
+.box5-comment-p,
+.box5-comment-star1 {
+  color: var(--sub-text);
+}
+.box5-comment-bar {
+  background-color: var(--main-color);
+}
+.box5-comment-h1 {
+  color: var(--main-color);
+  font-size: 42px;
+  font-style: normal;
+  line-height: normal;
+}
+.box5-comment-star {
+  color: var(--main-color);
+}
+.card-people-course {
+  color: #8c8c8c;
+}

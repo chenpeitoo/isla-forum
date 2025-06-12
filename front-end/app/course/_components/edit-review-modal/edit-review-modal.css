@@ -1,0 +1,22 @@
+.modal-backdrop {
+  cursor: pointer;
+}
+.bx {
+  transition:
+    color 0.2s,
+    transform 0.2s;
+}
+.bx:hover {
+  transform: scale(1.2);
+  color: gold; /* 或其他亮色 */
+}
+.custom-modal {
+  position: fixed;
+  z-index: 1050; /* 高於 backdrop */
+}
+
+.modal-backdrop {
+  position: fixed;
+  z-index: 1040;
+  background: rgba(0, 0, 0, 0.5);
+}

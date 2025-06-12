@@ -1,0 +1,450 @@
+/* * {
+  outline: 1px solid rgb(108, 186, 231);
+} */
+
+.banner-img-mask-course {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(rgba(0, 0, 0, 0.4) 80%);
+  pointer-events: auto; /* 不影響 hover / click */
+}
+.bread-crumbs {
+  font-size: 15px;
+  color: var(--white);
+}
+
+.banner-author {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 12px;
+  height: 74px;
+  border-radius: 15px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.18) 100%,
+    rgba(255, 255, 255, 0.9) 100%
+  );
+  border: 2px solid rgba(185, 185, 185, 0.15);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+  max-width: 100%;
+  cursor: pointer;
+  transition: all 0.3s ease; /* ✅ 滑入滑出動畫 */
+  pointer-events: auto;
+}
+
+.banner-author:hover {
+  background: rgba(255, 255, 255, 0.3); /* ✅ hover 背景稍微變亮 */
+  border-color: rgba(255, 255, 255, 0.5); /* ✅ 邊框變亮 */
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.4); /* ✅ 外層發光 */
+}
+.banner-author-img,
+.banner-author-name {
+  transition: transform 0.3s ease;
+}
+
+.banner-author:hover .banner-author-img {
+  transform: scale(1.05);
+}
+
+.banner-author:hover .banner-author-name {
+  transform: translateX(2px);
+}
+
+@media screen and (max-width: 1200px) {
+  .banner-author {
+    height: 49px;
+    padding: 0 10px;
+    border-radius: 10px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .banner-author {
+    height: 30px;
+    padding: 0 6px;
+    border-radius: 5px;
+  }
+}
+
+.banner-author-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+@media screen and (max-width: 1200px) {
+  .banner-author-img {
+    width: 30px;
+    height: 30px;
+  }
+}
+@media screen and (max-width: 576px) {
+  .banner-author-img {
+    width: 20px;
+    height: 20px;
+  }
+}
+.banner-author-name {
+  font-size: 24px;
+  color: var(--white);
+  font-weight: 400;
+  font-style: normal;
+  line-height: normal;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px; /* 依需求調整最大長度 */
+}
+
+@media screen and (max-width: 1200px) {
+  .banner-author-name {
+    font-size: 20px;
+  }
+}
+@media screen and (max-width: 576px) {
+  .banner-author-name {
+    font-size: 14px;
+  }
+}
+.banner-h1 {
+  font-size: 40px;
+  font-style: normal;
+  line-height: normal;
+}
+@media screen and (max-width: 1200px) {
+  .banner-h1 {
+    font-size: 28px;
+  }
+}
+@media screen and (max-width: 992px) {
+  .banner-h1 {
+    font-size: 24px;
+  }
+}
+@media screen and (max-width: 576px) {
+  .banner-h1 {
+    font-size: 20px;
+  }
+}
+.banner-ctabox h5 {
+  font-size: 16px;
+  pointer-events: auto;
+  z-index: 10; /* 如果被圖片覆蓋也一起處理 */
+}
+
+.banner-ctabox i {
+  color: var(--white);
+  font-size: 2.5rem;
+  pointer-events: auto;
+}
+/* box1 */
+/* ---------- course按鈕樣式 ---------- */
+.card-btn-course {
+  padding: 2px 10px;
+  background-color: #fff4f3;
+  color: var(--main-color);
+  border: none;
+  outline: none;
+  box-shadow: none;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.card-btn-course:focus,
+.card-btn-course:active,
+.card-btn-course:hover,
+.card-btn-course:visited {
+  background-color: #fff4f3 !important;
+  color: var(--main-color) !important;
+}
+/* ---------- experience-tag按鈕樣式 ---------- */
+.experience-tag {
+  padding: 2px 10px;
+  background-color: #faf3ff;
+  color: #c183fa;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.experience-tag:focus,
+.experience-tag:active,
+.experience-tag:hover,
+.experience-tag:visited {
+  background-color: #faf3ff;
+  color: #c183fa;
+}
+.box1-icon {
+  color: var(--sub-text);
+}
+.box1-mark {
+  color: var(--main-color);
+  font-size: 14px;
+}
+
+/* box2 */
+.title-mark {
+  width: 8px;
+  background-color: var(--main-color);
+}
+.text-color {
+  color: var(--sub-text);
+}
+/* box3 */
+.box3-content-collapse {
+  max-height: 600px;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  position: relative;
+}
+.box3-content-collapse img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem 0;
+}
+
+.box3-fade-mask {
+  height: 100px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fafafa);
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.box3-expanded .box3-content-collapse {
+  max-height: 9999px;
+}
+.box3-content-collapse.expanded {
+  max-height: none; /* 展開時顯示完整內容 */
+  overflow: visible;
+}
+
+.box3-expanded #box3-fadeMask {
+  opacity: 0;
+}
+.More-courses {
+  color: var(--main-color);
+  font-weight: 500;
+  font-size: 1rem;
+}
+.box4-card-title {
+  color: var(--main-color);
+}
+.box4-card-text {
+  color: var(--sub-text);
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.More-teacher {
+  color: var(--main-color);
+  font-weight: 400;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+}
+.More-teacher i {
+  transition: transform 0.3s ease;
+  margin-left: 0.25rem;
+}
+
+.More-teacher:hover {
+  text-decoration: underline;
+}
+
+.More-teacher:hover i {
+  transform: translateX(4px);
+}
+/* scroll-card-text */
+.scroll-card-text,
+.box5-comment-p,
+.box5-comment-star1 {
+  color: var(--sub-text);
+}
+.scroll-card-discount,
+.scroll-card-icon {
+  color: var(--main-color);
+}
+.scroll-card-btn {
+  border: 2px solid var(--main-color);
+  color: var(--main-color);
+  background-color: transparent;
+}
+
+.scroll-card-btn:hover {
+  background-color: var(--main-color);
+  color: var(--white);
+}
+/* .scroll-card-btn:focus,
+.scroll-card-btn:active,
+.scroll-card-btn:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+} */
+.scroll-card {
+  position: sticky;
+  top: 100px;
+  z-index: 10; /* 保險做法 */
+}
+.price-sticky-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background-color: #fff;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+  z-index: 10;
+}
+.scroll-card-discount {
+  color: var(--main-color);
+  font-weight: bold;
+}
+.sticky-bar-style {
+  border-radius: 15px;
+  border: 2px solid rgba(185, 185, 185, 0.15);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0.9) 100%
+  );
+  /* 漸層玻璃卡片 */
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+}
+/* box5-map */
+.box5-map-h1 {
+  color: var(--sub-text);
+  font-size: 20px;
+  font-style: normal;
+  line-height: normal;
+}
+@media screen and (max-width: 992px) {
+  .box5-map-h1 {
+    font-size: 16px;
+  }
+}
+
+/* box6 */
+/* ---------- 圖片放大效果 ---------- */
+.card-img-container-course {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+}
+
+.card-img-top-course {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+/* ---------- 圖片放大 ---------- */
+.card-hover-course {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.card-hover-course:hover .card-img-top-course {
+  transform: scale(1.05);
+}
+
+.card-hover-course:hover .heart-icon-course {
+  opacity: 1;
+}
+/* ---------- 愛心 icon ---------- */
+.heart-icon-course {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.heart-icon-course i {
+  color: rgba(0, 0, 0, 0.5);
+  transition: color 0.3s ease;
+}
+
+.heart-icon-course i.active {
+  color: var(--main-color);
+}
+
+.heart-icon-course i.animate-pop {
+  animation: heart-pop 0.4s ease;
+}
+
+@keyframes heart-pop {
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.4);
+  }
+  60% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+/* ---------- experience-tag按鈕樣式 ---------- */
+.experience-tag {
+  padding: 2px 10px;
+  background-color: #faf3ff;
+  color: #c183fa;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.experience-tag:focus,
+.experience-tag:active,
+.experience-tag:hover,
+.experience-tag:visited {
+  background-color: #faf3ff !important;
+  color: #c183fa !important;
+}
+/* ---------- 卡片內容樣式 ---------- */
+.card-teacher-course,
+.card-people-course {
+  color: #8c8c8c;
+}
+
+.card-score-course {
+  color: var(--main-color);
+}
+
+.card-text-discount {
+  font-size: 14px;
+}
+.card-text-discount {
+  text-decoration: line-through;
+}
+.countdown-text.text-muted {
+  color: #999;
+  font-style: italic;
+}
+.loading-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

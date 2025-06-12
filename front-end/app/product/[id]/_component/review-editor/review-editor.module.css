@@ -1,0 +1,22 @@
+.ianStar {
+    font-size: 26px;
+    margin-left: 2px;
+}
+
+.editor-btn {
+    background: rgba(231, 231, 231, 0.41);
+    border-top: 2px solid #ffffff;
+    outline: 1px solid rgba(224, 224, 224, 0.21);
+    border-radius: 8px;
+    padding: 6px 16px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
+    color: rgba(236, 90, 90, 0.8);
+    font-size: 16px;
+    font-weight: 600;
+    transition: box-shadow 0.6s, background 0.6s;
+}
+.editor-btn:hover {
+    background: rgba(229, 229, 229, 0.2);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
+}
+

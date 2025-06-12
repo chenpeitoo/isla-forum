@@ -11,6 +11,9 @@ const db = mysql.createPool({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
   dateStrings: true, // 轉換日期字串格式用
+  waitForConnections: true,
+  connectionLimit: 10, // 最多同時 10 條連線
+  queueLimit: 0, // 不限制等待
 })
 
 // 輸出模組

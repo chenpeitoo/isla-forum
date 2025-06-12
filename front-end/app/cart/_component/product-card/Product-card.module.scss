@@ -1,22 +1,5 @@
 // product-card-style
 
-.cardSelect {
-  appearance: none;
-  // border: 1px solid var(--main-color);
-  border-radius: 0.25rem;
-  padding: 4px 8px 4px 8px;
-  background: var(--title-linear);
-  color: var(--main-text);
-  font-size: 1rem;
-
-  &:focus {
-    outline: none;
-    border-color: var(--main-color);
-    box-shadow: none;
-  }
-}
-
-// product-cards-checkbox
 .checkboxInput {
   appearance: none;
   width: 1.2rem;
@@ -35,20 +18,37 @@
   box-shadow: none;
 }
 
-// color-dots style
 .colorDot {
-  all: unset;
-  width: 14px;
-  height: 14px;
-  display: block;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
+  border: 2px solid transparent;
   cursor: pointer;
-  border: 1px solid #ccc;
+  position: relative;
+  transition: 0.2s;
 
-  //選中的顏色
   &.active {
-    border: 2px solid var(--main-text);
+    border: 1px solid white;
+
+    &::after {
+      content: '✔';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+    }
   }
+}
+
+.ellipsis {
+  width: 13em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
 }
 
 ////
@@ -95,10 +95,54 @@
     gap: 0.5rem;
   }
 }
-// .productImage {
-//   width: 130px;
 
-//   @media (max-width: 767.98px) {
-//     width: 80px;
+// 沒用到樣式
+// .cardSelect {
+//   appearance: none;
+//   // border: 1px solid var(--main-color);
+//   border-radius: 0.25rem;
+//   padding: 4px 8px 4px 8px;
+//   background: var(--title-linear);
+//   color: var(--main-text);
+//   font-size: 1rem;
+
+//   &:focus {
+//     outline: none;
+//     border-color: var(--main-color);
+//     box-shadow: none;
 //   }
 // }
+
+@media (max-width: 767.98px) {
+  .mobileProductCard {
+    border-radius: 0.75rem;
+    background-color: #fff;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+    gap: 0.5rem;
+  }
+
+  .productImage {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .checkboxInput {
+    margin-top: 0.5rem;
+  }
+
+  .text-subtext {
+    color: #999;
+  }
+
+  .badge {
+    font-size: 0.75rem;
+    padding: 0.25em 0.5em;
+    border-radius: 0.5rem;
+  }
+
+  .form-select-sm {
+    font-size: 0.75rem;
+  }
+}

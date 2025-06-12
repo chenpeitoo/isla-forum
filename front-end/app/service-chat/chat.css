@@ -1,0 +1,125 @@
+* {
+  /* outline: 1px solid rgba(180, 142, 216, 0.657); */
+}
+.service-chat-room {
+  width: 300px;
+  height: 64vh;
+  .chat-main-input {
+    background-color: #f7f7f7;
+    outline: 0;
+  }
+}
+
+.chat-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 100% 100% 8px 100%;
+  background-color: #fa8e83;
+  color: #fbfbfb;
+
+  .face {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    translate: 0px 1px;
+    transition: 0.3s;
+  }
+  .leftEye {
+    width: 8px;
+    height: 8px;
+    background-color: #fbfbfb;
+    transition: 0.3s;
+  }
+  .rightEye {
+    width: 8px;
+    height: 8px;
+    background-color: #fbfbfb;
+    transition: 0.3s;
+  }
+  .mouth {
+    width: 8px;
+    height: 8px;
+    background-color: #fbfbfb;
+    border-radius: 100%;
+    transition: 0.3s;
+  }
+
+  &:hover {
+    .leftEye {
+      transform: translate(2px, -5px);
+    }
+    .rightEye {
+      transform: translate(-2px, -5px);
+    }
+    .mouth {
+      height: 6px;
+      transform: translateY(10px) scale(2);
+      border-radius: 20px 20px 100px 100px;
+    }
+  }
+  .face.look {
+    transform: rotate(30deg);
+
+    .leftEye {
+      transform: translate(2px, -5px);
+    }
+    .rightEye {
+      transform: translate(-2px, -5px);
+    }
+    .mouth {
+      height: 6px;
+      transform: translateY(10px) scale(2);
+      border-radius: 20px 20px 100px 100px;
+    }
+  }
+}
+
+/* GPT
+  .container {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100vh',
+    maxWidth: '600px',
+    margin: '0 auto',
+    padding: '16px',
+  }
+  .chatWindow {
+    flex: 1,
+    border: '1px solid #ccc',
+    borderRadius: '8px',
+    padding: '12px',
+    overflowY: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '8px',
+    backgroundColor: '#FAFAFA',
+  }
+  .message {
+    maxWidth: '80%',
+    padding: '8px 12px',
+    borderRadius: '16px',
+    lineHeight: 1.4,
+  }
+  .inputArea {
+    display: 'flex',
+    gap: '8px',
+    marginTop: '12px',
+  }
+  .textarea {
+    flex: 1,
+    resize: 'none',
+    padding: '8px',
+    borderRadius: '8px',
+    border: '1px solid #ccc',
+    fontSize: '14px',
+    fontFamily: 'sans-serif',
+  }
+  .sendButton {
+    padding: '0 16px',
+    borderRadius: '8px',
+    border: 'none',
+    backgroundColor: '#0070f3',
+    color: '#fff',
+    cursor: 'pointer',
+  } */

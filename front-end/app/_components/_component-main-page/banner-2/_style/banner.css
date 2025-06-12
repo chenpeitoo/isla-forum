@@ -1,0 +1,13 @@
+.banner-container {
+  height: 680px;
+}
+.mp-left-arrow {
+  position: absolute;
+  top: 45%;
+  left: 3%;
+}
+.mp-right-arrow {
+  position: absolute;
+  top: 45%;
+  right: 3%;
+}

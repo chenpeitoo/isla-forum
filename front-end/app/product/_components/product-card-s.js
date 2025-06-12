@@ -1,121 +1,185 @@
-// ProductCard.js
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import RatingComponent from './product-rating.js';
-import './product-card-styles.css'; // 你的樣式表
+// src/components/ProductCard.jsx
+'use client'
 
-// 從 react-icons 引入愛心圖標
-import { BsHeartFill, BsHeart } from 'react-icons/bs';
+import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
+import './_style/product-card-s.css'
+import RatingComponent from './product-rating.js'
+import BookmarkComponent from './product-bookmark.js'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useClientToken } from '@/hook/use-client-token.js'
+import { useAuth } from '@/hook/use-auth.js'
+import { useAddCart } from '@/hook/use-add-cart.js'
+import { useToggleWish } from '@/hook/use-toggle-wish.js'
+import WishButton from '../../_components/wish-toggle.js'
+import { toast } from 'react-toastify'
 
-const ProductCard = ({
-                       imageUrl,
-                       imageAlt = "商品圖片",
-                       initialIsFavorited = false,
-                       rating,
-                       reviewCount,
-                       brandName,
-                       productName,
-                       mainPrice,
-                       basicPrice,
-                       currencySymbol = "$",
-                       onFavoriteToggle,
-                       onAddToCart,
-                       productId,
-                     }) => {
-  const [isFavorited, setIsFavorited] = useState(initialIsFavorited);
+function ProductCard({ product }) {
+  const { user, isLoading: isAuthLoading } = useAuth()
+  const token = useClientToken()
+  const [isImageLoaded, setIsImageLoaded] = useState(false)
+  const { mutate: addToCart } = useAddCart(token)
 
-  const handleFavoriteClick = (e) => {
-    e.preventDefault();
-    const newFavoriteState = !isFavorited;
-    setIsFavorited(newFavoriteState);
-    if (onFavoriteToggle) {
-      onFavoriteToggle(productId, newFavoriteState);
-    }
-  };
+  const {
+    id,
+    brand = 'N/A',
+    name = 'Unnamed Product',
+    price = '0',
+    originalPrice,
+    rating = 0,
+    reviews = 0,
+    imageUrl = `/images/product/test/test1.png`,
+    isBookmarked: initialIsBookmarked = false,
+    isColorful,
+  } = product
+  const { isFavorited, toggleFavorite } = useToggleWish(token, 'product', id)
 
-  const handleAddToCartClick = (e) => {
-    e.preventDefault();
-    if (onAddToCart) {
-      onAddToCart({
-        productId,
-        name: productName,
-        price: mainPrice,
-      });
-    }
-  };
+  // ✅ 加入購物車
+  const handleAddToCart = (e) => {
+    e.preventDefault()
+    console.log(`Product ${id} (${name}) added to cart.`)
+    const quantity = 1
+    addToCart(
+      {
+        product_id: product.id,
+        quantity,
+      },
+      {
+        onSuccess: (data) => {
+          window.dispatchEvent(new Event('cart-updated'))
+          toast.success(data?.message || '成功加入購物車')
+          // 可以添加成功提示 UI
+        },
+        onError: (err) => {
+          console.error('加入購物車失敗：', err)
+          // 可以添加錯誤提示 UI
+          toast.error('加入購物車失敗，請稍後再試')
+        },
+      }
+    )
+  }
 
-  const isSpecialOffer = basicPrice && parseFloat(String(mainPrice).replace(/,/g, '')) < parseFloat(String(basicPrice).replace(/,/g, ''));
+  // ✅ SSR 安全的 RWD 偵測
+  const useIsMobile = (breakpoint = 1400) => {
+    const [isMobile, setIsMobile] = useState(false)
+
+    useEffect(() => {
+      const handleResize = () => {
+        setIsMobile(window.innerWidth < breakpoint)
+      }
+
+      handleResize() // 初始化
+      window.addEventListener('resize', handleResize)
+      return () => window.removeEventListener('resize', handleResize)
+    }, [breakpoint])
+
+    return isMobile
+  }
+
+  const isMobile = useIsMobile()
+
+  const IMAGE_PREFIX = 'https://isla-image.chris142852145.workers.dev/'
+  const fullImageUrl = `${IMAGE_PREFIX}${imageUrl}`
+  const productUrl = `http://localhost:3000/product/${id}`
+
+  if (!product || isAuthLoading) {
+    return null
+  }
 
   return (
-    <div className="product_card">
-      <div className="product_card-head">
-        <div className="head-top d-flex">
-          {(rating !== undefined && reviewCount !== undefined) && (
-            <div className="rating rating-desktop">
-              <RatingComponent rating={rating} reviewCount={reviewCount} />
-            </div>
-          )}
-          <div className="bookmark">
-            <a href="#" onClick={handleFavoriteClick} role="button" aria-pressed={isFavorited} aria-label={isFavorited ? "從我的最愛移除" : "加入我的最愛"}>
-              {isFavorited ? <BsHeartFill /> : <BsHeart />}
-            </a>
-          </div>
-        </div>
-        <div className="product_card-img">
-          <img src={imageUrl} alt={imageAlt} className="card-img" />
-        </div>
-        <div className="hover-add-cart">
-          <a href="#" onClick={handleAddToCartClick} className="add-cart-btn">加入購物車</a>
-        </div>
-      </div>
-
-      <div className="product_card-info">
-        <div className="info">
-          <div className="product_details">
-            {brandName && <div className="brand">{brandName}</div>}
-            <div className="product_name">{productName}</div>
-          </div>
-        </div>
-        {(rating !== undefined && reviewCount !== undefined) && (
-          <div className="rating rating-mobile">
-            <RatingComponent rating={rating} reviewCount={reviewCount} />
-          </div>
-        )}
-        <div className="price">
-          <div className="price-box d-flex gap-2">
-            <div className="main-price">
-              {currencySymbol}
-              {typeof mainPrice === 'number' ? mainPrice.toLocaleString() : String(mainPrice)}
-            </div>
-            {isSpecialOffer && basicPrice && (
-              <div className="basic-price">
-                <del>
-                  {currencySymbol}
-                  {typeof basicPrice === 'number' ? basicPrice.toLocaleString() : String(basicPrice)}
-                </del>
+    <Link href={productUrl} passHref>
+      <div className="product-card-product_card" key={id}>
+        <div className="product-card-product_card-head">
+          <div className="product-card-head-top d-flex">
+            <div className="product-card-rating product-card-rating-desktop">
+              <div className="product-card-star-box">
+                <RatingComponent rating={rating} reviewCount={reviews} />
               </div>
+            </div>
+            <BookmarkComponent
+              isbookmarked={isFavorited}
+              isMobile={isMobile}
+              onToggle={(e) => {
+                e.preventDefault()
+                toggleFavorite()
+              }}
+            />
+          </div>
+
+          <div className="product-card-product_card-img image-container">
+            <div className="skeleton-image" />
+            <Image
+              src={fullImageUrl}
+              alt={name}
+              onLoad={() => setIsImageLoaded(true)}
+              className={`card-img ${isImageLoaded ? 'fade-in' : 'hidden'}`}
+              width={0}
+              height={0}
+            />
+          </div>
+
+          <div className="product-card-hover-add-cart">
+            <button
+              onClick={handleAddToCart}
+              className="product-card-add-cart-btn"
+            >
+              加入購物車
+            </button>
+          </div>
+        </div>
+
+        <div className="product-card-product_card-info">
+          <div className="product-card-info">
+            <div className="product-card-product_details">
+              <div className="product-card-brand">{brand}</div>
+              <div className="product-card-product_name">{name}</div>
+            </div>
+          </div>
+
+          <div className="product-card-rating product-card-rating-mobile">
+            <div className="product-card-star-box">
+              <RatingComponent
+                rating={rating}
+                reviewCount={reviews}
+                isMobile={true}
+              />
+            </div>
+          </div>
+
+          <div className="product-card-price d-flex justify-content-between">
+            <div className="product-card-price-box d-flex gap-2">
+              <div className="product-card-main-price">
+                NT${parseInt(price)}
+              </div>
+              {originalPrice && originalPrice !== price && (
+                <div className="product-card-basic-price">
+                  <del>${parseInt(originalPrice)}</del>
+                </div>
+              )}
+            </div>
+            {isColorful && isColorful !== '1' && (
+              <div className="product-card-tag">多色可選</div>
             )}
           </div>
         </div>
       </div>
-    </div>
-  );
-};
+    </Link>
+  )
+}
 
 ProductCard.propTypes = {
-  productId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  imageUrl: PropTypes.string.isRequired,
-  imageAlt: PropTypes.string,
-  initialIsFavorited: PropTypes.bool,
-  rating: PropTypes.number,
-  reviewCount: PropTypes.number,
-  brandName: PropTypes.string,
-  productName: PropTypes.string.isRequired,
-  mainPrice: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  basicPrice: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  currencySymbol: PropTypes.string,
-  onFavoriteToggle: PropTypes.func,
-  onAddToCart: PropTypes.func,
-};
+  product: PropTypes.shape({
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    brand: PropTypes.string,
+    name: PropTypes.string,
+    price: PropTypes.string,
+    originalPrice: PropTypes.string,
+    rating: PropTypes.number,
+    reviews: PropTypes.number,
+    imageUrl: PropTypes.string,
+    isBookmarked: PropTypes.bool,
+  }).isRequired,
+}
 
-export default ProductCard;
+export default ProductCard

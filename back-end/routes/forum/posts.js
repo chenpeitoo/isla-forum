@@ -1,177 +1,227 @@
 import express from 'express'
+import multer from 'multer'
+import db from '../../config/mysql.js' // 使用mysql
+import path from 'path'
+
 const router = express.Router()
-// 使用mysql
-import db from '../../config/mysql.js'
 
 // 得到多筆文章
-router.get('/', async function (req, res) {
-  console.log('get/')
+// 後端送出的post_user_liked, post_user_saved 為字串
+router.get('/:pageName', async function (req, res) {
   // 取得userID
-  const userID = 3
+  const postsQuery = `SELECT 
+        p.*,
+        pc.id AS cate_id,
+        pc.name AS cate_name,
+        u.nickname AS user_nick,
+        u.ava_url AS user_img,
+        IFNULL (liked.user_ids, '') AS liked_user_ids,
+        IFNULL( liked.likes, 0) AS likes,
+        IFNULL (saved.user_ids, '') AS saved_user_ids,
+        IFNULL (comment.count, 0) AS comment_count
+    FROM post p
+    JOIN post_category pc ON p.cate_id = pc.id
+    JOIN users u ON p.user_id = u.id
+    LEFT JOIN (
+        SELECT post_id,
+        GROUP_CONCAT(user_id) AS user_ids,
+        COUNT(user_id) AS likes
+        FROM post_user_liked
+        GROUP BY post_id
+    ) liked ON p.id = liked.post_id
+    LEFT JOIN (
+        SELECT post_id,
+        GROUP_CONCAT(user_id) AS user_ids
+        FROM post_user_saved
+        GROUP BY post_id
+    ) saved ON p.id = saved.post_id
+    LEFT JOIN (
+      SELECT post_id,
+      COUNT(id) AS count
+      FROM comment
+      GROUP BY post_id
+    ) comment ON p.id = comment.post_id
+    WHERE p.valid=1`
 
-  // 取得WHERE參數、判斷路由
-  const referer = req.get('Referer')
-  const isHome = referer === 'http://localhost:3000/forum'
-  // const isPost = referer.includes('/post')
-  const isProfile = referer.includes('/forum/profile/')
-  const isMyPost = referer.includes('/my-forum/my-post')
+  const userID = req.body.userID || req.query.userID || 0
+  const pageName = req.params.pageName
+  let postsResult
+  let morePostsResult
+  let isResultExist = true
+  let otherPosts
 
-  // whereClause
-  let whereClause = ''
-  if (isProfile) {
-    const profileID = req.get('Referer').match(/\/profile\/(\d+)$/)[1]
-    whereClause = profileID ? `WHERE p.user_id = ${profileID}` : '' //有必要嗎？
-  } else if (isMyPost) {
-    whereClause = `WHERE p.user_id = ${userID}`
-    // } else if (isPost) {
-    // BUG 點擊至post再跳回上一頁時，上一頁論壇首頁只剩在where篩選後的單篇資料
-    // const postID = req.get(`Referer`).match(/\/forum\/post\/(\d+)$/)[1]
-    // whereClause = `WHERE p.id = ${postID}`
-  } else if (isHome) {
-    whereClause = ''
+  // const userID = req.query.userID || req.body.usrID || 0
+  // if (!userID) return res.json({ status: 'success', data: '未登入成功' })
+
+  switch (pageName) {
+    case 'post-detail': {
+      const postID = req.query.postID
+      postsResult = await db.query(`${postsQuery} AND p.id=${postID}`)
+      morePostsResult = await db.query(
+        `${postsQuery} 
+        AND p.cate_id = (SELECT cate_id FROM post WHERE id = ${postID}) 
+        AND p.id != ${postID} ORDER BY likes DESC LIMIT 4`
+      )
+      // QU 為什麼likes不能是p.likes？
+      // if (postsResult || morePostsResult) {
+      return res.json({
+        status: 'success',
+        data: { posts: postsResult[0], morePosts: morePostsResult[0] },
+      })
+      // }
+      // break
+    }
+    case 'home': {
+      console.log('----------home---------')
+      const tab = req.query.tab
+      const keyword = req.query.keyword
+      const productCate = req.query.productCate?.split(',')
+      const postCate = req.query.postCate?.split(',')
+      // console.log({ keyword, productCate, postCate })
+
+      // WHERE p.title LIKE ? OR p.content LIKE ? AND p.cate_id = ? AND p.product_cate_id = ?
+      // 冷靜的找到篩選問題是括號，我好棒！
+      if (tab || keyword || productCate || postCate) {
+        const tabValue = tab !== '1' ? 'updated_at' : 'likes'
+        // console.log(tab, tabValue)
+        postsResult = await db.query(`${postsQuery} ORDER BY ${tabValue} DESC`)
+        if (keyword || productCate || postCate) {
+          const keywordClause = keyword
+            ? `(p.title LIKE ? OR p.content LIKE ?)`
+            : ''
+          //WHERE (p.title LIKE '%清爽%' OR p.content LIKE '%清爽%') AND ORDER BY updated_at DESC",
+          const keywordValue = keyword ? `%${keyword}%` : ''
+          const productClause = productCate
+            ? `p.product_cate_id IN (${productCate.map((c) => '?').join(',')})`
+            : ''
+          const productValue = productCate ?? []
+          const postClause = postCate
+            ? `p.cate_id IN (${postCate.map((c) => '?').join(',')})`
+            : ''
+          const postValue = postCate ?? []
+
+          const totalClause = [keywordClause, productClause, postClause]
+            .filter((c) => c.length > 0)
+            .join(' AND ')
+
+          const totalValue = [
+            keywordValue,
+            keywordValue,
+            ...productValue,
+            ...postValue,
+          ].filter(Boolean)
+
+          postsResult = await db.query(
+            `${postsQuery} AND ${totalClause} ORDER BY ${tabValue} DESC`,
+            totalValue
+          )
+        }
+      } else {
+        postsResult = await db.query(`${postsQuery} ORDER BY likes DESC`)
+        // const { page = '1', limit = '5' } = req.query
+        // const offset = (parseInt(page) - 1) * parseInt(limit)
+
+        // postsResult = await db.query(
+        //   `${postsQuery} ORDER BY likes DESC LIMIT ? OFFSET ?`,
+        //   [parseInt(limit), offset]
+        // )
+      }
+      if (postsResult[0].length === 0) {
+        isResultExist = false
+        otherPosts = await db.query(`${postsQuery} ORDER BY likes DESC`)
+      }
+      // console.log('有資料')
+      // console.log('---------' + isResultExist)
+      break
+    }
+    case 'profile': {
+      // req網址 http://localhost:3005/api/forum/posts/profile?authorID=${authorID}
+      const authorID = req.query.authorID
+      postsResult = await db.query(`${postsQuery} AND p.user_id = ${authorID}`)
+      // user FIXME 判斷有無追蹤、userName等等
+      break
+    }
+    case 'my-post': {
+      postsResult = await db.query(
+        `${postsQuery} AND p.user_id = ${userID} ORDER BY p.updated_at DESC`
+      )
+      break
+    }
+    case 'saved-post': {
+      postsResult = await db.query(
+        `${postsQuery} ORDER BY p.updated_at DESC LIMIT 4`
+      )
+      // console.log(postsResult[0])
+      // postsResult[0] = postsResult[0].filter((p) =>
+      //   p.saved_user_ids.split(',').map(Number).includes(userID)
+      // )
+      console.log(postsResult[0])
+      break
+    }
+    case 'tidy': {
+      postsResult = await db.query(postsQuery)
+      break
+    }
   }
-  // posts是陣列含多個物件
-  const [postsRaw] = await db.query(
-    // ⚠️🐰用了別名就要貫徹始終
-    // 目前做法是搜集成按讚過的使用者ID陣列，再去計算數量。還是單獨sql WHERE user_id = 登入者_id就好？
-    `SELECT p.*, 
-    pc.name AS cate_name
-    FROM post p
-    JOIN post_category pc ON p.cate_id = pc.id
-    ${whereClause}
-    `
-  )
-  const [likedRaw] = await db.query(
-    `SELECT liked.post_id,
-    GROUP_CONCAT(liked.user_id) AS liked_user_id
-    FROM post_user_liked liked
-    GROUP BY liked.post_id`
-  )
-  const [savedRaw] = await db.query(
-    `SELECT saved.post_id,
-    GROUP_CONCAT(saved.user_id) AS saved_user_id
-    FROM post_user_saved saved
-    GROUP BY saved.post_id`
-  )
 
-  const extendedPosts = postsRaw.map((post) => {
-    const likedUserIDs =
-      likedRaw
-        .find((el) => el.post_id == post.id)
-        ?.liked_user_id.split(',')
-        .map((el) => Number(el)) ?? []
-
-    const savedUserIDs =
-      savedRaw
-        .find((el) => el.post_id === post.id)
-        ?.saved_user_id.split(',')
-        .map((el) => Number(el)) ?? []
-    // NOTE '大卡點！！！要用?防止undefined！！！'
-
-    return {
-      ...post,
-      liked_user_ids: likedUserIDs,
-      saved_user_ids: savedUserIDs,
-    }
-  })
-
+  // const [posts] = postsResult
   return res.json({
     status: 'success',
-    data: extendedPosts,
+    data: postsResult[0],
+    isResultExist,
+    otherPosts: otherPosts?.[0],
   })
-})
-// GET 得到單筆文章
-router.get('/:postID', async function (req, res) {
-  // 從動態網址中得到id（需要轉換為數字，因在資料表的id是自動遞增的數字）
-  const postID = Number(req.params.postID)
-
-  // posts是陣列含多個物件
-  const [postsRaw] = await db.query(
-    // ⚠️🐰用了別名就要貫徹始終
-    // 目前做法是搜集成按讚過的使用者ID陣列，再去計算數量。還是單獨sql WHERE user_id = 登入者_id就好？
-    `SELECT p.*, 
-    pc.name AS cate_name
-    FROM post p
-    JOIN post_category pc ON p.cate_id = pc.id
-    WHERE p.id = ${postID}
-    `
-  )
-  const [likedRaw] = await db.query(
-    `SELECT liked.post_id,
-    GROUP_CONCAT(liked.user_id) AS liked_user_id
-    FROM post_user_liked liked
-    WHERE liked.post_id = 257775162
-    GROUP BY liked.post_id
-    `
-  )
-  const [savedRaw] = await db.query(
-    `SELECT saved.post_id,
-    GROUP_CONCAT(saved.user_id) AS saved_user_id
-    FROM post_user_saved saved
-    WHERE saved.post_id = ${postID}
-    GROUP BY saved.post_id
-    `
-    // WHERE saved.post_id = ${postID}
-  )
-
-  const extendedPosts = postsRaw.map((post) => {
-    const likedUserIDs =
-      likedRaw
-        .find((el) => el.post_id == post.id)
-        ?.liked_user_id.split(',')
-        .map((el) => Number(el)) ?? []
-
-    const savedUserIDs =
-      savedRaw
-        .find((el) => el.post_id === post.id)
-        ?.saved_user_id.split(',')
-        .map((el) => Number(el)) ?? []
-    // NOTE '大卡點！！！要用?防止undefined！！！'
-
-    return {
-      ...post,
-      liked_user_ids: likedUserIDs,
-      saved_user_ids: savedUserIDs,
-    }
-  })
-
-  return res.json({
-    status: 'success',
-    data: extendedPosts,
-  })
-})
-
-// POST 得到多筆推薦文章
-router.post('/:postID', async function (req, res) {
-  const postID = req.params.postID
-  console.log('------postID: ' + postID)
-})
-
-// 得到多筆文章 - 篩選
-router.get('/:queryParam', async function (req, res) {
-  const queryParam = req.params.queryParam
-  queryParam.split('&')
-  const [posts] = await db.query(`SELECT * FROM post`)
-  return res.json({ status: 'success', data: { posts } })
 })
 
 // 新增一筆文章 - 網址：POST /api/forum/posts
-router.post('/', async function (req, res) {
-  const { title, content, userID, cateID, postCateID } = req.body
+const storage = multer.diskStorage({
+  destination: path.join(import.meta.dirname, '../../public/images/forum'),
+  // QU path是內建方法嗎？
+  filename: (req, file, cb) => {
+    const userID = req.body.userID
+    const filename = path.basename(file.originalname)
+    // const ext = path.extname(file.originalname)
+    cb(null, `${userID}_${Date.now()}_${filename}`)
+  },
+})
+const upload = multer({ storage })
+// 上傳圖片
+router.post(
+  '/upload-image',
+  upload.fields([{ name: 'images', maxCount: 50 }]),
+  async function (req, res) {
+    console.log(req)
+    const files = req.files.images
+    const filenames = files.map((f) => f.filename)
+    console.log('req----' + filenames)
+    return res.json({ filenames })
+  }
+)
+// 新增文章
+router.post('/', upload.none(), async function (req, res) {
+  // const images = req.files.images
+  const { title, content, userID, productCate, postCate } = req.body
   const [result] = await db.query(
-    `INSERT INTO post(title,content,updated_at, user_id, cate_id, cate_id) VALUES('${title}','${content}', NOW(),'${userID}', '${cateID}', '${postCateID}')`
+    'INSERT INTO post(title, content, user_id, cate_id, product_cate_id) VALUES (?,?,?,?,?)',
+    [title, content, userID, postCate, productCate]
   )
-  return res.json({ status: 'success', data: null })
+
+  if (result.affectedRows === 0) throw new Error('沒有資料被更改(put)')
+  return res.json({
+    status: 'success',
+    data: null,
+  })
 })
 
 // 修改文章 網址：PUT /api/forum/posts/:id
-router.put('/:postID', async function (req, res) {
+router.put('/', upload.none(), async function (req, res) {
   // 用try/catch捕獲了一個本來淹沒在終端機、看不出所以然的錯誤，覺得自己又更像工程師了
   try {
-    const id = Number(req.params.postID)
-    const { title, content, userID, cateID, postCateID } = req.body
+    const { postID, productCate, postCate, title, content, userID } = req.body
+    // console.log(req.body.postID)
     const [result] = await db.query(
-      `UPDATE post SET title='${title}', content='${content}', updated_at='NOW()', user_id='${userID}', cate_id='${cateID}', cate_id='${postCateID}' WHERE id=${id}`
+      `UPDATE post SET title=?, content=?, updated_at=NOW(), user_id=?, cate_id=?, product_cate_id=? WHERE id=?`,
+      [title, content, userID, postCate, productCate, postID]
     )
     if (result.affectedRows === 0) throw new Error('沒有資料被更改(put)')
     // console.log(result)
@@ -183,15 +233,61 @@ router.put('/:postID', async function (req, res) {
 })
 
 // 刪除文章  網址:DELETE /api/forum/posts/:id
-router.delete('/:postID', async function (req, res) {
+router.put('/soft-delete/:postID', async function (req, res) {
   try {
     const id = Number(req.params.postID)
+    // console.log(id)
     // const [result] = await db.query(`DELETE FROM post WHERE id=${id}`)
     const [result] = await db.query(`UPDATE post SET valid=0 WHERE id=${id}`)
     if (result.affectedRows === 0) throw new Error('沒有資料被刪除')
+    return res.json({ status: 'success', dala: null })
   } catch (error) {
     return res.json({ status: 'error', message: error.message })
   }
-  return res.json({ status: 'success', data: null })
+  // return res.json({ status: 'success', data: null })
 })
+
+// header 搜尋
+// 標題title, 內文content（要塞在dangerouslySetInnerHTML內）, 分類cate_name, 作者名稱user_nick, 作者圖片user_img,
+router.post('/header-search', async function (req, res) {
+  const { keyword } = req.body
+  try {
+    const [result] = await db.query(
+      `
+      SELECT 
+        p.*,
+        pc.id AS cate_id,
+        pc.name AS cate_name,
+        u.nickname AS user_nick,
+        u.ava_url AS user_img,
+        IFNULL (liked.user_ids, '') AS liked_user_ids,
+        IFNULL( liked.likes, 0) AS likes,
+        IFNULL (saved.user_ids, '') AS saved_user_ids
+    FROM post p
+    JOIN post_category pc ON p.cate_id = pc.id
+    JOIN users u ON p.user_id = u.id
+    LEFT JOIN (
+        SELECT post_id,
+        GROUP_CONCAT(user_id) AS user_ids,
+        COUNT(user_id) AS likes
+        FROM post_user_liked
+        GROUP BY post_id
+    ) liked ON p.id = liked.post_id
+    LEFT JOIN (
+        SELECT post_id,
+        GROUP_CONCAT(user_id) AS user_ids
+        FROM post_user_saved
+        GROUP BY post_id
+    ) saved ON p.id = saved.post_id
+    WHERE p.valid=1 AND (p.title LIKE ? OR p.content LIKE ?)`,
+      [`%${keyword}%`, `%${keyword}%`]
+    )
+
+    return res.json({ status: 'success', data: result })
+  } catch (error) {
+    console.log(error)
+    return res.json({ status: 'error', message: error.message })
+  }
+})
+
 export default router

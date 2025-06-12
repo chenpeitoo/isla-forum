@@ -6,10 +6,9 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
 export default function ComponentsAuthorInfo({
-  memberID = '',
+  authorID = '',
   width = '',
   src = '',
-  alt = '',
   fontSize = '',
   color = '',
   authorName = '',
@@ -18,25 +17,23 @@ export default function ComponentsAuthorInfo({
   const handleNavigate = (e) => {
     e.stopPropagation() //卡片從Link換成div role=link後，要用這個才能止住事件冒泡
     e.preventDefault()
-    router.push(`/forum/profile/${memberID}`)
-    console.log(memberID)
+    router.push(`/forum/profile/${authorID}`)
   }
 
   return (
     <>
-      <div>
-        <button
-          className="author-info d-inline-flex align-items-center gap-2 px-0"
-          // href={'/forum/profile/' + memberID}
-          onClick={handleNavigate}
+      <button
+        className="author-info d-inline-flex align-items-center gap-2 px-0 button-clear me-auto"
+        onClick={handleNavigate}
+      >
+        <ComponentsAvatar classWidth={width} src={src} alt={authorName} />
+        <span
+          style={{ fontSize: fontSize + 'px', color: color }}
+          className="author-info-name text-truncate"
         >
-          <ComponentsAvatar classWidth={width} src={src} alt={alt} />
-          {/* author-name fs14 sub-text-color */}
-          <span style={{ fontSize: fontSize + 'px', color: color }}>
-            {authorName}
-          </span>
-        </button>
-      </div>
+          {authorName}
+        </span>
+      </button>
     </>
   )
 }

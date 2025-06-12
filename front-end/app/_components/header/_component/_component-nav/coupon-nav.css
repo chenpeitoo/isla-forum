@@ -1,0 +1,25 @@
+.coupon-nav-menu-box {
+  padding: 12px;
+  background: rgba(190, 166, 166, 0.7);
+  /* backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(50px); */
+  border-radius: 8px;
+  margin-top: 6px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+  display: inline-flex;
+  align-items: center;
+  z-index: 99999;
+
+  gap: 8px;
+
+  .coupon-nav-menu-text {
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    white-space: nowrap;
+    width: fit-content;
+    color: #ffffff;
+    font-weight: 450;
+    font-size: 14px;
+  }
+}

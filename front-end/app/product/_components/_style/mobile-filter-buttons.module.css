@@ -1,0 +1,131 @@
+/* button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: inherit;
+  padding: 0;
+} */
+
+.sidebar-filter-filter-btn-container {
+  display: flex;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* 提升 iOS 滑動體驗 */
+  scrollbar-width: none; /* Firefox 隱藏 scrollbar */
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
+.sidebar-filter-filter-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-filter-filter-btn {
+  margin-right: 2rem;
+}
+.sidebar-filter-filter-btn-container::-webkit-scrollbar {
+  display: none; /* Chrome/Safari 隱藏 scrollbar */
+}
+
+.sidebar-filter-btn-check-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-filter-btn-check-box span {
+  flex: 0 0 auto;
+  padding: 0.5rem 0;
+  border: none;
+  border-radius: 9999px;
+  white-space: nowrap;
+}
+
+.form-check-input {
+  width: 20px;
+  height: 20px;
+  border: none;
+  background-color: transparent;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  appearance: none;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+
+  &:hover {
+    border-radius: none;
+    border: none;
+    background: none;
+    /*border-color: #505050;*/
+    /*background-color: rgba(227, 128, 128, 0.05);*/
+  }
+
+  &:checked {
+    border-radius: 100px;
+    background-color: #e56c6c;
+    border: none;
+    /*background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' fill='white' viewBox='0 0 16 16'%3E%3Cpath d='M13.485 1.929a.75.75 0 0 1 0 1.06L6.56 9.915 3.03 6.384a.75.75 0 1 1 1.06-1.06l2.47 2.47 6.364-6.364a.75.75 0 0 1 1.06 0z'/%3E%3C/svg%3E");*/
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 90%;
+  }
+
+  &:focus {
+    border-radius: 50px;
+    border: none;
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+.sidebar-filter-btn-check-box {
+  display: flex;
+  height: 45px;
+  align-items: center;
+  gap: 10px;
+  /* align-self: stretch; */
+  margin-left: 6px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  color: rgb(35, 35, 35);
+  padding-bottom: 30px;
+  width: 100%;
+}
+
+.sidebar-filter-filter-btn a {
+  text-decoration: none;
+  color: #858585;
+}
+
+.sidebar-filter-filter-btn .sidebar-filter-input-label {
+  color: #858585;
+}
+
+.sidebar-filter-filter-btn input {
+  margin: 0 8px;
+}
+
+.sidebar-filter-filter-btn:hover {
+  color: #7d5c5c;
+}
+
+.sidebar-filter-filter-btn-active {
+  color: #fa8e83;
+}
+
+.sidebar-filter-filter-label {
+  font-weight: 600;
+  font-size: 18px;
+  color: #5e5e5e;
+}
+
+.sidebar-filter-input-label {
+  flex: 0 0 auto; /* 不要縮放、不要換行，維持寬度 */
+  padding: 0.5rem 0;
+  /*background-color: rgba(40, 40, 40, 0.34);*/
+  /*color: white;*/
+  border: none;
+  border-radius: 9999px;
+  white-space: nowrap; /* 按鈕內容不要自動換行 */
+}

@@ -2,7 +2,10 @@
 
 import Link from 'next/link'
 
-export default function MemberNav({ OpenMenu = false }) {
+export default function MemberNav({
+  OpenMenu = false,
+  setOpenMenu = () => {},
+}) {
   let open = ''
   if (OpenMenu) {
     open = 'open'
@@ -11,44 +14,58 @@ export default function MemberNav({ OpenMenu = false }) {
   }
   return (
     <>
-      <div className={'user-nav' + ' ' + open}>
+      <button
+        className={'user-nav' + ' ' + open}
+        onClick={(e) => {
+          e.preventDefault()
+          if (e.target.matches('li')) {
+            setOpenMenu(false)
+          }
+        }}
+      >
         <ul>
           <li className="title">個人</li>
-          <li>
-            <Link href="profile">基本資料</Link>
-          </li>
-          <li>
-            <Link href="password">密碼變更</Link>
-          </li>
+          <Link href="/member/profile">
+            <li>基本資料</li>
+          </Link>
+          <Link href="/member/password">
+            <li>密碼變更</li>
+          </Link>
         </ul>
         <ul>
           <li className="title">購物</li>
-          <li>
-            <Link href="like-list">願望清單</Link>
-          </li>
-          <li>
-            <Link href="coupon">我的優惠券</Link>
-          </li>
-          <li>
-            <Link href="order">訂單紀錄</Link>
-          </li>
-        </ul>
-        <ul>
-          <li className="title">商品</li>
-          <li>
-            <Link href="my-forum/my-following">查看文章</Link>
-          </li>
+          <Link href="/member/like-list">
+            <li>願望清單</li>
+          </Link>
+          <Link href="/member/coupon">
+            <li>我的優惠券</li>
+          </Link>
+          <Link href="/member/order">
+            <li>訂單紀錄</li>
+          </Link>
         </ul>
         <ul>
           <li className="title">課程</li>
-          <li>
-            <Link href="course">我的課程</Link>
-          </li>
-          <li>
-            <Link href="teacher">教師管理</Link>
-          </li>
+          <Link href="/member/course">
+            <li>我的課程</li>
+          </Link>
+          {/* <Link href="/member/teacher">
+            <li>教師管理</li>
+          </Link> */}
         </ul>
-      </div>
+        <ul>
+          <li className="title">文章</li>
+          <Link href="/member/my-forum/my-following">
+            <li>我的追蹤</li>
+          </Link>
+          <Link href="/member/my-forum/my-post">
+            <li>我的文章</li>
+          </Link>
+          <Link href="/member/my-forum/saved-post">
+            <li>收藏文章</li>
+          </Link>
+        </ul>
+      </button>
     </>
   )
 }

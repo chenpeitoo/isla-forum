@@ -2,6 +2,9 @@
   max-width: 800px;
   /* padding: 32px; */
 }
+.post-detail-loading {
+  height: 100vh;
+}
 .post-img {
   max-width: 560px;
 }
@@ -19,11 +22,34 @@
   margin-left: -8px;
 }
 
-.comment-more {
+.sub-margin {
   margin-left: 42px;
 }
+/* .sub-comment-toggle {
+  margin-left: 42px;
+} */
 
 .content-image {
   max-height: 400px;
   width: auto;
+}
+
+.comment-input-block {
+  border: 0;
+  border-top: 1px solid var(--border-color-forum);
+  border-left: 1px solid var(--border-color-forum);
+  .comment-input {
+    border: 0;
+    outline: 0 solid #ffffff00;
+    height: 36px;
+  }
+}
+.sub-comment-stroke {
+  border-bottom: 1px solid var(--border-color-forum);
+}
+
+.sub-input {
+  &:focus {
+    outline: 0;
+  }
 }

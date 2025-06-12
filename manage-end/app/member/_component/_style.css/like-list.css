@@ -1,0 +1,16 @@
+.list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  border-bottom: 1px solid var(--main-text);
+  padding-bottom: 10px;
+  h5 {
+    color: var(--main-text);
+    font-weight: 500;
+  }
+  span {
+    color: var(--sub-text);
+    font-weight: 300;
+  }
+}

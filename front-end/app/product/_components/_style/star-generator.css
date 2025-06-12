@@ -1,0 +1,12 @@
+.star-box {
+  display: flex;
+  gap: 3px;
+}
+
+.sidebar-filter-star {
+  color: #aeaeae;
+}
+
+.sidebar-filter-star-active {
+  color: #f16666;
+}

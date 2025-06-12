@@ -1,21 +1,46 @@
 'use client'
 import { BsDashCircleFill, BsPlusCircleFill } from 'react-icons/bs'
 import Swal from 'sweetalert2'
+import cartApi from '../../utils/axios'
 import React, { useState } from 'react'
 
 export default function QuantityControler({
+  id,
   max = 10,
   min = 1,
+  value = 1,
   onChange = () => {},
 }) {
-  const [count, setCount] = useState(1)
+  const [count, setCount] = useState(value)
   const [isDisable, setIsDisable] = useState(false)
+
+  // update-localstorage
+  const updateLocalStorage = (newQty) => {
+    const cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]')
+    const updated = cartItems.map((item) => {
+      return item.id === id ? { ...item, quantity: newQty } : item
+    })
+    localStorage.setItem('cartItems', JSON.stringify(updated))
+  }
+  // update db
+  const updateDb = async (newQty) => {
+    try {
+      await cartApi.patch(`/cart-items/update/${id}`, { quantity: newQty })
+      console.log('更新商品 ID:', id)
+      window.dispatchEvent(new Event('cart-updated'))
+    } catch (error) {
+      console.log('更新資料失敗', error)
+    }
+  }
+
   const minHandler = () => {
     if (count > min) {
       const newCount = count - 1
       setCount(newCount)
       setIsDisable(false)
       onChange(newCount)
+      updateLocalStorage(newCount) // updated localstorage
+      updateDb(newCount) // updated db
     }
   }
   const plusHandler = () => {
@@ -23,6 +48,8 @@ export default function QuantityControler({
       const newCount = count + 1
       setCount(newCount)
       onChange(newCount)
+      updateLocalStorage(newCount) // updated localstorage
+      updateDb(newCount) // updated db
     } else {
       Swal.fire({
         icon: 'warning',

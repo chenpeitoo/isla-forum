@@ -2,6 +2,7 @@
 const nextConfig = {
   // 關閉React Strict Mode工具(避免useEffect執行兩次)
   reactStrictMode: false,
+  devIndicators: false,
   // eslint設定
   eslint: {
     // 警告: 開啟以下的設定將會忽略所有在build時的eslint錯誤與警告，不建議在部署時直接使用，或請先自行修正eslint相關錯誤與警告
@@ -23,6 +24,13 @@ const nextConfig = {
       },
     ],
     unoptimized: true,
+  },
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'dev',
+  },
+  // 如果你想完全禁用所有開發工具
+  experimental: {
+    optimizePackageImports: ['lucide-react'],
   },
   // output: 'export', // 導出靜態頁面(SPA) 無法使用`next start`或 api路由
   // distDir: 'dist', // 導出路徑

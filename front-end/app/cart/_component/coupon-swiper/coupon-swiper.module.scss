@@ -1,0 +1,62 @@
+隱藏swiper預設的 prev next
+// :global {
+
+// }
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    display: none !important;
+  }
+
+.couponWrapper {
+  width: 100%;
+  padding: 20px 0;
+  overflow: hidden;
+}
+
+.couponCard {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  height: 130px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.couponTitle {
+  font-weight: bold;
+  font-size: 16px;
+  color: #f44;
+}
+
+.couponCondition {
+  font-size: 14px;
+  color: #666;
+}
+
+.couponFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.couponTag {
+  background-color: #ffc107;
+  color: #000;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.couponButton {
+  border: 1px solid #f44;
+  color: #f44;
+  background: transparent;
+  border-radius: 4px;
+  padding: 4px 12px;
+  font-size: 14px;
+  cursor: pointer;
+}

@@ -1,0 +1,44 @@
+/* ==== 文章 ====  */
+.header-search-item.for-forum {
+  /* background-color: #fbfbfb; */
+  padding: 12px 12px;
+
+  /* 標題 */
+  .search-item-title {
+    width: 150px;
+    height: 1.5rem;
+    min-width: 0;
+    overflow: hidden;
+  }
+  /* 頭像外框 */
+  .search-item-img {
+    width: 20px;
+    aspect-ratio: 1 / 1;
+  }
+  .post-content {
+    color: black;
+  }
+  .main-text-color {
+    color: #373737;
+  }
+  .shadow {
+    box-shadow: 8px 5px 0px #373737;
+  }
+}
+/* 商品與文章卡片細節的css分別移至 product.css 與 forum.css */
+.header-search-item-ForumBar-container {
+  /* height: 30px; */
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 6px;
+
+  .search-item-content {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--main-color);
+  }
+}
+.search-item-title {
+  padding: 0 6px;
+}

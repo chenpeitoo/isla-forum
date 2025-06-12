@@ -1,0 +1,17 @@
+/* 自定義 prose 類別 */
+.prose h1 {
+  font-size: 2rem;
+  font-weight: bold;
+}
+.prose h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.prose h3 {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+.prose p {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}

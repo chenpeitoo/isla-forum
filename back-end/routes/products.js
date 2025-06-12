@@ -1,113 +1,114 @@
 import express from 'express'
 const router = express.Router()
+// import verifyToken from '../../lib/verify-token.js'
+import { getFilteredProducts } from '../services/product-controller.js'
+import db from '../config/mysql.js'
 
-// 導入服務層的函式
-import {
-  getProducts,
-  getProductById,
-  getProductsCount,
-  getBrands,
-  getCatetories,
-} from '../services/product.js'
-// 導入回應函式
-import { successResponse, errorResponse } from '../lib/utils.js'
-
-// 得到所有商品資料
-// 網址: /api/products
 router.get('/', async (req, res) => {
-  // type=count，就不需要取得資料
-  // type=data，就需要取得資料
-  const type = req.query.type || 'all'
-
-  const page = Number(req.query.page) || 1
-  const perPage = Number(req.query.perpage) || 10
-
-  const nameLike = req.query.name_like || ''
-  const brandIds = req.query.brand_ids
-    ? req.query.brand_ids.split(',').map((id) => Number(id))
-    : []
-  const categoryIds = req.query.category_ids
-    ? req.query.category_ids.split(',').map((id) => Number(id))
-    : []
-
-  const priceGte = Number(req.query.price_gte) || 0
-  const priceLte = Number(req.query.price_lte) || 100000
-
-  const conditions = { nameLike, brandIds, categoryIds, priceGte, priceLte }
-
-  // 排序條件欄位，預設為id遞增，可選擇id,name與price
-  const sort = req.query.sort || 'id'
-  // 預設為遞增，可選擇asc與desc (注意: 這裡的asc與desc是字串)
-  const order = req.query.order || 'asc'
-  const sortBy = { sort, order }
-
-  console.log(conditions)
+  console.log('篩選參數:', req.query)
 
   try {
-    // 需要加上await等待取得資料
-    const products = await getProducts(page, perPage, conditions, sortBy)
-    const productCount = await getProductsCount(conditions)
+    const {
+      keyword,
+      brandIds,
+      categoryIds,
+      tagIds,
+      minPrice,
+      maxPrice,
+      minRating,
+      maxRating,
+      onSaleOnly,
+      offset = 0,
+      limit = 20,
+      sortBy,
+      sortOrder,
+      Colorful,
+      colors,
+    } = req.query
 
-    // type=all or 空字串，就回傳全部資料
-    let data = {
-      total: productCount,
-      pageCount: Math.ceil(productCount / perPage),
-      page,
-      perPage,
-      products,
+    function parseIdArray(param) {
+      if (!param) return []
+      if (Array.isArray(param))
+        return param.map(Number).filter((n) => !isNaN(n))
+      return param
+        .split(',')
+        .map(Number)
+        .filter((n) => !isNaN(n))
     }
 
-    // type=count，就回傳總筆數
-    if (type === 'count') {
-      data = {
-        total: productCount,
-        pageCount: Math.ceil(productCount / perPage),
-        page,
-        perPage,
-      }
+    const filters = {
+      sortBy: sortBy || 'products.product_id',
+      sortOrder: sortOrder || 'DESC',
+      onSaleOnly: String(onSaleOnly).toLowerCase() === 'true',
+      colors: parseIdArray(colors),
+      Colorful: String(Colorful).toLowerCase() === 'true',
+      keyword: keyword || '',
+      brandIds: parseIdArray(brandIds),
+      categoryIds: parseIdArray(categoryIds),
+      tagIds: parseIdArray(tagIds),
+      minPrice:
+        minPrice !== undefined && minPrice !== '' ? parseFloat(minPrice) : null,
+      maxPrice:
+        maxPrice !== undefined && maxPrice !== '' ? parseFloat(maxPrice) : null,
+      minRating:
+        minRating !== undefined && minRating !== ''
+          ? parseFloat(minRating)
+          : null,
+      maxRating:
+        maxRating !== undefined && maxRating !== ''
+          ? parseFloat(maxRating)
+          : null,
+      offset: Number.isInteger(parseInt(offset)) ? parseInt(offset) : 0,
+      limit: Number.isInteger(parseInt(limit)) ? parseInt(limit) : 20,
     }
 
-    // type=data，就回傳products資料
-    if (type === 'data') {
-      data = { products }
-    }
+    // 你可以在這裡強制讓 minRating 為 null 表示不篩選最低分
+    // 或者根據業務邏輯調整
 
-    successResponse(res, data)
-  } catch (error) {
-    errorResponse(res, error)
+    const result = await getFilteredProducts(filters)
+
+    res.json({ status: 'success', data: result })
+  } catch (err) {
+    res.status(500).json({ status: 'error', message: err.message })
   }
 })
 
-router.get('/brands', async (req, res) => {
-  try {
-    const brands = await getBrands()
-    successResponse(res, { brands })
-  } catch (error) {
-    errorResponse(res, error)
-  }
-})
-
-router.get('/categories', async (req, res) => {
-  try {
-    const categories = await getCatetories()
-    successResponse(res, { categories })
-  } catch (error) {
-    errorResponse(res, error)
-  }
-})
-
-// 得到單筆資料(注意，網址有動態參數時要寫在GET區段最後面)
-// 網址: /api/products/:productId
-router.get('/:productId', async (req, res) => {
-  // 需要轉換成數字
-  const productId = Number(req.params.productId)
+router.post('/search', async (req, res) => {
+  const { keyword = '' } = req.body
 
   try {
-    // 需要加上await等待取得資料
-    const product = await getProductById(productId)
-    successResponse(res, { product })
-  } catch (error) {
-    errorResponse(res, error)
+    let sql = `
+      SELECT
+        p.product_id,
+        p.name AS title,
+        p.base_price,
+        p.sale_price,
+        b.name AS brand,
+        pi.image_url AS productImg,
+        CASE 
+          WHEN p.sale_price IS NOT NULL 
+              AND NOW() >= p.sale_start_date
+              AND NOW() <= p.sale_end_date
+          THEN p.sale_price
+          ELSE p.base_price
+        END AS final_price
+      FROM products p
+      LEFT JOIN brands b ON p.brand_id = b.brand_id
+      LEFT JOIN (
+        SELECT product_id, MIN(image_url) AS image_url
+        FROM product_images
+        GROUP BY product_id
+      ) pi ON pi.product_id = p.product_id
+      WHERE p.status = 'active' AND p.name LIKE ?
+    `
+    const params = [`%${keyword}%`]
+
+    const [rows] = await db.execute(sql, params)
+
+    res.json({ status: 'success', data: rows })
+  } catch (err) {
+    console.error('[keyword search] 錯誤:', err)
+    res.status(500).json({ status: 'error', message: err.message })
   }
 })
 

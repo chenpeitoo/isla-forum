@@ -1,0 +1,26 @@
+/* ✅ components/review/star-filter-bar.css */
+
+.star-filter-item {
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+}
+
+.star-filter-item:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+  transform: translateX(4px);
+}
+
+.star-filter-item.active {
+  border: 1px solid var(--main-color);
+  border-radius: 6px;
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.box5-comment-star1 {
+  color: var(--sub-text);
+}
+
+.box5-comment-bar {
+  background-color: var(--main-color);
+}

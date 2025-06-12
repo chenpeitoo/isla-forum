@@ -1,13 +1,33 @@
 // custom-checkbox.scss
 .form-check-input[type='checkbox'] {
-  border-radius: 0px;
   box-shadow: none;
+  border-radius: 4px;
 }
+::-webkit-scrollbar {
+  width: 3px;
+  background: rgb(254, 254, 254);
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(52, 43, 43);
+  /* 透明軌道 */
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.475);
+  border-radius: 3px;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
 // 使用自訂 class，也可以用原生 bs 類別覆蓋 .form-check-input
 .form-check-input {
   width: 1.25rem;
   height: 1.25rem;
-  border: 2px solid #bebebe;
+  border: 1px solid #bebebe76;
   background-color: transparent;
   transition: all 0.2s ease-in-out;
   position: relative;
@@ -15,28 +35,27 @@
   cursor: pointer;
 
   &:hover {
-    border-radius: none;
-
-    border-color: #505050;
-    background-color: rgba(185, 185, 185, 0.05);
+    // border-radius: 8px;
+    border-color: #a1a1a1;
+    background-color: #d2d2d2;
+    // background-color: rgba(185, 185, 185, 0.05);
   }
 
   &:checked {
-    border-radius: 0px;
+    // border-radius: 8px;
 
     background-color: #505050;
-    border-color: #505050;
+    border-color: #6d6d6d;
     // background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' fill='white' viewBox='0 0 16 16'%3E%3Cpath d='M13.485 1.929a.75.75 0 0 1 0 1.06L6.56 9.915 3.03 6.384a.75.75 0 1 1 1.06-1.06l2.47 2.47 6.364-6.364a.75.75 0 0 1 1.06 0z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 110%;
+    background-size: 100%;
+    box-shadow: 0 0 8px #22222258;
   }
 
   &:focus {
-    border-radius: 0px;
-    border-color: #505050;
-    outline: none;
-    box-shadow: none;
+    border-color: #a1a1a1;
+    background-color: #a1a1a1;
   }
 }
 
@@ -174,17 +193,17 @@ $form-radio-disabled-bg: #eee;
 
 //Accordion
 .accordion {
-  --bs-accordion-border-radius: 8px;
-  --bs-accordion-inner-border-radius: 8px;
+  --bs-accordion-border-radius: 16px;
+  --bs-accordion-inner-border-radius: 16px;
   --bs-accordion-bg: rgba(255, 255, 255, 0.2);
   --bs-accordion-border-color: rgba(255, 255, 255, 0.3);
   --bs-accordion-btn-focus-box-shadow: none;
 
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(224, 224, 224, 0.15);
   backdrop-filter: blur(10px);
   border: none;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  //box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .accordion-item {
@@ -196,15 +215,19 @@ $form-radio-disabled-bg: #eee;
 }
 
 .accordion-header {
-  background: #DEDEDE;
+  background: #eae9e9;
+  border-top: 2px solid #ffffff;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
   .accordion-button {
     background: transparent;
-    font-weight: bold;
+    font-weight: 500;
     font-size: 18px;
     padding: 16px 20px;
     border-radius: 5px;
-    color: #373737;
-    transition: background 0.3s ease, color 0.3s ease;
+    color: #4b4b4b;
+    transition:
+      background 0.3s ease,
+      color 0.3s ease;
 
     &::after {
       filter: invert(0.3);
@@ -233,7 +256,6 @@ $form-radio-disabled-bg: #eee;
   color: #373737;
   line-height: 32px;
 }
-
 
 //modal
 // 主要容器樣式
@@ -308,4 +330,135 @@ $form-radio-disabled-bg: #eee;
       }
     }
   }
+}
+
+/* 覆蓋 Bootstrap 5 的 switch 樣式 */
+.form-check.form-switch .form-check-input {
+  width: 3rem;
+  height: 1.5rem;
+  background-color: #ccc;
+  border-radius: 1.5rem;
+  border: none;
+  position: relative;
+  transition: background-color 0.3s ease-in-out;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+/* 滑塊（thumb） */
+.form-check.form-switch .form-check-input::before {
+  content: '';
+  position: absolute;
+  top: 0.15rem;
+  left: 0.15rem;
+  width: 1.2rem;
+  height: 1.2rem;
+  background-color: #d35b5b;
+  border-radius: 50%;
+  transition: transform 0.3s ease-in-out;
+  box-shadow: 0 0 0.2rem rgba(0, 0, 0, 0);
+}
+.form-check-input:focus {
+  background-color: #4e4e4e00;
+}
+.form-check-input:checked {
+  background-color: #4e4e4e;
+}
+/* 當 switch 被打開（checked） */
+.form-check.form-switch .form-check-input:checked {
+  background-color: #ffffff; /* Bootstrap primary */
+}
+
+/* 滑塊移動位置 */
+.form-check.form-switch .form-check-input:checked::before {
+  transform: translateX(1.5rem);
+}
+
+/* focus 樣式 */
+.form-check.form-switch .form-check-input:focus {
+  box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25);
+
+  outline: none;
+}
+
+/* disabled 狀態 */
+.form-check.form-switch .form-check-input:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* disabled + checked 狀態 */
+.form-check.form-switch .form-check-input:disabled:checked {
+  background-color: #6c757d; /* Bootstrap secondary */
+}
+
+/* 例如修改所有 toast 的背景、字體大小、字體顏色 */
+.Toastify__toast {
+  background-color: rgba(250, 236, 236, 0.6) !important;
+  color: #414141 !important;
+  font-size: 16px !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2) !important;
+  backdrop-filter: blur(10px);
+  border-radius: 12px !important; /* 圓角 */
+}
+
+/* 修改不同類型 toast 的顏色 */
+.Toastify__toast--success {
+  //background-color: #4caf50 !important;
+  color: #414141 !important;
+}
+.Toastify__progress-bar--success {
+  background-color: rgba(250, 236, 236, 0.27) !important;
+}
+
+.Toastify__toast--error {
+  //background-color: #f44336 !important;
+  color: #414141 !important;
+}
+
+.Toastify__toast--info {
+  //background-color: #2196f3 !important;
+  color: #414141 !important;
+}
+
+.Toastify__progress-bar {
+  background: rgba(143, 143, 143, 0.41) !important; /* 進度條顏色 */
+  height: 3px !important; /* 高度 */
+  border-radius: 8px !important; /* 圓角 */
+}
+
+/* 覆蓋背景透明度 */
+.yarl__slide {
+  // backdrop-filter: blur(10px) !important; /* 玻璃擬態效果 */
+}
+.yarl__root {
+  transition: all 0.3s ease-in-out !important;
+  background-color: rgba(255, 255, 255, 0.3) !important;
+  backdrop-filter: blur(10px) !important; /* 玻璃擬態效果 */
+}
+.yarl__container {
+  background: none !important;
+  // backdrop-filter: blur(10px) !important; /* 玻璃擬態效果 */
+}
+
+/* 調整圖片大小或樣式 */
+.yarl__slide_image {
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+/* 隱藏導航箭頭 */
+.yarl__button_prev,
+.yarl__button_next {
+  // display: none;
+}
+
+/* 自訂 loading 樣式 */
+.yarl__spinner {
+  color: rgb(233, 92, 73);
+}
+
+.yarl__portal {
+  z-index: 99999999999 !important; /* 確保圖片瀏覽器的 z-index 高於其他元素 */
 }

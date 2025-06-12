@@ -1,0 +1,129 @@
+/* 外層容器 */
+.splash-container {
+  height: 100vh;
+  background: linear-gradient(to bottom, #fff0f5, #e4dcdf, #fff);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* Step1：葉子動畫和文字的container（偏上） */
+.step1-wrapper {
+  height: 45vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 9vh;
+}
+
+/* 葉子動畫 */
+.leaf-animation {
+  width: 500px;
+  height: 500px;
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+
+.leaf-animation.fade-out {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+/* 「自然之島」字逐字進場 */
+.isla-text {
+  margin-top: -90px;
+  display: flex;
+  gap: 8px;
+  font-size: 32px;
+  font-weight: 300;
+  color: #8e6f91;
+  font-family: 'NotoSans TC', serif;
+}
+
+.isla-letter {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+
+.isla-letter.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* fade out 共用 */
+.fade-out {
+  opacity: 0;
+  transform: scale(0.8);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Step2：logo錯位組合 */
+.logo-wrapper {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -10vh;
+}
+
+/* 錯位container */
+.logo-stack {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.logo-stack.show {
+  opacity: 1;
+}
+
+/* 圖片錯位登場動畫 */
+.isla-pic {
+  animation: slideLeftFade 1s forwards;
+  margin-bottom: -20px;
+  z-index: 2;
+}
+
+.beauty-pic {
+  animation: slideRightFade 1s forwards;
+  margin-top: -90px;
+  z-index: 1;
+}
+
+/* 進場動畫 */
+@keyframes slideLeftFade {
+  from {
+    transform: translateX(-100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-70px);
+    opacity: 1;
+  }
+}
+
+@keyframes slideRightFade {
+  from {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(70px);
+    opacity: 1;
+  }
+}

@@ -3,45 +3,56 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import ComponentsAvatar from '@/app/forum/_components/avatar'
+import useSWR from 'swr'
+import ComponentsButtonFollowing from '../../../forum/_components/btn-follow'
+import ComponentsButtonChat from '../../../forum/_components/btn-chat'
+import { useRouter } from 'next/navigation'
 
-export default function FollowingCard(props) {
+export default function FollowingCard({
+  followID = '',
+  nick = '',
+  cardHref = '',
+  imgSrc = '',
+  imgClassWidth = '',
+  followMutate,
+}) {
+  const router = useRouter()
   return (
     <>
       <Link
-        href={'/forum/profile/123'}
-        className="following-card w-auto d-flex flex-column flex-lg-row flex-grow-1 align-items-center px-3 py-3  gap-3 rounded-3 card-border bg-pure-white forum-shadow"
+        href={cardHref}
+        className="following-card d-flex flex-column flex-xl-row  align-items-center justify-content-center px-3 py-3 gap-3 rounded-3 card-border bg-pure-white forum-shadow"
       >
         {/* <div className="row"> */}
         <div className="following-info  d-flex gap-2 align-items-center main-text-color">
           <ComponentsAvatar
-            src="/images/forum/320.webp"
-            alt="使用者頭貼"
-            classWidth="50"
+            src={imgSrc}
+            alt={nick}
+            classWidth={imgClassWidth}
           />
           <div className="d-flex flex-column">
-            <span className="fs20 fw-bold ">lillypolly</span>
-            <span className="fs14 sub-text-color fw-light">
+            <span className="fs20 fw-bold ">{nick}</span>
+            {/* <span className="fs14 sub-text-color fw-light">
               ciaoMing@gmail.com
-            </span>
+            </span> */}
           </div>
         </div>
-        <div className="following-statis  d-flex justify-content-center gap-3 w-100 text-center">
-          <div className="follower d-flex gap-2 align-items-center">
+        <div className="following-statis  d-flex justify-content-center gap-3  text-center">
+          {/* <div className="follower d-flex gap-2 align-items-center">
             <div className="main-color fs20">430</div>
             <div className="main-text-color fs14 text-nowrap">粉絲</div>
           </div>
           <div className="article d-flex gap-2 align-items-center">
             <div className="main-color fs20">15</div>
             <div className="main-text-color fs14 text-nowrap">文章</div>
-          </div>
+          </div> */}
         </div>
-        <div className="following-button  d-flex gap-2">
-          <button className="button-triggerable active px-3 py-1 color-isla-white rounded-3 text-nowrap fw-medium">
-            已追蹤
-          </button>
-          <button className="button-triggerable default px-3 py-1 color-isla-white rounded-3 text-nowrap fw-medium">
-            聊天
-          </button>
+        <div className="following-button d-flex gap-2 m-0 ms-xl-auto">
+          <ComponentsButtonFollowing
+            isFollow={true}
+            followMutate={followMutate}
+          />
+          <ComponentsButtonChat />
         </div>
         {/* </div> */}
       </Link>

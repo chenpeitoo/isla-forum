@@ -1,0 +1,27 @@
+/* .list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid var(--main-text);
+  padding-bottom: 10px;
+  text-align: left;
+  background-color: transparent;
+  h5 {
+    color: var(--main-text);
+    font-weight: 500;
+  }
+  span {
+    color: var(--sub-text);
+    font-weight: 300;
+  }
+}
+.close-like-list {
+  height: 0;
+} */
+button {
+  border: none;
+  outline: none;
+  background: transparent;
+}

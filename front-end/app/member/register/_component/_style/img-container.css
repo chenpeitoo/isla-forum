@@ -1,0 +1,23 @@
+.register-img-container {
+  > img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    height: 500px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    border: 5px solid white; /* 模擬照片邊框 */
+  }
+  .register-img-1 {
+    position: absolute;
+    top: 70px;
+    transform: rotate(25deg);
+    z-index: 2;
+  }
+  .register-img-2 {
+    z-index: 1;
+    position: absolute;
+    top: 70px;
+  }
+}

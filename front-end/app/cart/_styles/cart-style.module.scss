@@ -3,10 +3,6 @@ body {
     padding-inline: 24px !important;
   }
 }
-button:disabled {
-  opacity: 0.3 !important;
-  cursor: not-allowed;
-}
 
 .color-dot {
   width: 14px;
@@ -34,99 +30,91 @@ button:disabled {
   width: 20rem;
 }
 
-// checkbox style  ok
-.checkboxInput {
-  appearance: none;
-  width: 1.2rem;
-  height: 1.2rem;
-  border-radius: 0.25rem !important;
-  background-color: #fff;
-  transition: all 0.2s ease-in-out;
-}
-
-.checkboxInput:checked {
-  background-color: var(--bs-secondary);
-  border-color: var(--bs-primary);
-}
-
-.checkboxInput:focus {
-  box-shadow: none;
-}
-
-// ===加購商品區===
+// ===加購商品區 最終沒有做這塊===
 // nav-tab-underline
-.nav-underline .nav-link {
-  color: var(--sub-text);
-  position: relative;
+// .nav-underline .nav-link {
+//   color: var(--sub-text);
+//   position: relative;
 
-  // 初始化底線樣式（非active時也要有::after才能做動畫）
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: -20px;
-    width: calc(100% + 40px);
-    height: 3px;
-    background-color: var(--main-color);
-    border-radius: 5px;
+//   // 初始化底線樣式（非active時也要有::after才能做動畫）
+//   &::after {
+//     content: '';
+//     position: absolute;
+//     bottom: 0;
+//     left: -20px;
+//     width: calc(100% + 40px);
+//     height: 3px;
+//     background-color: var(--main-color);
+//     border-radius: 5px;
 
-    // 動畫初始化
-    opacity: 0;
-    transform: scaleX(0.6);
-    transform-origin: center;
-    transition: all 0.3s ease;
-  }
+//     // 動畫初始化
+//     opacity: 0;
+//     transform: scaleX(0.6);
+//     transform-origin: center;
+//     transition: all 0.3s ease;
+//   }
 
-  // active底線展開動畫
-  &.active {
-    color: var(--main-color);
-    border-bottom: none;
+//   // active底線展開動畫
+//   &.active {
+//     color: var(--main-color);
+//     border-bottom: none;
 
-    &::after {
-      opacity: 1;
-      transform: scaleX(1);
-    }
-  }
-}
+//     &::after {
+//       opacity: 1;
+//       transform: scaleX(1);
+//     }
+//   }
+// }
 
-.card-hover {
-  position: relative;
-  transition: opacity 0.3s ease;
+// .card-hover {
+//   position: relative;
+//   transition: opacity 0.3s ease;
 
-  &:hover {
-    opacity: 0.7;
-  }
+//   &:hover {
+//     opacity: 0.7;
+//   }
 
-  // hover 時圖片放大
-  &:hover .card-img-top {
-    transform: scale(1.05);
-  }
+//   // hover 時圖片放大
+//   &:hover .card-img-top {
+//     transform: scale(1.05);
+//   }
 
-  .card-img-top {
-    transition: transform 0.4s ease;
-  }
+//   .card-img-top {
+//     transition: transform 0.4s ease;
+//   }
 
-  .add-to-cart {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0;
-    pointer-events: none;
-    z-index: 1;
-    transition: opacity 0.3s ease;
+//   .add-to-cart {
+//     position: absolute;
+//     bottom: 0;
+//     left: 50%;
+//     transform: translate(-50%, -50%);
+//     opacity: 0;
+//     pointer-events: none;
+//     z-index: 1;
+//     transition: opacity 0.3s ease;
 
-    padding: 0.5rem 1.5rem;
-    border: 2px solid var(--strong-color);
-    background-color: var(--white);
-    color: var(--strong-color);
-    font-weight: bold;
-    font-size: 1rem;
-  }
+//     padding: 0.5rem 1.5rem;
+//     border: 2px solid var(--strong-color);
+//     background-color: var(--white);
+//     color: var(--strong-color);
+//     font-weight: bold;
+//     font-size: 1rem;
+//   }
 
-  // hover 時顯示按鈕
-  &:hover .add-to-cart {
-    opacity: 0.9;
-    pointer-events: auto;
-  }
+//   // hover 時顯示按鈕
+//   &:hover .add-to-cart {
+//     opacity: 0.9;
+//     pointer-events: auto;
+//   }
+// }
+
+.cardStyle {
+  border-radius: 15px;
+  border: 2px solid rgba(185, 185, 185, 0.15);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(255, 255, 255, 0.9) 100%
+  );
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
 }

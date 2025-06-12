@@ -12,6 +12,7 @@ import { createClient } from 'redis'
 // 使用檔案的session store，預設是存在sessions資料夾
 import sessionFileStore from 'session-file-store'
 import { serverConfig } from '../config/server.config.js'
+import WebSocket, { WebSocketServer } from 'ws'
 
 // 修正 ESM 中的 __dirname 與 windows os 中的 ESM dynamic import
 import { pathToFileURL } from 'url'
@@ -20,22 +21,35 @@ import { pathToFileURL } from 'url'
 // const __dirname = path.dirname(__filename)
 
 import 'dotenv/config.js'
+import { request } from 'http'
+import wishlistRouter from '../routes/course/wishlist.js'
+import courseManageRoutes from '../routes/courses-manage/course-list.js'
 
 // 建立 Express 應用程式
 const app = express()
 
 // cors設定，參數為必要，注意不要只寫`app.use(cors())`
 // 設定白名單，只允許特定網址存取
-const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000'
-const whiteList = frontendUrl.split(',')
+const whitelist = [
+  process.env.FRONTEND_URL,
+  'http://localhost:3000',
+  'http://localhost:3001',
+].filter(Boolean)
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || whitelist.includes(origin)) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+}
+
 // 設定CORS
-app.use(
-  cors({
-    origin: whiteList,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    credentials: true,
-  })
-)
+app.use(cors(corsOptions))
 
 // 視圖引擎設定(使用pug)，不使用視圖引擎，所以註解掉
 // res.render()會找views資料夾中的pug檔案
@@ -51,6 +65,25 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 // 在 public 的目錄，提供影像、CSS 等靜態檔案
 app.use(express.static(path.join(process.cwd(), 'public')))
+
+// <<<<<<<<<<<<<<<<WebSocket<<<<<<<<<<<<<<<<<
+const wss = new WebSocketServer({ port: 8080 })
+wss.on('connection', (connection) => {
+  // console.log('使用者已連線')
+  connection.on('message', (message) => {
+    // NOTE toString(): buffer to JSON, parse(): JSON to Object
+    // console.log('收到訊息', JSON.parse(message.toString()))
+    // console.log('收到訊息', message.toString())
+    const json = message
+    wss.clients.forEach((client) => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(json)
+      }
+    })
+  })
+  connection.on('close', () => {})
+})
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 let sessionStore = null
 
@@ -121,7 +154,14 @@ for (const filename of filenames) {
   if (stats.isFile()) {
     const item = await import(pathToFileURL(path.join(routePath, filename)))
     const slug = filename.split('.')[0]
-    app.use(`${apiPath}/${slug === 'index' ? '' : slug}`, item.default)
+    if (item?.default && typeof item.default === 'function') {
+      app.use(`${apiPath}/${slug === 'index' ? '' : slug}`, item.default)
+    } else {
+      console.warn(
+        `無法載入路由檔案: ${filename}，請確認有 export default router`
+      )
+    }
+    // app.use(`${apiPath}/${slug === 'index' ? '' : slug}`, item.default)
   }
 
   // 如果是資料夾，則再讀取資料夾內的檔案
@@ -139,10 +179,20 @@ for (const filename of filenames) {
           pathToFileURL(path.join(routePath, filename, subFilename))
         )
         const slug = subFilename.split('.')[0]
-        app.use(
-          `${apiPath}/${filename}/${slug === 'index' ? '' : slug}`,
-          item.default
-        )
+        if (item?.default && typeof item.default === 'function') {
+          app.use(
+            `${apiPath}/${filename}/${slug === 'index' ? '' : slug}`,
+            item.default
+          )
+        } else {
+          console.warn(
+            `無法載入路由檔案: ${filename}/${subFilename}，請確認有 export default router`
+          )
+        }
+        // app.use(
+        //   `${apiPath}/${filename}/${slug === 'index' ? '' : slug}`,
+        //   item.default
+        // )
       }
     }
   }
@@ -168,6 +218,16 @@ app.use(function (err, req, res) {
 
 const port = process.env.PORT || 3000
 
-app.listen(port, () => console.log(`Server ready on port ${port}.`))
+app.listen(port, () => console.log(`Server ready on port ${port}`))
+
+app.use('/api/course/wishlist', wishlistRouter)
+app.use('/api/courses-manage/course-list', courseManageRoutes)
+// 讓靜態圖片資料夾能被前端正確存取
+app.use('/images', express.static('public/images'))
+
+// app.use(
+//   '/images/course/course-list',
+//   express.static('public/images/course/course-list')
+// )
 
 export default app

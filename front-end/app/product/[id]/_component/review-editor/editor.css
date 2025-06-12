@@ -1,0 +1,58 @@
+/* 自訂 modal 整體 */
+.review-modal .modal-content {
+    border-radius: 1rem;         /* 圓角 */
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2); /* 陰影 */
+    border: none;
+    padding: 1rem;
+    background-color: #fff;
+    transition: all 0.3s ease-in-out;
+    color: #363636;
+}
+
+/* 標題樣式 */
+.review-modal .modal-header {
+    border-bottom: none;
+    font-weight: bold;
+    font-size: 1.25rem;
+    color: #363636;
+
+}
+.review-modal .form-label {
+    color: #363636;
+}
+
+.review-modal .label {
+    color: #363636;
+}
+
+.review-modal .modal-title {
+    color: #363636;
+}
+
+/* 關閉按鈕 */
+.review-modal .btn-close {
+    filter: grayscale(100%);
+    opacity: 0.6;
+}
+.review-modal .btn-close:hover {
+    opacity: 1;
+}
+
+/* 表單欄位（可選） */
+.review-modal .form-control {
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+}
+
+.review-modal .bx {
+    color: #ec4d39;
+}
+
+/*!* 按鈕 *!*/
+/*.review-modal .btn {*/
+/*    background-color: #2a9d8f;*/
+/*    border: none;*/
+/*}*/
+/*.review-modal .btn-primary:hover {*/
+/*    background-color: #21867a;*/
+/*}*/

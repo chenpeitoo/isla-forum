@@ -1,0 +1,347 @@
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  /* z-index: 999; */
+  /* ==== 比商品篩選更高，個人覺得的優先做法 by Young ==== */
+  z-index: 1000001;
+}
+/* .header-module .promo-banner {
+  height: 30px;
+  display: flex;
+  color: white;
+  font-size: 1rem;
+  background: #fc9186;
+  backdrop-filter: blur(35px);
+} */
+
+.header-body {
+  height: 80px;
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline: 4rem;
+  /* ==== backgroud setting ==== */
+  background: linear-gradient(
+    rgba(255, 130, 119, 0.8),
+    rgba(255, 162, 152, 0.6)
+  );
+  box-shadow: 0 0 20px #0000002e;
+  @media (max-width: 992px) {
+    padding-inline: 1rem;
+  }
+}
+/* ---------- */
+/* header components */
+/* ---------- */
+.header-body .title {
+  font-family: 'Plaster', system-ui;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 3rem;
+  color: white;
+}
+/* header-nav */
+.header-body ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  gap: 1rem;
+  height: 100%;
+  li {
+    position: relative;
+    padding-inline: 10px;
+    padding-block: 6px;
+    color: white;
+    cursor: pointer;
+  }
+  li a:hover {
+    color: #efefef;
+    /* &::after {
+      content: '';
+      position: absolute;
+      bottom: 5px;
+      left: 0;
+      background-image: linear-gradient(
+        to top,
+        #33333343,
+        #33333300 50%,
+        #eeeeee00 75%,
+        #ffffff00 75%
+      );
+      width: 100%;
+      height: 30px;
+      transition: 0.3s ease;
+    } */
+  }
+}
+/* icons */
+.header-body .icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  button {
+    position: relative;
+    display: block;
+    height: 40px;
+    background: transparent;
+    outline: 0;
+    border: 0;
+    /* 使用者頭像 */
+    .header-avartar {
+      aspect-ratio: 1/1;
+      background-color: var(--main-text);
+      border-radius: 50%;
+      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
+      /* ==== */
+      position: relative;
+      overflow: hidden;
+      transition: all 1s;
+      > img {
+        display: block;
+      }
+      &:hover::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        background: linear-gradient(to top, #2a2a2a6e, #84848400 80%);
+      }
+    }
+  }
+  button i {
+    color: white;
+    font-size: 30px;
+  }
+  @media (max-width: 992px) {
+    width: 25%;
+  }
+  @media (min-width: 768px) {
+    gap: 26px;
+  }
+}
+
+.header-body .icons .cart-icon div {
+  content: '2';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 18px;
+  height: 18px;
+  background: var(--main-color);
+  padding: 3px;
+  border-radius: 50%;
+  font-size: 14px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* search bar */
+.header-lg-search-bar-container {
+  position: absolute;
+  top: 80px;
+  right: 0;
+}
+/* ham-menu */
+.ham-menu {
+  height: 30px;
+  width: 174px;
+  /* margin-right: auto; */
+  position: relative;
+  box-sizing: border-box;
+  /* remove btn style */
+  background-color: transparent;
+  border: 0;
+  @media (max-width: 992px) {
+    width: 25%;
+  }
+}
+.header-search-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 26px !important;
+}
+.ham-menu span {
+  height: 3px;
+  width: 30px;
+  background: var(--white);
+  border-radius: 15px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: 0.3s ease;
+}
+.ham-menu span:nth-child(1) {
+  top: 25%;
+}
+.ham-menu span:nth-child(3) {
+  top: 75%;
+}
+.ham-menu.active span:nth-child(1) {
+  top: 50%;
+  transform: translate(-50%, -10%) rotate(45deg);
+}
+.ham-menu.active span:nth-child(2) {
+  opacity: 0;
+}
+.ham-menu.active span:nth-child(3) {
+  top: 50%;
+  transform: translate(-50%, 10%) rotate(-45deg);
+}
+/* ham menu nav */
+.ham-menu-nav {
+  width: 100%;
+  height: 0px;
+  overflow: hidden;
+  transition: 0.5s ease;
+  /* position */
+  position: absolute;
+  left: 0;
+  top: 80px;
+  /* background */
+  background-color: var(--white);
+  input {
+    width: 100%;
+    height: 2.5rem;
+    padding-inline: 1rem;
+    border: 0;
+    border-bottom: 1px solid var(--sub-text);
+  }
+  input:focus {
+    outline: 0;
+  }
+  ul {
+    padding-inline: 2rem;
+  }
+  ul li,
+  a {
+    color: var(--sub-text);
+  }
+  ul li:hover,
+  a:hover {
+    color: var(--strong-color);
+  }
+  &.active {
+    height: 100vh;
+  }
+}
+.ham-menu-nav .user-head {
+  position: absolute;
+  left: 0;
+  bottom: 100px;
+  padding-top: 20px;
+  padding-bottom: 24px;
+  background-color: var(--sub-element);
+  transition: 0.8s;
+  color: var(--sub-text);
+  a {
+    color: var(--sub-text);
+  }
+  a:hover {
+    color: var(--strong-color);
+  }
+  @media (max-width: 992px) {
+    background-color: transparent;
+  }
+  .avartar {
+    width: 84px;
+    aspect-ratio: 1/1;
+    background-color: var(--main-text);
+    border-radius: 50%;
+  }
+  .user-title {
+    color: var(--main-text);
+  }
+  .login-btn {
+    border: 0;
+    width: 80%;
+    padding: 0.2rem;
+  }
+}
+
+/* caer-icon 以下是洛特的樣式 */
+.cart-dropdown {
+  position: absolute;
+  right: 0;
+  top: 48px;
+  width: 340px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 32px rgba(0, 0, 0, 0.15);
+  padding: 20px 16px 12px 16px;
+  z-index: 999;
+  animation: dropdownFadeIn 0.2s;
+}
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.cart-dropdown-title {
+  color: #d3cbcb;
+  margin-bottom: 12px;
+}
+.cart-dropdown-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px 0;
+  max-height: 240px;
+  overflow-y: auto; /*scroll*/
+}
+.cart-dropdown-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  gap: 12px;
+}
+.item-name {
+  flex: 1;
+  font-size: 14px;
+  min-width: 0;
+  color: #222;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.item-price {
+  color: #222;
+  font-size: 14px;
+  min-width: 60px;
+  text-align: right;
+}
+.cart-dropdown-btn {
+  width: 100%;
+  color: var(--strong-color);
+  padding: 10px 0;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.cart-dropdown-btn:hover {
+  color: rgb(140, 63, 63);
+}
+.cart-dropdown-arrow {
+  position: absolute;
+  top: 0;
+  right: 1rem;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 8px solid white;
+  transform: translateY(-100%);
+}

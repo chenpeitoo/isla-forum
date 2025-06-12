@@ -5,6 +5,7 @@ export default function MemberLayout({ children }) {
     <>
       <div className="container container-user">
         <div className="row justify-content-center">
+          {/* siderBar also check is there user login */}
           <SideBar />
           {/* main-content */}
           <div className="col-lg-9 col-12">{children}</div>

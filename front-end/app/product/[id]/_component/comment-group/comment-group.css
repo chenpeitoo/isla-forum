@@ -1,0 +1,362 @@
+.rating-bar-active {
+    background: #efefef;
+    border-radius: 15px;
+}
+
+/* 評論側邊欄 */
+.comment-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 300px; /* 側邊欄固定寬度，考慮響應式調整 */
+    flex-shrink: 0; /* 防止側邊欄被壓縮 */
+
+}
+
+/* 評論側邊欄評分區塊 */
+.comment-sidebar-rating {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* 數字與星級之間的間距 */
+    justify-content: center;
+}
+
+/* 評論側邊欄評分條容器 */
+.comment-sidebar-rating-bars {
+    display: flex;
+    flex-direction: column-reverse; /* 使 5星在最上面 */
+    gap: 15px; /* 評分條之間的間距 */
+}
+
+/* 評分數字 */
+.rating-num {
+    color: var(--MainColor, #fd7061);
+    font-size: 64px;
+    font-weight: 700;
+}
+
+/* 評分條標籤 */
+.rating-bar-label {
+    padding-right: 18px; /* 調整間距 */
+    color: #b76b6b;
+    font-size: 16px;
+    font-weight: 600;
+    white-space: nowrap; /* 防止文本換行 */
+    width: 60px; /* 固定標籤寬度 */
+    text-align: right; /* 文本右對齊 */
+}
+
+/* 評分條容器 */
+.rating-bar {
+    width: 170px;
+    height: 16px;
+    border-radius: 50px;
+    background: #e0dcdc;
+    overflow: hidden; /* 隱藏溢出的條形 */
+    flex-grow: 1;
+    transition: height 2s;
+}
+
+
+
+
+/* 評分條內部容器 */
+.rating-bar .rating-bar-box {
+    display: flex;
+    height: 100%;
+}
+.rating-bar-box {
+    /*padding-right: 12px;*/
+    padding: 12px 12px;
+    border-radius: 15px;
+    transition: background 0.3s;
+}
+.rating-bar-box:hover {
+    background: #efefef;
+}
+
+/* 評分條 - 1星 (示例寬度，請根據實際數據調整) */
+.rating-bar-1 {
+    background: linear-gradient(
+            90deg,
+            rgba(255, 176, 176, 1) 0%,
+            rgba(245, 140, 189, 1) 65%,
+            rgba(255, 115, 115, 1) 100%
+    );
+    height: 100%;
+    /*width: 10%; !* 示例寬度 *!*/
+}
+
+/* 評分條 - 2星 (示例寬度，請根據實際數據調整) */
+.rating-bar-2 {
+    background: linear-gradient(
+            90deg,
+            rgba(255, 176, 176, 1) 0%,
+            rgba(245, 140, 189, 1) 65%,
+            rgba(255, 115, 115, 1) 100%
+    );
+    height: 100%;
+    /*width: 5%; !* 示例寬度 *!*/
+}
+
+/* 評分條 - 3星 (示例寬度，請根據實際數據調整) */
+.rating-bar-3 {
+    background: linear-gradient(
+            90deg,
+            rgba(255, 176, 176, 1) 0%,
+            rgba(245, 140, 189, 1) 65%,
+            rgba(255, 115, 115, 1) 100%
+    );
+    height: 100%;
+    /*width: 15%; !* 示例寬度 *!*/
+}
+
+/* 評分條 - 4星 (示例寬度，請根據實際數據調整) */
+.rating-bar-4 {
+    background: linear-gradient(
+            90deg,
+            rgba(255, 176, 176, 1) 0%,
+            rgba(245, 140, 189, 1) 65%,
+            rgba(255, 115, 115, 1) 100%
+    );
+    height: 100%;
+    /*width: 20%; !* 示例寬度 *!*/
+}
+
+/* 評分條 - 5星 (示例寬度，請根據實際數據調整) */
+.rating-bar-5 {
+    background: linear-gradient(
+            90deg,
+            rgba(255, 176, 176, 1) 0%,
+            rgba(245, 140, 189, 1) 65%,
+            rgba(255, 115, 115, 1) 100%
+    );
+    height: 100%;
+    /*width: 50%; !* 示例寬度 *!*/
+}
+
+/* 評分星級區塊 */
+.rating-starbox {
+    display: flex; /* 添加 flex */
+    flex-direction: column; /* 垂直排列 */
+    gap: 6px;
+
+}
+
+/* 評分星級狀態文字 */
+.rating-starbox .rating-starbox-status {
+    color: var(--MainColor, #fd7061);
+    font-size: 11px;
+    font-weight: 400;
+
+}
+
+/* 評論側邊欄所有圖片區塊 */
+.comment-sidebar-photos-box {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    background-color: #eeeeee;
+    margin-top: 24px;
+}
+
+/* 評論側邊欄所有圖片標題 */
+.comment-sidebar-photos-title {
+    font-size: 14px;
+    font-weight: 400;
+    color: #696969;
+}
+
+/* 評論側邊欄圖片網格 */
+.comment-sidebar-photos {
+    display: grid;
+    /*width: 100%;*/
+    max-width: 250px; /* 限制最大寬度 */
+    grid-template-columns: 1fr 1fr; /* 兩列 */
+    gap: 15px; /* 圖片之間的間距 */
+    height: 390px;
+    width: 250px;
+    /*overflow: hidden;*/
+}
+
+/* 評論側邊欄單個圖片按鈕 */
+.comment-sidebar-photos .comment-img {
+    width: 100%;
+    height: auto; /* 高度自動 */
+    overflow: hidden;
+    border-radius: 4px;
+    cursor: pointer; /* 添加鼠標指針效果 */
+    border: 1px solid transparent; /* 默認邊框 */
+    transition: border-color 0.3s ease, box-shadow 0.8s; /* 添加過渡效果 */
+}
+
+.comment-sidebar-photos .comment-img:hover {
+    outline: 3px solid #d58173;
+    border-color: #d58173; /* hover 時改變邊框顏色 */
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.6);
+
+}
+
+/* 評論側邊欄圖片 */
+.comment-sidebar-photos .comment-img img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 評論側邊欄查看全部圖片按鈕 */
+.comment-sidebar-photos-show-more {
+    color: var(--SubColor, #fa8e83);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    cursor: pointer; /* 添加鼠標指針效果 */
+    transition: color 0.3s ease; /* 添加過渡效果 */
+}
+
+.comment-sidebar-photos-show-more:hover {
+    color: var(--MainColor, #fd7061); /* hover 時改變顏色 */
+    text-decoration: underline; /* 添加下劃線 */
+}
+
+/* 評論區塊 (主要評論列表) */
+.comment-box {
+    padding: 12px 24px;
+    flex-grow: 1; /* 佔滿剩餘空間 */
+    min-width: 300px; /* 設置最小寬度，防止在小屏幕上過窄 */
+}
+
+/* 評論工具欄 */
+.comment-box .tools {
+    height: 55px;
+    width: 100%;
+    gap: 16px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #eee; /* 添加底部邊框 */
+    margin-bottom: 20px; /* 添加底部空間 */
+}
+
+/* 排序按鈕 */
+.sort-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    align-self: stretch;
+    color: #a8a8a8;
+    font-size: 16px; /* 設置字體大小 */
+    font-weight: 400; /* 設置字體粗細 */
+    transition: color 0.3s ease; /* 添加過渡效果 */
+}
+
+.sort-btn:hover {
+    color: #666; /* hover 時顏色變化 */
+}
+
+/* 活躍的排序按鈕 */
+.sort-btn-active {
+    color: var(--MainColor, #fd7061);
+    font-weight: 600; /* 活躍時字體更粗 */
+}
+
+.sort-btn-active:hover {
+    color: var(--MainColor, #fd7061);
+}
+
+/* 評論卡片列表容器 */
+.comment-cards {
+    padding-top: 0; /* 調整內邊距 */
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 20px; /* 評論卡片之間的間距 */
+}
+
+.comment-card-footer .card_show_more:hover {
+    color: var(--MainColor, #fd7061); /* hover 時顏色變化 */
+    text-decoration: underline; /* 添加下劃線 */
+}
+
+.tool-box {
+    display: flex;
+    gap: 16px;
+}
+
+@media (max-width: 768px) {
+    .comment-component {
+        flex-direction: column; /* 在小屏幕上垂直排列 */
+        padding: 30px 15px;
+        gap: 20px;
+    }
+
+    .comment-sidebar {
+        width: 100%; /* 佔滿寬度 */
+        align-items: center; /* 內容居中 */
+    }
+
+    .comment-sidebar-rating {
+        flex-direction: column; /* 垂直排列評分數字和星級 */
+        gap: 10px;
+    }
+
+    .comment-sidebar-rating-bars {
+        /*display: none;*/
+        width: 100%; /* 佔滿寬度 */
+        padding: 0 20px; /* 添加內邊距 */
+    }
+
+    .rating-bar-label {
+        width: auto; /* 自動寬度 */
+        text-align: left; /* 左對齊 */
+        padding-right: 10px;
+    }
+
+    .rating-bar {
+        width: auto; /* 自動寬度 */
+        flex-grow: 1; /* 佔滿剩餘空間 */
+    }
+
+    .comment-sidebar-photos-box {
+        display: none;
+    }
+
+    /*.comment-sidebar-photos {*/
+    /*    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); !* 自動調整列數 *!*/
+    /*    max-width: none; !* 移除最大寬度限制 *!*/
+    /*    gap: 10px;*/
+    /*}*/
+
+    .comment-box {
+        padding: 0 15px;
+        min-width: auto; /* 移除最小寬度限制 */
+    }
+
+    .comment_img {
+        /* 如果這個類名用於絕對定位圖片，在響應式中可能需要調整或移除 */
+        position: static; /* 移除絕對定位 */
+        height: auto;
+        margin-top: 10px; /* 添加間距 */
+    }
+
+    .comment_img .comment_img_box {
+        width: 50px; /* 調整圖片大小 */
+        height: 50px;
+    }
+
+    .comment_img:hover .comment_img_box {
+        width: 50px; /* 在小屏幕上 hover 時不改變大小 */
+        height: 50px;
+    }
+
+    .relative-products-cards {
+        padding: 16px 0;
+        margin-bottom: 280px;
+    }
+}

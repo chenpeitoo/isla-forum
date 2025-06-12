@@ -1,0 +1,65 @@
+.color-select-main {
+
+}
+
+.react-select__control {
+    border-radius: 8px;
+    border: none;
+}
+
+.react-select__option--is-focused {
+    background-color: #f0f8ff;
+    box-shadow: none !important;
+
+}
+
+.react-select__option--is-selected {
+    background-color: #ff0000;
+    color: white;
+}
+
+.react-select__control {
+    border: none !important;
+    box-shadow: none !important;
+
+}
+.react-select__control--is-open {
+    border: none !important;
+    box-shadow: none !important;
+
+
+}
+.react-select__control--is-focused {
+    border: none !important;
+    /*box-shadow: none !important;*/
+
+
+}
+
+.react-select__input {
+    display: none !important;
+}
+.react-select__value-container {
+    display: flex !important;
+    align-items: center;
+    gap: 0.5rem; /* 如有需要 */
+    justify-content: start;
+}
+
+.react-select__option {
+    padding: 18px 12px;
+    line-height: 1.5;
+}
+.react-select__menu{
+    padding: 12px 1px;
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+    gap: 16px;
+}
+.react-select__menu-list {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    justify-content: start;
+}

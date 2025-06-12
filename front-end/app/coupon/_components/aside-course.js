@@ -1,63 +1,32 @@
-'use client'
+export default function AsideCourse({
+  courseCategory = '',
+  setCourseCategory = '',
+}) {
+  const courses = ['韓式彩妝', '專業彩妝', '日常彩妝', '其他課程']
 
-import './coupon.css'
-
-export default function AsideCourse() {
   return (
-    <>
-      {/* aside */}
-      <aside className="d-none d-md-block col-lg-3 col-md-4 ps-0 mt-0">
-        <div className="position-sticky pt-2">
-          <h3 className="pb-3 border-bottom border-2">課程</h3>
-          <ul className="nav flex-column mb-3">
-            <li className="nav-item">
-              <a
-                className="menu-brand nav-link sub-text fs-5 ps-0"
-                href="#"
-                data-brand="Unleashia"
-              >
-                所有課程
-              </a>
-            </li>
-            <li className="nav-item">
-              <a
-                className="menu-brand nav-link sub-text fs-5 ps-0"
-                href="#"
-                data-brand="Cosnori"
-              >
-                韓式彩妝
-              </a>
-            </li>
-            <li className="nav-item">
-              <a
-                className="menu-brand nav-link sub-text fs-5 ps-0"
-                href="#"
-                data-brand="Muzigae Mansion"
-              >
-                專業彩妝
-              </a>
-            </li>
-            <li className="nav-item">
-              <a
-                className="menu-brand nav-link sub-text fs-5 ps-0"
-                href="#"
-                data-brand="Kaja"
-              >
-                日常彩妝
-              </a>
-            </li>
-            <li className="nav-item">
-              <a
-                className="menu-brand nav-link sub-text fs-5 ps-0"
-                href="#"
-                data-brand="rom&nd"
-              >
-                其他課程
-              </a>
-            </li>
+    <aside className="d-none d-md-block col-lg-3 col-md-4 ps-0 mt-0">
+      <div className="position-sticky pt-2 px-3">
+        <section className="mb-4">
+          <h5 className="aside-title">課程</h5>
+          <ul className="nav flex-column">
+            {courses.map((course, i) => (
+              <li key={i} className="nav-item">
+                <a
+                  href="#"
+                  className={`aside-link nav-link px-2 py-2 fs-5 ${courseCategory === course ? 'active' : ''}`}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setCourseCategory(courseCategory === course ? '' : course)
+                  }}
+                >
+                  {course}
+                </a>
+              </li>
+            ))}
           </ul>
-        </div>
-      </aside>
-    </>
+        </section>
+      </div>
+    </aside>
   )
 }

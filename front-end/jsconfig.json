@@ -2,6 +2,11 @@
   "compilerOptions": {
     "paths": {
       "@/*": ["./*"]
-    }
-  }
+    },
+    "allowJs": true,
+    "checkJs": true,
+    "jsx": "react"
+    // 其他想打開的檢查選項…
+  },
+  "include": ["src/**/*"]
 }

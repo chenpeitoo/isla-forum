@@ -6,11 +6,16 @@ import styles from './Product-card.module.scss'
 import { useState } from 'react'
 
 export default function ProductCardCourse({
-  id = 'itemCheck-course01',
-  title = '臉部撥筋Ｘ耳穴按摩Ｘ芳療活絡｜現代人的 10 分鐘舒壓養顏術',
-  image = '/images/cart-test/course-img.png',
-  price = 1250,
-  onDelete = () => {},
+  id,
+  title,
+  image,
+  salePrice,
+  basePrice,
+  category,
+  course_categories_id,
+  onDelete,
+  isChecked = false,
+  onCheckChange = () => {},
 }) {
   return (
     <div className="card border-0">
@@ -21,7 +26,8 @@ export default function ProductCardCourse({
               className={`${styles.checkboxInput} form-check-input me-3`}
               type="checkbox"
               id={id}
-              defaultChecked
+              checked={isChecked}
+              onChange={(e) => onCheckChange?.(e.target.checked)}
             />
             <label htmlFor={id}>
               <Image
@@ -29,7 +35,8 @@ export default function ProductCardCourse({
                 className="img-fluid"
                 width={130}
                 height={130}
-                alt="商品圖"
+                style={{ height: 'auto' }}
+                alt="課程圖"
               />
             </label>
           </div>
@@ -39,8 +46,19 @@ export default function ProductCardCourse({
           <div className="card-body d-flex flex-column gap-1 gap-lg-2">
             {/* 商品名稱 + delete-icon */}
             <div className="d-flex justify-content-between align-items-start">
-              <div>
-                <h5 className="card-title fw-normal mb-1">{title}</h5>
+              <div className="d-flex align-items-center gap-2 flex-wrap">
+                <h5
+                  className={`${styles.ellipsis} card-title fw-normal mb-0`}
+                  style={{ maxWidth: '100%' }}
+                  title={title}
+                >
+                  {title}
+                </h5>
+                {category && (
+                  <span className="badge bg-secondary flex-shrink-0">
+                    {category}
+                  </span>
+                )}
               </div>
               <button
                 type="button"
@@ -55,9 +73,21 @@ export default function ProductCardCourse({
             <div>
               <div className="d-flex justify-content-between align-items-center mt-2">
                 <span className="text-muted small">數量：1</span>
-                <div>
-                  {/* <del className="me-2">NT${originalPrice}</del> */}
-                  <span className="h5 text-maintext">NT${price}</span>
+                <div className="fs-5">
+                  {salePrice !== basePrice ? (
+                    <>
+                      <del className="me-2 h6 text-subtext">
+                        NT${basePrice.toLocaleString()}
+                      </del>
+                      <strong className="h5 text-maintext">
+                        NT${salePrice.toLocaleString()}
+                      </strong>
+                    </>
+                  ) : (
+                    <strong className="h5 text-maintext">
+                      NT${basePrice.toLocaleString()}
+                    </strong>
+                  )}
                 </div>
               </div>
             </div>

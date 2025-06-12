@@ -1,0 +1,58 @@
+/* tab.css */
+.tab-set {
+  display: flex;
+  gap: 1rem;
+  border-bottom: 2px solid #bebebe80;
+  position: relative;
+  .btn:focus-visible {
+    box-shadow: 0 0 #00000000;
+  }
+  .subtext {
+    color: #858585;
+    &:active {
+      color: #858585;
+    }
+  }
+}
+
+.category-underline {
+  position: absolute;
+  bottom: 0;
+  height: 2px;
+  left: 0; /* inline style 會覆蓋這兩行 */
+  width: 0; /* inline style 會覆蓋 */
+  border-radius: 2px;
+  z-index: 1;
+  background: linear-gradient(
+    to right,
+    rgba(253, 112, 97, 0) 0%,
+    #fd7061 20%,
+    #fd7061 80%,
+    rgba(253, 112, 97, 0) 100%
+  );
+}
+
+/* 只有已啟用 transition 時才有過渡效果 */
+.category-underline:not(.no-transition) {
+  transition: all 0.4s ease;
+}
+
+/* 開頭/結尾的漸層變化 */
+.category-underline.start {
+  background: linear-gradient(
+    to right,
+    #fd7061 0%,
+    #fd7061 20%,
+    #fd7061 80%,
+    rgba(253, 112, 97, 0) 100%
+  );
+}
+.category-underline.end {
+  background: linear-gradient(
+    to right,
+    rgba(253, 112, 97, 0) 0%,
+    #fd7061 20%,
+    #fd7061 80%,
+    #fd7061 100%
+  );
+}

@@ -1,0 +1,77 @@
+.checkoutBar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border-top: 1px solid #ccc;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
+
+  .btn {
+    font-size: 1rem;
+  }
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 90;
+}
+
+.detailPanel {
+  position: fixed;
+  bottom: -100%;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border-radius: 1rem 1rem 0 0;
+  z-index: 101;
+  transition: all 0.3s ease-in-out;
+  padding: 1rem;
+
+  &.show {
+    // offset
+    bottom: 84px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
+  }
+  .detailBody {
+    p {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+  }
+}
+
+.ellipsis {
+  width: 12em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.customSelect {
+  appearance: none;
+  background-color: #fff;
+  border: 1px solid #ff7a59;
+  border-radius: 8px;
+  padding: 3px 5px;
+  font-size: 14px;
+  color: #333;
+  width: 50%;
+  transition: border-color 0.5s ease;
+
+  &:focus {
+    border-color: #e95420;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(233, 84, 32, 0.2);
+  }
+}

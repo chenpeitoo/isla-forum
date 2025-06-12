@@ -1,0 +1,15 @@
+.card-glass-linear {
+  max-width: 420px;
+  margin-inline: auto;
+  border-radius: 12px;
+  border: 2px solid var(--, rgba(255, 255, 255, 0.5));
+  background: linear-gradient(
+    180deg,
+    rgba(245, 245, 245, 0.9) 0%,
+    rgba(245, 245, 245, 0.9) 100%
+  );
+
+  /* 漸層玻璃卡片 */
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+}

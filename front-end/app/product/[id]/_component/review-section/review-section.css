@@ -1,0 +1,19 @@
+.reviews-grid {
+    /*padding: 0 0 0 0;*/
+    /*background: #000;*/
+    /*padding-bottom: 12px;*/
+display: flex;
+    flex-direction: column;
+    gap: 20px
+}
+
+.reviews-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.btn-more-cards-show {
+    color: var(--main-color);
+    border-bottom: 1px var(--main-color);
+    cursor: pointer;
+}

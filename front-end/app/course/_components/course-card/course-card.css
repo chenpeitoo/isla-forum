@@ -1,0 +1,186 @@
+.course-card-animate {
+  animation: fadeInUp 1s ease;
+}
+.course-card {
+  border-radius: 24px !important;
+  overflow: hidden;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 2px 15px;
+}
+/* ---------- 愛心 icon ---------- */
+.heart-icon-course {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  color: var(--main-color);
+}
+
+.heart-icon-course i {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: rgba(0, 0, 0, 0.5);
+  transition: color 0.3s ease;
+}
+
+.heart-icon-course i.active {
+  color: var(--main-color);
+}
+
+.heart-icon-course i.animate-pop {
+  animation: heart-pop 0.4s ease;
+}
+
+@keyframes heart-pop {
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.4);
+  }
+  60% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ---------- 卡片內容樣式 ---------- */
+.card-teacher-course,
+.card-people-course {
+  color: #8c8c8c;
+}
+
+.card-score-course {
+  color: var(--main-color);
+}
+
+.card-text-price {
+  font-size: 14px;
+  text-decoration: line-through;
+}
+
+/* ---------- 圖片放大效果 ---------- */
+.card-img-container-course {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px 8px 0px 0px;
+  /* height: clamp(180px, 22vw, 200px); */
+  /* height: 100%; */
+  aspect-ratio: 16/9;
+  object-fit: cover;
+}
+
+.card-img-top-course {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  object-position: center;
+  display: block;
+}
+
+/* ---------- 圖片放大 ---------- */
+.card-hover-course {
+  border-radius: 8px;
+  transition:
+    transform 1s ease,
+    box-shadow 1s ease;
+}
+
+.card-hover-course:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card-hover-course:hover .card-img-top-course {
+  transform: scale(1.1);
+}
+
+.card-hover-course:hover .heart-icon-course {
+  opacity: 1;
+}
+
+/* ✅ 新增：hover 時 heart icon 顏色 */
+.card-hover-course:hover .heart-icon-course i {
+  color: var(--main-color);
+}
+
+/* ---------- course按鈕樣式 ---------- */
+.card-btn-course {
+  padding: 2px 10px;
+  background-color: #fff4f3;
+  color: var(--main-color);
+  border: none;
+  outline: none;
+  box-shadow: none;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.card-btn-course:focus,
+.card-btn-course:active,
+.card-btn-course:hover,
+.card-btn-course:visited {
+  background-color: #fff4f3 !important;
+  color: var(--main-color) !important;
+}
+.card-title-box {
+  height: 3em; /* 約兩行文字的高度，依字體大小可微調 */
+  line-height: 1.5em;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* 限制顯示兩行 */
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+}
+.course-card-body {
+  padding: 24px 22px;
+  .card-title {
+    font-size: 18px;
+    color: #474747;
+    font-weight: 500;
+  }
+  .course-money {
+    h5 {
+      color: var(--main-color);
+      font-weight: 600 !important;
+    }
+    p {
+      color: #d2d2d2;
+    }
+  }
+}
+.heart-icon-course i {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent;
+}
+.heart-icon-course i:focus,
+.heart-icon-course i:active {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+.heart-icon-course button {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.heart-icon-course button:focus,
+.heart-icon-course button:active {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}

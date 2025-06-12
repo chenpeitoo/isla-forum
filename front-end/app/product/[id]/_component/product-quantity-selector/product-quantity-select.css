@@ -1,0 +1,33 @@
+/* 數量選擇器 */
+.number-select {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+}
+
+/* 數量選擇按鈕 */
+.number-select-btn {
+    font-size: 28px;
+    cursor: pointer; /* 添加鼠標指針效果 */
+    transition: color 0.3s ease; /* 添加過渡效果 */
+}
+
+/* 數量選擇按鈕內的 icon */
+.number-select-btn i {
+    color: #858585;
+}
+
+.number-select-btn:hover i {
+    color: var(--MainColor, #fd7061); /* hover 時改變顏色 */
+}
+
+/* 數量顯示 */
+.number-select-num {
+    color: var(--MainText, #373737);
+    text-align: center;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}

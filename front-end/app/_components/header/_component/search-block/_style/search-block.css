@@ -1,0 +1,80 @@
+/* ==== 商品與文章共用 ==== */
+/* 大外框 */
+.header-search-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  /* position */
+  position: relative;
+  z-index: 1000;
+  /* width */
+  width: 100%;
+  /* background */
+  padding-top: 6px;
+  background-color: var(--white);
+  /* ===== */
+  overflow-y: auto;
+  > div {
+    width: 100%;
+  }
+  input {
+    background-color: transparent;
+  }
+}
+/* 卡片列表 */
+.header-search-item-list {
+  z-index: 1000;
+  gap: 12px;
+  overflow-y: auto;
+  max-height: calc(100vh - 210px);
+  padding-bottom: 36px;
+  display: flex;
+  flex-direction: column;
+}
+/* 卡片本體 */
+.header-search-item {
+  display: flex;
+  border-radius: 12px;
+  margin: 3px 12px;
+
+  gap: 1rem;
+  background-color: #ffffff37;
+  border-top: 1px #ffffff;
+  box-shadow: 0 2 12px #00000011;
+  min-width: 320px;
+  width: 100%;
+  height: 100px;
+  padding: 12px 2px;
+  /* border: 1px solid #000; */
+  max-width: 340px;
+}
+
+.header-search-item-forum {
+  display: flex;
+  border-radius: 12px;
+  margin: 3px 12px;
+
+  gap: 1rem;
+  background-color: #ffffff37;
+  border-top: 1px #ffffff;
+  box-shadow: 0 2 12px #00000011;
+  min-width: 320px;
+  width: 100%;
+  height: 100px;
+  padding: 12px 2px;
+  /* border: 1px solid #000; */
+}
+
+/* .bg-block {
+  background-color: #fbfbfb;
+} */
+
+.header-search-item-list-mobile {
+  /* align-items: center; */
+  width: 100%;
+  .header-search-item {
+    max-width: 100%;
+    width: 90%;
+  }
+}

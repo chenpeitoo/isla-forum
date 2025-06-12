@@ -1,0 +1,302 @@
+/* 評論卡片樣式 */
+.comment-card {
+  display: flex;
+  padding: 16px 16px;
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: 10px;
+  background: #fbfbfb;
+  max-height: 700px;
+  max-width: 650px;
+
+  /* 漸層玻璃卡片效果 */
+  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+  transition:
+    background 0.8s,
+    box-shadow 0.5s;
+}
+
+/* 評論卡片 hover 效果 */
+.comment-card:hover {
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+}
+
+/* 評論卡片頭部 */
+.comment-card-head {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  position: relative;
+}
+
+/* 評論卡片頭部右側 (用戶信息) */
+.comment-card-head-right {
+  display: flex;
+  align-items: start;
+  justify-content: start;
+  gap: 16px;
+}
+
+/* 評論卡片用戶圖片容器 */
+.comment-card-head-right .card-user-img {
+  width: 52px;
+  height: 52px;
+  overflow: hidden;
+  /*border-radius: 50%;*/
+}
+
+/* 評論卡片頭部用戶名和評分容器 */
+.comment-card-head-right .card-head-user {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+/* 評論卡片用戶名 */
+.comment-card-head-right .card-head-user .username-card {
+  font-size: 14px;
+  color: #494949;
+  font-weight: 400;
+}
+
+/* 評論卡片用戶評分容器 */
+.comment-card-head-right .user-rating {
+  display: flex;
+}
+
+/* 評論卡片用戶評分星級容器 */
+.comment-card-head-right .user-rating .star-box {
+  /* 繼承 .star-box 的樣式 */
+}
+
+/* 評論卡片用戶評分星級 icon */
+.comment-card-head-right .user-rating .star-box .star {
+  font-size: 12px;
+}
+
+/* 評論卡片內容區 */
+.comment-card-body {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 12px 3px 12px;
+  width: 100%; /* 確保內容區寬度為 100% */
+}
+
+/* 評論文本內容 */
+.card-context {
+  color: var(--MainText, #373737);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 26px; /* 175% */
+  overflow: hidden;
+
+  /* 限制文本行數並添加省略號 */
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* 限制為 3 行 */
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+}
+
+/* 評論圖片容器 */
+.comment_img {
+  /* 注意：這個類名可能與其他地方衝突，建議修改 */
+  position: absolute; /* 絕對定位 */
+  top: 16px;
+  right: 16px;
+  display: flex;
+  gap: 10px;
+  height: 46px; /* 容器高度 */
+}
+
+/* 單個評論圖片框 */
+.comment_img .comment_img_box {
+  width: 42px;
+  height: 42px;
+  overflow: hidden;
+  border-radius: 8px;
+  transition:
+    width 0.6s,
+    height 0.3s,
+    box-shadow 0.8s; /* 添加過渡效果 */
+  cursor: pointer;
+}
+
+/* 評論圖片容器 hover 時的圖片框效果 */
+.comment_img:hover .comment_img_box {
+  /* 您註釋掉的樣式，如果需要請取消註釋並調整 */
+  /* width: 58px; */
+  /* height: 58px; */
+}
+
+/* 評論卡片 hover 時的圖片框效果 */
+.comment-card:hover .comment_img_box {
+  width: 52px;
+  height: 52px;
+  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* 評論卡片底部 */
+.comment-card-footer {
+  display: flex;
+  justify-content: flex-end; /* 使用 flex-end */
+  padding-top: 6px;
+  padding-right: 12px;
+  width: 100%; /* 確保底部寬度為 100% */
+}
+
+/* 查看完整留言按鈕 */
+.comment-card-footer .card_show_more {
+  font-size: 12px;
+  color: rgba(243, 108, 90, 0.64);
+  font-weight: 300;
+}
+
+/* 評論卡片頭部左側 (圖片容器) */
+.comment-card-head-left {
+  display: flex; /* 使用 Flexbox 佈局 */
+  position: absolute;
+  right: 0;
+  gap: 10px; /* 圖片之間的間距 */
+  flex-shrink: 0; /* 防止圖片容器被壓縮 */
+}
+
+/* 評論圖片容器 */
+.comment-images-container {
+  /* 使用更明確的類名 */
+  display: flex; /* 或 grid，根據您期望的圖片排列方式 */
+  gap: 10px; /* 圖片之間的間距 */
+}
+
+/* 單個評論圖片框 */
+.comment-image-box {
+  width: 42px; /* 示例尺寸，您可以根據需要調整 */
+  height: 42px; /* 示例尺寸，您可以根據需要調整 */
+  overflow: hidden; /* 隱藏溢出部分 */
+  border-radius: 8px; /* 添加圓角 */
+  transition:
+    width 0.6s,
+    height 0.3s,
+    box-shadow 0.8s; /* 添加過渡效果 */
+  cursor: pointer; /* 添加鼠標指針效果 */
+  border: 1px solid #eee; /* 添加邊框 */
+}
+
+/* 評論卡片 hover 時的圖片框效果 */
+.comment-card:hover .comment-image-box {
+  width: 52px; /* hover 時改變寬度 */
+  height: 52px; /* hover 時改變高度 */
+  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1); /* 添加陰影效果 */
+}
+
+/* 評論圖片 */
+.comment-image-box img {
+  width: 100%; /* 圖片填滿父容器寬度 */
+  height: 100%; /* 圖片填滿父容器高度 */
+  object-fit: cover; /* 確保圖片覆蓋容器且不失真 */
+  display: block; /* 移除圖片底部額外空間 */
+}
+
+.user-img {
+  width: 100%;
+  height: 100%;
+}
+
+.post-and-color-box {
+  display: flex;
+  font-size: 12px;
+  gap: 3px;
+  flex-direction: column;
+  .post-date {
+    color: #8d8d8d;
+  }
+
+  .color-name-card {
+    color: #8d8d8d;
+  }
+}
+
+.custom-modal-dialog {
+  max-width: 800px;
+}
+
+.custom-modal-content {
+  border-radius: 16px;
+  padding: 12px 5px;
+  background-color: rgba(162, 111, 111, 0.34);
+  box-shadow: 0 2px 30px rgba(0, 0, 0, 0.5);
+}
+.custom-modal-title {
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+}
+
+.custom-modal-context {
+  font-size: 18px;
+  color: rgb(255, 255, 255);
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+  line-height: 32px; /* 175% */
+}
+
+.color-name-card {
+  display: none;
+}
+
+.color-name-card-has-color {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  border-radius: 8px;
+  padding: 2px 6px;
+  color: #ffffff;
+}
+
+/* 響應式設計調整 (在小屏幕上) */
+@media (max-width: 768px) {
+  .comment-card-head-left {
+    /*width: 100%; !* 在小屏幕上佔滿寬度 *!*/
+    justify-content: flex-start; /* 左對齊 */
+    flex-wrap: wrap; /* 圖片換行 */
+  }
+
+  .comment-card-head-right .card-user-img {
+    width: 48px;
+    height: 48px;
+    /*background: #000;*/
+    overflow: hidden;
+    /*border-radius: 50%;*/
+  }
+
+  .comment-image-box {
+    width: 38px; /* 調整圖片大小 */
+    height: 38px;
+  }
+  .comment-images-container {
+    display: flex;
+    /*background: #000;*/
+    /*flex-direction: column;*/
+    flex-wrap: wrap;
+    /*height: 100px;*/
+    justify-content: end;
+  }
+
+  .comment-card:hover .comment-image-box {
+    width: 50px; /* 在小屏幕上 hover 時不改變大小 */
+    height: 50px;
+    box-shadow: none; /* 移除陰影 */
+  }
+
+  .comment_img {
+    position: static;
+    height: auto;
+    margin-top: 10px;
+  }
+  .comment_img .comment_img_box {
+    width: 50px;
+    height: 50px;
+  }
+  .comment_img:hover .comment_img_box {
+    width: 50px;
+    height: 50px;
+  }
+}

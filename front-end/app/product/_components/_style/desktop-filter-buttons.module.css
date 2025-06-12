@@ -1,0 +1,42 @@
+/* button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: inherit;
+  padding: 0;
+} */
+
+.sidebar-filter-btn-check-box {
+  display: flex;
+  /*height: 45px;*/
+  align-items: center;
+  gap: 10px;
+  /* align-self: stretch; */
+  margin-left: 0;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  color: rgb(35, 35, 35);
+  padding-bottom: 24px;
+  width: 100%;
+}
+
+.sidebar-filter-filter-btn a {
+  text-decoration: none;
+  color: #858585;
+}
+
+.sidebar-filter-filter-btn .sidebar-filter-input-label {
+  color: #858585;
+}
+
+.sidebar-filter-filter-btn input {
+  margin: 0 8px;
+}
+
+.sidebar-filter-filter-btn:hover {
+  color: #7d5c5c;
+}
+
+.sidebar-filter-filter-btn-active {
+  color: #fa8e83;
+}

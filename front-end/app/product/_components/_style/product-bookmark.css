@@ -1,0 +1,43 @@
+.bookmark-btn {
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.product-card-bookmark {
+  cursor: pointer;
+  padding: 4px 0 0 0;
+}
+
+/* UPDATED BOOKMARK ICON STYLES */
+.product-card-bookmark-icon {
+  width: 28px;
+  height: 28px;
+  vertical-align: middle;
+  transition:
+    color 0.3s,
+    fill 0.3s,
+    stroke 0.3s;
+}
+
+/* Default (BiHeart - not bookmarked) */
+.product-card-bookmark .product-card-bookmark-icon:not(.bookmarked) {
+  color: #bebebe; /* For react-icons, this often sets the 'stroke' for outline icons */
+  fill: #f16666; /* User specified fill for the non-bookmarked heart */
+}
+
+.product-card-bookmark:hover .product-card-bookmark-icon:not(.bookmarked) {
+  color: #f16666; /* Hover stroke color for BiHeart. Fill remains #f16666 */
+}
+
+/* Bookmarked (BiSolidHeart) */
+.product-card-bookmark .product-card-bookmark-icon.bookmarked {
+  color: #f16666; /* User specified color for the bookmarked (solid) heart */
+}
+
+.product-card-bookmark-icon-mobile {
+  /* display: none; */
+  width: 36px;
+  height: 36px;
+}

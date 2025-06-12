@@ -1,69 +1,62 @@
-'use client'
+export default function AsideProduct({
+  currentBrand = '',
+  setCurrentBrand = '',
+  productCategory = '',
+  setProductCategory = '',
+}) {
+  const brands = [
+    'Unleashia',
+    'Cosnori',
+    'Muzigae Mansion',
+    'Kaja',
+    'rom&nd',
+    "A'Pieu",
+  ]
+  const categories = ['眼部彩妝', '唇部彩妝', '臉頰彩妝', '眉部彩妝', '底妝']
 
-export default function AsideProduct() {
   return (
-    <>
-      {/* aside */}
-      <aside className="d-none d-md-block col-lg-3 col-md-4 ps-0 mt-0">
-        <div className="position-sticky pt-2">
-          <h3 className="pb-3 border-bottom border-2">品牌</h3>
-          <ul className="nav flex-column mb-3">
-            <li className="nav-item">
-              <a className="menu-brand nav-link sub-text fs-5" href="#">
-                Unleashia
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="menu-brand nav-link sub-text fs-5" href="#">
-                Cosnori
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="menu-brand nav-link sub-text fs-5" href="#">
-                Muzigae Mansion
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="menu-brand nav-link sub-text fs-5" href="#">
-                Kaja
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="menu-brand nav-link sub-text fs-5" href="#">
-                rom&amp;nd
-              </a>
-            </li>
-          </ul>
-          <h3 className="py-3 border-bottom border-2">種類</h3>
+    <aside className="d-none d-md-block col-lg-3 col-md-4 ps-0 mt-0">
+      <div className="position-sticky pt-2 px-3">
+        <section className="mb-4">
+          <h5 className="aside-title">品牌</h5>
           <ul className="nav flex-column">
-            <li className="nav-item">
-              <a className="menu-category nav-link sub-text fs-5" href="#">
-                眼影
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="menu-category nav-link sub-text fs-5" href="#">
-                唇蜜
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="menu-category nav-link sub-text fs-5" href="#">
-                口紅
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="menu-category nav-link sub-text fs-5" href="#">
-                粉底
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="menu-category nav-link sub-text fs-5" href="#">
-                氣墊粉餅
-              </a>
-            </li>
+            {brands.map((brand, i) => (
+              <li key={i} className="nav-item">
+                <a
+                  href="#"
+                  className={`aside-link nav-link px-2 py-2 fs-5 ${currentBrand === brand ? 'active' : ''}`}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setCurrentBrand(currentBrand === brand ? '' : brand)
+                  }}
+                >
+                  {brand}
+                </a>
+              </li>
+            ))}
           </ul>
-        </div>
-      </aside>
-    </>
+        </section>
+
+        <section>
+          <h5 className="aside-title">種類</h5>
+          <ul className="nav flex-column">
+            {categories.map((type, i) => (
+              <li key={i} className="nav-item">
+                <a
+                  href="#"
+                  className={`aside-link nav-link px-2 py-2 fs-5 ${productCategory === type ? 'active' : ''}`}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setProductCategory(productCategory === type ? '' : type)
+                  }}
+                >
+                  {type}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
+    </aside>
   )
 }

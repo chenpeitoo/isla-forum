@@ -1,0 +1,28 @@
+.main-product-section-title {
+  /* font-family: 'Montserrat', 'Noto Sans TC', sans-serif;
+  font-size: 30px;
+  padding: 22px;
+  font-weight: 400;
+  color: rgb(39, 39, 39); */
+}
+.product-list-main-page {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  min-height: 410px;
+}
+@media (max-width: 1400px) {
+  .product-list-main-page {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    min-height: 950px;
+  }
+}
+@media (max-width: 768px) {
+  .product-list-main-page {
+    display: grid !important;
+    grid-template-columns: 1fr;
+    min-height: 1930px;
+  }
+}

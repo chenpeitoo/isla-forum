@@ -1,0 +1,13 @@
+.basic-profile-row {
+  display: flex;
+  color: var(--sub-text);
+  div {
+    min-width: 6rem;
+  }
+  a {
+    color: var(--sub-color);
+  }
+  a:hover {
+    color: var(--main-color);
+  }
+}

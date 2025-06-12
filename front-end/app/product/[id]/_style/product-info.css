@@ -1,0 +1,770 @@
+/* 基本按鈕樣式重置 */
+button {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  cursor: pointer;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0);
+  color: var(--MainText, #373737); /* 修正顏色值 typo */
+}
+.loading-container {
+  display: flex;
+  height: 80vh;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.error-container {
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+  h2 {
+    color: #d97467;
+  }
+}
+
+/* 容器樣式 */
+.container {
+  /* height: 100vh; /* 根據實際內容調整是否需要 100vh */
+  max-width: 1100px;
+  margin-left: auto; /* 容器居中 */
+  margin-right: auto; /* 容器居中 */
+  padding-left: 15px; /* 添加內邊距以適應響應式設計 */
+  padding-right: 15px; /* 添加內邊距以適應響應式設計 */
+  width: 100%; /* 確保容器在小屏幕上佔滿寬度 */
+}
+
+/* 產品主要區塊 */
+.product-main {
+  margin-bottom: 32px;
+  padding-top: 20px; /* 添加一些頂部空間 */
+  background-color: #ffffff;
+  /*--s: 150px; !* control the size*!*/
+  /*--c1: #ffffff;*/
+  /*--c2: #fcfcfc;*/
+
+  /*background:*/
+  /*        linear-gradient(45deg,var(--c1) 12.5%,var(--c2) 0 25%,#0000 0 75%,var(--c2) 0 87.5%,var(--c1) 0)*/
+  /*        calc(var(--s)/2) calc(var(--s)/2),*/
+  /*        linear-gradient(45deg,var(--c2) 12.5%,var(--c1) 0 25%,#0000 0 75%,var(--c1) 0 87.5%,var(--c2) 0),*/
+  /*        repeating-linear-gradient(-45deg,var(--c1) 0 12.5%,var(--c2) 0 25%,var(--c1) 0 37.5%,var(--c2) 0 62.5%);*/
+  /*background-size: var(--s) var(--s);*/
+}
+
+/* 產品資訊標題 */
+.product-indo-title {
+  font-size: 24px;
+  padding: 10px;
+  color: #525252;
+  font-weight: 700;
+  text-align: center; /* 標題居中 */
+  margin-bottom: 20px; /* 添加底部空間 */
+}
+
+/* 相關標籤容器 */
+.relative-tag-box {
+  gap: 6px;
+  padding: 6px 12px;
+  margin-bottom: 20px; /* 添加底部空間 */
+}
+
+/* 相關標籤標題 */
+.relative-tag-title {
+  display: flex;
+  height: 50px;
+  align-items: center;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  color: #737373;
+}
+
+/* 相關標籤列表 */
+.relative-tags {
+  display: flex;
+  flex-wrap: wrap; /* 允許標籤換行 */
+  padding: 0 6px;
+  gap: 10px; /* 標籤之間的間距 */
+}
+
+/* 單個相關標籤 */
+.relative-tag {
+  font-size: 16px;
+  font-weight: 300;
+  color: #ffffff;
+  padding: 6px 15px;
+  border-radius: 50px;
+  position: relative;
+  background: linear-gradient(180deg, #fd7061 0%, #fa8e83 100%);
+  white-space: nowrap; /* 防止標籤文本換行 */
+}
+
+/* 產品展示區塊佈局 */
+.product {
+  display: flex;
+  flex-wrap: wrap; /* 允許項目換行 */
+  align-items: flex-start; /* 頂部對齊 */
+  justify-content: center; /* 居中對齊 */
+  gap: 20px; /* 項目之間的間距 */
+  margin-bottom: 24px;
+}
+
+/* 圖片側邊欄 */
+.pic-bar {
+  /*height: 568px; !* 固定高度可能需要調整響應式 *!*/
+  border-right: 1px solid #d3d3d3;
+  width: fit-content;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px; /* 圖片之間的間距 */
+}
+
+/* 圖片側邊欄項目 */
+.pic-bar-item {
+  height: 64px;
+  width: 64px;
+  object-fit: cover; /* 確保圖片覆蓋容器 */
+  cursor: pointer; /* 添加鼠標指針效果 */
+  border: 1px solid transparent; /* 默認邊框 */
+  transition: border-color 0.3s ease; /* 添加過渡效果 */
+}
+
+[data-yarl__container] {
+  z-index: 99999999 !important;
+}
+
+.pic-bar-item:hover {
+  border-color: var(--MainColor, #fd7061); /* hover 時改變邊框顏色 */
+}
+
+/* 圖片展示區 */
+.pic-show {
+  height: 650px; /* 固定高度可能需要調整響應式 */
+  max-width: 400px; /* 固定寬度可能需要調整響應式 */
+  flex-wrap: wrap;
+  padding: 64px 24px;
+  margin: 0 12px;
+  display: flex; /* 添加 flex 確保圖片居中 */
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* 防止圖片溢出 */
+}
+
+/* 圖片展示項目 */
+.pic-show-item {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+@media (max-width: 768px) {
+  [data-rmiz-ghost] {
+    width: 90vw !important;
+    height: auto !important;
+    left: 5vw !important;
+    top: auto !important;
+    transform: none !important;
+  }
+}
+
+/* 產品索引/信息區塊 */
+.product-index {
+  padding: 24px 22px;
+  /*height: 576px; !* 固定高度可能需要調整響應式 *!*/
+  width: 450px; /* 固定寬度可能需要調整響應式 */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 14px;
+}
+
+.product-main-container {
+  flex-direction: column;
+}
+
+/* 頂部主要信息 */
+.top-main {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px 12px;
+}
+
+/* 品牌標籤 */
+.brand {
+  display: flex;
+  font-size: 16px;
+  font-weight: 300;
+  padding: 5px 12px;
+  border-radius: 50px;
+  color: #ffffff;
+  width: fit-content;
+  background: linear-gradient(
+    0deg,
+    var(--MainColor, #fd7061) 0%,
+    var(--SubColor, #fa8e83) 100%
+  );
+}
+
+/* 產品名稱 */
+.name {
+  color: var(--MainText, #373737);
+  font-size: 32px;
+  font-weight: 700;
+}
+
+/* 產品描述 */
+.description {
+  padding: 0 12px;
+  color: var(--MainText, #676767);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 30px; /* 200% */
+  padding-top: 2px;
+  padding-bottom: 32px;
+}
+
+/* 價格區塊 */
+.price-box {
+  height: 52px;
+  border-radius: 5px;
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  overflow: hidden;
+  margin: 0 12px;
+  display: flex; /* 添加 flex 佈局 */
+}
+
+/* 價格顯示 */
+.price {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0 32px;
+  background: #f6f5f5;
+  color: var(--MainText, #373737);
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+/* 加入購物車按鈕 */
+.add-cart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1; /* 佔滿剩餘空間 */
+  height: 100%;
+  font-size: 18px;
+  font-weight: 400;
+  color: #ffffff;
+  background: var(--SubColor, #fa8e83);
+  cursor: pointer; /* 添加鼠標指針效果 */
+  transition: background 0.3s ease; /* 添加過渡效果 */
+}
+
+.add-cart:hover {
+  background: var(--MainColor, #fd7061); /* hover 時改變背景顏色 */
+}
+
+/* 顏色選擇容器 */
+.color-select-box {
+  display: flex;
+  gap: 20px;
+  padding: 12px 12px;
+  align-items: center; /* 垂直居中 */
+}
+
+/* 顏色選擇標籤 */
+.color-select-box label {
+  color: var(--SubText, #858585);
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* 數量選擇和書籤容器 */
+.number-select-bookmark-box {
+  padding: 24px 12px;
+  display: flex; /* 添加 flex 佈局 */
+  align-items: center; /* 垂直居中 */
+  justify-content: space-between; /* 項目分散對齊 */
+  width: 100%;
+}
+
+/* 顏色選擇器 */
+.color-select {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer; /* 添加鼠標指針效果 */
+}
+
+/* 顏色圓圈 */
+.color-select .color-circle {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #a54e37; /* 示例顏色 */
+  border: 2px solid transparent; /* 默認邊框 */
+  transition: border-color 0.3s ease; /* 添加過渡效果 */
+}
+
+.color-select:hover .color-circle {
+  border-color: var(--MainColor, #fd7061); /* hover 時改變邊框顏色 */
+}
+
+/* 顏色名稱 */
+.color-select .color-name {
+  color: var(--MainText, #373737);
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+/* 書籤 */
+.bookmark {
+  cursor: pointer; /* 添加鼠標指針效果 */
+}
+
+/* 書籤 icon */
+.bookmark i {
+  font-size: 32px;
+  color: rgb(232, 106, 106); /* 默認紅色 */
+  /*-webkit-text-stroke-width: 2px;*/
+  /*-webkit-text-stroke-color: #fd7061;*/
+  /*transition: color 0.3s ease; !* 添加過渡效果 *!*/
+}
+
+.bookmark:hover i {
+  color: #fd7061; /* hover 時顏色變化 */
+}
+
+/* 評論卡片 (原始 cat-card 樣式 - 請確認是否需要此部分或僅使用 .comment-card) */
+/* 如果只需要 .comment-card 樣式，可以刪除以下區塊 */
+.cat-card {
+  width: 700px; /* 考慮響應式調整 */
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  margin-bottom: 50px; /* 添加底部空間 */
+  padding: 15px;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0);
+  /*box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.1);*/
+}
+
+.cat-card .cat-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0; /* 防止頭部被壓縮 */
+}
+
+.cat-star-box {
+  justify-content: center;
+}
+
+.cat-head-user {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 6px;
+  gap: 6px;
+}
+
+.cat-head-user .username-cat {
+  color: var(--MainColor, #fd7061);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.user-img {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid var(--subElement, #ececec);
+  /*margin-bottom: 12px;*/
+}
+
+.user-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.star-box {
+  display: flex;
+  font-size: 14px;
+  width: 100%;
+}
+
+.star-box .star {
+  color: #bebebe;
+}
+
+.star-box .star-active {
+  color: #fd7061;
+}
+
+.cat-body {
+  padding: 6px 6px;
+  color: #626262;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px; /* 調整行高 */
+  flex-grow: 1; /* 佔滿剩餘空間 */
+}
+/* 結束 cat-card 樣式 */
+
+/* 產品信息區塊 */
+.product-info {
+  background: var(--White, #fbfbfb);
+  padding: 50px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 評論組件容器 */
+.comment-component {
+  padding: 32px 0;
+  display: flex;
+  flex-wrap: wrap; /* 允許換行 */
+  gap: 30px; /* 側邊欄與評論列表之間的間距 */
+  justify-content: center; /* 居中對齊 */
+  border-bottom: 3px solid #f0f0f0;
+  margin-bottom: 32px;
+}
+
+@media (max-width: 1098px) {
+  .product {
+    width: 90%;
+  }
+  .pic-show {
+    /*width: 100%;*/
+  }
+  .product-index {
+    width: 100%;
+  }
+  .comment-component {
+    padding: 16px 0;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 6px;
+    justify-content: center;
+  }
+  .pic-bar {
+    flex-direction: row;
+    width: 100%;
+    height: fit-content;
+    border: 0;
+  }
+  .comment-cat {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .product-main-container .product {
+    flex-direction: column; /* 將 .product 的方向改為垂直 */
+  }
+
+  .product-main-container .product .pic-bar {
+    order: 1; /* 將 pic-bar 排在第二個位置 (在 pic-show 之後) */
+    justify-content: center; /* 讓縮圖在水平方向居中 (可選) */
+    /* 可以根據需要調整 pic-bar 的其他樣式，例如 margin-top */
+    margin-top: 15px;
+  }
+
+  .product-main-container .product .pic-show {
+    order: 0; /* 將 pic-show 排在第一個位置 (預設) */
+    /* 可以根據需要調整 pic-show 的樣式 */
+  }
+
+  .product-main-container .product .product-index {
+    order: 2; /* 將 product-index 排在第三個位置 */
+    /* 可以根據需要調整 product-index 的樣式 */
+  }
+
+  .cat-card {
+    width: 80%;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .cat-card .cat-head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0; /* 防止頭部被壓縮 */
+  }
+
+  .cat-star-box {
+    justify-content: center;
+  }
+
+  .cat-head-user {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 6px;
+    gap: 6px;
+  }
+
+  .cat-head-user .username-cat {
+    color: var(--MainColor, #fd7061);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+
+  .relative-products-cards {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*background: rgba(0, 0, 0, 0.35);*/
+    flex-wrap: wrap;
+    gap: 32px;
+    width: 90%;
+    padding-top: 32px;
+    /*margin-bottom: 280px;*/
+    padding-bottom: 32px;
+    margin-bottom: 0;
+  }
+}
+
+/* 響應式設計調整 1098 */
+@media (max-width: 768px) {
+  .user-img {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid var(--subElement, #ececec);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /*margin-bottom: 12px;*/
+  }
+
+  .product {
+    flex-direction: column; /* 在小屏幕上垂直排列 */
+    align-items: center;
+  }
+  .product-main-container .product {
+    flex-direction: column; /* 將 .product 的方向改為垂直 */
+  }
+
+  .product-main-container .product .pic-bar {
+    order: 2; /* 將 pic-bar 排在第二個位置 (在 pic-show 之後) */
+    justify-content: center; /* 讓縮圖在水平方向居中 (可選) */
+    /* 可以根據需要調整 pic-bar 的其他樣式，例如 margin-top */
+    margin-top: 15px;
+  }
+
+  .product-main-container .product .pic-show {
+    order: 1; /* 將 pic-show 排在第一個位置 (預設) */
+    /* 可以根據需要調整 pic-show 的樣式 */
+  }
+
+  .product-main-container .product .product-index {
+    order: 0; /* 將 product-index 排在第三個位置 */
+    /* 可以根據需要調整 product-index 的樣式 */
+  }
+
+  .product-index .index-bottom {
+    position: fixed; /* 脫離文檔流並相對於視窗定位 */
+    left: 0; /* 靠左對齊視窗左邊緣 */
+    bottom: 0; /* 靠下對齊視窗底部 */
+    width: 100%; /* 佔據視窗的整個寬度 */
+    z-index: 1000; /* 設定較高的 z-index，確保它在其他內容之上 */
+    padding: 24px 18px 48px 18px; /* 可選：添加一些內距，讓內容不緊貼邊緣 */
+    /* 可以根據需要添加其他樣式，例如 border-top */
+    /*border-top: 1px solid #eee;*/
+    background: rgba(239, 239, 239, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 8px 8px 0 0;
+  }
+
+  .color-select-box {
+    padding: 8px 38px 8px 38px;
+  }
+
+  .number-select-bookmark-box {
+    padding: 16px 38px 36px 38px;
+  }
+
+  .pic-bar-item {
+    /* 可以根據手機版調整縮圖的大小 */
+    height: 72px; /* 調整圖片大小 */
+    width: 72px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .pic-bar {
+    height: auto; /* 高度自動 */
+    flex-direction: row; /* 在小屏幕上水平排列 */
+    width: 100%; /* 佔滿寬度 */
+    justify-content: center; /* 居中對齊 */
+    padding: 10px 0;
+  }
+
+  .pic-show {
+    height: 500px; /* 調整圖片展示區高度 */
+    /*width: 100%; !* 佔滿寬度 *!*/
+    padding: 20px;
+    margin: 0;
+  }
+
+  .product-index {
+    width: 100%; /* 佔滿寬度 */
+    height: auto; /* 高度自動 */
+    padding: 8px;
+  }
+
+  /*.comment-component {*/
+  /*  flex-direction: column; !* 在小屏幕上垂直排列 *!*/
+  /*  padding: 30px 15px;*/
+  /*  gap: 20px;*/
+  /*}*/
+
+  /*.comment-sidebar {*/
+  /*  width: 100%; !* 佔滿寬度 *!*/
+  /*  align-items: center; !* 內容居中 *!*/
+  /*}*/
+
+  /*.comment-sidebar-rating {*/
+  /*  flex-direction: column; !* 垂直排列評分數字和星級 *!*/
+  /*  gap: 10px;*/
+  /*}*/
+
+  /*.comment-sidebar-rating-bars {*/
+  /*  display: none;*/
+  /*  width: 100%; !* 佔滿寬度 *!*/
+  /*  padding: 0 20px; !* 添加內邊距 *!*/
+  /*}*/
+
+  /*.rating-bar-label {*/
+  /*  width: auto; !* 自動寬度 *!*/
+  /*  text-align: left; !* 左對齊 *!*/
+  /*  padding-right: 10px;*/
+  /*}*/
+
+  /*.rating-bar {*/
+  /*  width: auto; !* 自動寬度 *!*/
+  /*  flex-grow: 1; !* 佔滿剩餘空間 *!*/
+  /*}*/
+
+  /*.comment-sidebar-photos-box {*/
+  /*  !*display: none;*!*/
+  /*}*/
+
+  /*!*.comment-sidebar-photos {*!*/
+  /*!*    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); !* 自動調整列數 *!*!*/
+  /*!*    max-width: none; !* 移除最大寬度限制 *!*!*/
+  /*!*    gap: 10px;*!*/
+  /*!*}*!*/
+
+  /*.comment-box {*/
+  /*  padding: 0 15px;*/
+  /*  min-width: auto; !* 移除最小寬度限制 *!*/
+  /*}*/
+
+  /*.comment_img {*/
+  /*  !* 如果這個類名用於絕對定位圖片，在響應式中可能需要調整或移除 *!*/
+  /*  position: static; !* 移除絕對定位 *!*/
+  /*  height: auto;*/
+  /*  margin-top: 10px; !* 添加間距 *!*/
+  /*}*/
+
+  /*.comment_img .comment_img_box {*/
+  /*  width: 50px; !* 調整圖片大小 *!*/
+  /*  height: 50px;*/
+  /*}*/
+
+  /*.comment_img:hover .comment_img_box {*/
+  /*  width: 50px; !* 在小屏幕上 hover 時不改變大小 *!*/
+  /*  height: 50px;*/
+  /*}*/
+
+  .relative-products-cards {
+    padding: 16px 0;
+    margin-bottom: 280px;
+  }
+}
+
+.relative-products {
+  /*暫時高度*/
+  /*height: 759px;*/
+  background: linear-gradient(
+    180deg,
+    var(--White, #fbfbfb) 0%,
+    #fcf5f0 25%,
+    var(--White, #fbfbfb) 100%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* relative */
+.relative-products-title-box {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.relative-products-title-main {
+  color: var(--SubText, #858585);
+  text-align: center;
+  font-family: 'Noto Sans TC';
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 48px; /* 150% */
+}
+
+.relative-products-title-sub {
+  color: var(--SubText, #858585);
+  font-family: 'Noto Sans TC';
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 48px;
+}
+.relative-products-cards {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 64px;
+  flex-wrap: wrap;
+  padding-top: 32px;
+  padding-bottom: 64px;
+}

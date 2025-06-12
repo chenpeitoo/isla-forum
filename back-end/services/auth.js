@@ -12,6 +12,7 @@ const authSchema = {}
 authSchema.loginData = z.object({
   username: z.string().min(1).max(50), // 1-50個字元，必要
   password: z.string().min(5).max(30), // 5-30個字元，必要
+  isAdmin: z.boolean().optional(),
 })
 
 // 產生otp的驗證用的schema
@@ -48,6 +49,11 @@ export const login = async (loginData) => {
   // isValid=false 代表密碼錯誤
   if (!isValid) {
     throw new Error('密碼錯誤')
+  }
+
+  const allowedAdminEmails = ['admin@isla.com']
+  if (loginData.isAdmin && !allowedAdminEmails.includes(user.email)) {
+    throw new Error('你沒有後台管理員登入權限')
   }
 
   // 不回傳密碼，刪除密碼屬性

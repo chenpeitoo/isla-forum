@@ -1,0 +1,49 @@
+/* 統一卡片高度 */
+.comments-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* 限制文字最多顯示 3 行，超出省略 */
+.box5-card-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 4.5em; /* 約三行文字的高度 */
+}
+
+/* 保證整體卡片高度一致 */
+.card.box5-comment-p {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+/* 卡片邊框閃爍動畫 */
+.highlight-animate {
+  animation: highlightBorder 1s ease-in-out 0s 3; /* 重複 3 次 */
+  border: 2px solid transparent; /* 起始邊框 */
+  border-radius: 8px;
+}
+
+/* 自定義邊框動畫 */
+@keyframes highlightBorder {
+  0% {
+    border-color: transparent;
+    box-shadow: none;
+  }
+  50% {
+    border-color: #ecaa1c;
+    /* box-shadow: 0 0 8px 1px var(--main-color); */
+  }
+  100% {
+    border-color: transparent;
+    box-shadow: none;
+  }
+}
+.highlight-animate {
+  transition: border-color 0.2s ease;
+}

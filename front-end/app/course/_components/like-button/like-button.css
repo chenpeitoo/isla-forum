@@ -1,0 +1,33 @@
+.btn-like {
+  font-size: 1rem;
+  color: var(--main-color);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+/* 尚未點讚時滑過圖示預覽變色 */
+.btn-like[data-liked='false']:hover .like-icon {
+  color: #fb9776;
+}
+
+/* 點讚後常駐顏色 */
+.btn-like.liked .like-icon {
+  color: var(--main-color);
+}
+
+/* 點讚動畫：放大縮小 */
+@keyframes pop-like {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.like-icon.animate-pop {
+  animation: pop-like 0.3s ease;
+}

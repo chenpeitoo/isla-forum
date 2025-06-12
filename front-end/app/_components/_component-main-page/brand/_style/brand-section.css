@@ -1,0 +1,39 @@
+.brand-carousel {
+  overflow: hidden;
+  width: 100%;
+  padding: 20px 0;
+}
+
+.brand-track {
+  display: flex;
+  animation: scroll-loop 20s linear infinite;
+  animation-play-state: running;
+  width: max-content;
+}
+.brand-carousel:hover .brand-track {
+  animation-play-state: paused;
+}
+
+.brand-logo {
+  flex-shrink: 0;
+  margin: 0 24px;
+  opacity: 0.8;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.brand-logo:hover {
+  transform: scale(1.05);
+  opacity: 1;
+  cursor: pointer;
+}
+
+@keyframes scroll-loop {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-33.3333%);
+  }
+}
