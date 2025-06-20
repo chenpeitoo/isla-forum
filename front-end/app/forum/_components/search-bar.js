@@ -4,8 +4,6 @@ import { useState, useRef } from 'react'
 import { useFilter } from '../_context/filterContext'
 
 export default function ComponentsSearchBar({
-  postCateItems = [],
-  productCateItems = [],
   handleAsideSearchChange = () => {},
 }) {
   // const router = useRouter()
@@ -16,6 +14,8 @@ export default function ComponentsSearchBar({
     productCate,
     setPostCate,
     postCate,
+    productCateItems,
+    postCateItems,
   } = useFilter()
   const keywordInputRef = useRef()
   const [isSearchEmpty, setSearchEmpty] = useState(true)
@@ -177,7 +177,6 @@ export default function ComponentsSearchBar({
           </div>
         </div>
       </aside>
-      {/* </div> */}
     </>
   )
 }

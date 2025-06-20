@@ -1,35 +1,47 @@
+'use client'
+
+import React, { useState, useEffect } from 'react'
 import useSWRInfinite from 'swr/infinite'
 
-const PAGE_SIZE = 3
 const fetcher = (url) => fetch(url).then((res) => res.json())
 
 export default function GetPostsInfinite(params) {
-  // http://localhost:3005/api/forum/posts/home?page=1&limit=3
-  const getKey = (pageIndex, previousPageData) =>
-    // 如果上一頁回傳 data 陣列長度為 0，就停止往下抓
-    previousPageData && previousPageData.data.length === 0
-      ? null
-      : params
-        ? `http://localhost:3005/api/forum/posts/home?${params}&page=${pageIndex + 1}&limit=${PAGE_SIZE}`
-        : `http://localhost:3005/api/forum/posts/home?page=${pageIndex + 1}&limit=${PAGE_SIZE}`
+  console.log(params.toString())
+  // SWR 預設機制會把第一頁的 response 當作 previous 傳給 getKey(1, previous)。
+  const getKey = (pageIdx, previous) => {
+    if (previous && !previous.data.lastCursor) return null //最後一組資料則不fetch
 
-  const { data, size, setSize, isLoading, mutate, error } = useSWRInfinite(
+    const cursor = previous?.data?.lastCursor
+      ? `cursor=${previous.data.lastCursor.popular}&postID=${previous.data.lastCursor.id}`
+      : ''
+    return `http://localhost:3005/api/forum/posts/home?${cursor}&${params}`
+  }
+
+  const { data, error, isLoading, mutate, size, setSize } = useSWRInfinite(
     getKey,
-    fetcher
+    fetcher,
+    {
+      revalidateFirstPage: false, // 避免無意義重撈 QU
+      suspense: false, //QU
+    }
   )
 
-  // 把每一頁的 page.data 拿出來，然後攤平成一個 array
-  const posts = data ? data.map((page) => page.data).flat() : []
+  const posts = data ? data.flatMap((page) => page?.data?.posts ?? []) : []
+  const lastCursor = data?.at(-1)?.data?.lastCursor?.popular
 
-  // 判斷最後一頁的資料長度是否有滿 PAGE_SIZE，用來決定是否還有更多
-  const hasMore = data ? data[data.length - 1].data.length === PAGE_SIZE : true
+  // 新增 minimum loading 狀態
+  const [showLoading, setShowLoading] = useState(true)
+  useEffect(() => {
+    if (!isLoading) {
+      // 至少顯示 600ms
+      const timer = setTimeout(() => setShowLoading(false), 300)
+      return () => clearTimeout(timer)
+    } else {
+      setShowLoading(true)
+    }
+  }, [isLoading])
 
-  return {
-    posts,
-    loadMore: () => setSize(size + 1),
-    hasMore,
-    isLoading,
-    mutate,
-    error,
-  }
+  const hasMore = lastCursor !== undefined
+
+  return { posts, size, setSize, showLoading, error, mutate, hasMore }
 }

@@ -6,7 +6,7 @@ import ContentLoader from 'react-content-loader'
 export default function PostLoader() {
   const id = useId()
   return (
-    <div className="post-home d-flex flex-column gap-1 ps-4 py-3 rounded-3 shadow-forum bg-pure-white card-border">
+    <div className="post-home d-flex flex-column gap-1 ps-4 py-3 mx-3 rounded-3 shadow-forum bg-pure-white card-border">
       <div className="overflow-hidden">
         <ContentLoader
           speed={2}

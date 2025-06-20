@@ -1,24 +1,18 @@
 /* module */
 * {
   /* overscroll-behavior: none; */
+  &::-webkit-scrollbar {
+    display: none;
+  }
   /* outline: 1px solid blue; */
 }
 .body {
-  /* position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: -999; */
-  /* min-height: 100vh; */
-  /* box-sizing: border-box; */
-  /* outline: 1px solid #2a8aff; */
   font-family: 'Noto Sans TC', 'Montserrat';
   letter-spacing: 0.2;
 
   --main-color: #fd7061;
   --accent-color: #fd4f3c;
   --sub-color: #fa8e83;
-  /* --bg-gray-article: #f2f1ef; */
   --bg-gray-article: #f7f7f7;
   --hover-gray: #dfdfdf;
   --hover-gray-dark: #d2d2d2;
@@ -30,38 +24,6 @@
   --stroke-color: #bebebe80;
   --badge-color: #f4b12b;
   --border-color-forum: #48484821;
-  /* overscroll-behavior: none; */
-
-  .button-clear {
-    border: 0px solid #ffffff00;
-    background-color: transparent;
-    padding: 0;
-    /* overflow: visible;
-    position: relative;
-    z-index: 1; */
-  }
-  /* .dropdown-forum {
-    background-color: white;
-    .dropdown-item {
-      color: var(--main-text);
-      &:hover {
-        background-color: var(--hover-gray);
-      }
-      &:focus {
-        background-color: var(--focus-gray);
-      }
-    }
-  } */
-  .dropdown-menu {
-    border: 1px solid var(--border-color-forum);
-    background: white;
-    box-shadow: 0px 8px 16px #00000010;
-    min-width: 0;
-    width: auto;
-  }
-  .detail-loader {
-    height: calc(100vh - 96px);
-  }
 }
 
 .bg-article {
@@ -138,14 +100,10 @@
   border-bottom: 1px solid var(--stroke-color) !important;
 }
 .card-border {
-  /* border: 1px solid #4e221d1d; */
   border: 0.5px solid var(--border-color-forum);
 }
-/* .top-stroke {
-  border-top: 1px solid var(--stroke-color) !important;
-} */
+
 .shadow-forum {
-  /* box-shadow: 0 0 8px #5447340d; fb */
   box-shadow: 0 0 12px 0 #00000015;
 }
 
@@ -325,11 +283,9 @@
     scale: 0.95;
   }
 }
-.no-scroll-bar::-webkit-scrollbar {
-  /* width: 0; 垂直滾動條寬度 */
-  /* height: 0; 水平滾動條高度 */
+/* .no-scroll-bar::-webkit-scrollbar {
   display: none;
-}
+} */
 .scroll-bar-settings {
   &::-webkit-scrollbar {
     width: 8px; /* 垂直滾動條寬度 */
@@ -343,6 +299,22 @@
     border-radius: 6px; /* 圓角 */
     /* border: 2px solid #ffffff; 留白效果 */
   }
+}
+.button-clear {
+  border: 0px solid #ffffff00;
+  background-color: transparent;
+  padding: 0;
+}
+
+.dropdown-menu {
+  border: 1px solid var(--border-color-forum);
+  background: white;
+  box-shadow: 0px 8px 16px #00000010;
+  min-width: 0;
+  width: auto;
+}
+.detail-loader {
+  height: calc(100vh - 96px);
 }
 /* 課程 */
 .author-info {

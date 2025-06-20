@@ -1,11 +1,10 @@
 'use client'
 
-import React, { useState, createContext, useContext } from 'react'
+import { useState, createContext, useContext } from 'react'
 
 const FilterContext = createContext()
 
 export function FilterProvider({ children }) {
-  // const [tab, setTab] = useState(0)
   const [keyword, setKeyword] = useState('')
   const [productCate, setProductCate] = useState([])
   const [postCate, setPostCate] = useState([])
@@ -23,8 +22,6 @@ export function FilterProvider({ children }) {
   return (
     <FilterContext.Provider
       value={{
-        // tab,
-        // setTab,
         productCateItems,
         postCateItems,
         keyword,

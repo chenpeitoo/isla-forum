@@ -14,7 +14,7 @@ export default function CartDropdown({ totalCount, cartItems, onCartClick }) {
   const handleMouseLeave = () => {
     timerRef.current = setTimeout(() => setIsOpen(false), 120)
   }
-  console.log('totalCount:', totalCount)
+  // console.log('totalCount:', totalCount)
 
   return (
     <div

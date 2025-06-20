@@ -1,28 +1,22 @@
-// 改進(1)避免sql injection (2)抽取postsQuery成函式 (3)統一data型別 (4)補上try/catch
-
 import express from 'express'
 import multer from 'multer'
 import db from '../../config/mysql.js' // 使用mysql
 import path from 'path'
-import dayjs from 'dayjs'
-import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 
 const router = express.Router()
-dayjs.extend(customParseFormat)
 
-const DEFAULT_MAX_POST_ID = 99999999999999
-const DEFAULT_MAX_CURSOR = 99999999999999
-
-function buildPostsQuery({ where = '', order = '', limit = '' }) {
-  let sql = `
-    SELECT 
+// 得到多筆文章
+// 後端送出的post_user_liked, post_user_saved 為字串
+router.get('/:pageName', async function (req, res) {
+  // 取得userID
+  const postsQuery = `SELECT 
         p.*,
         pc.id AS cate_id,
         pc.name AS cate_name,
         u.nickname AS user_nick,
         u.ava_url AS user_img,
         IFNULL (liked.user_ids, '') AS liked_user_ids,
-        IFNULL( liked.count + saved.count + comment.count, 0) AS popular,
+        IFNULL( liked.likes, 0) AS likes,
         IFNULL (saved.user_ids, '') AS saved_user_ids,
         IFNULL (comment.count, 0) AS comment_count
     FROM post p
@@ -31,14 +25,13 @@ function buildPostsQuery({ where = '', order = '', limit = '' }) {
     LEFT JOIN (
         SELECT post_id,
         GROUP_CONCAT(user_id) AS user_ids,
-        COUNT(user_id) AS count
+        COUNT(user_id) AS likes
         FROM post_user_liked
         GROUP BY post_id
     ) liked ON p.id = liked.post_id
     LEFT JOIN (
         SELECT post_id,
-        GROUP_CONCAT(user_id) AS user_ids,
-        COUNT(user_id) AS count
+        GROUP_CONCAT(user_id) AS user_ids
         FROM post_user_saved
         GROUP BY post_id
     ) saved ON p.id = saved.post_id
@@ -49,141 +42,142 @@ function buildPostsQuery({ where = '', order = '', limit = '' }) {
       GROUP BY post_id
     ) comment ON p.id = comment.post_id
     WHERE p.valid=1`
-  if (where) sql += ` AND ${where}`
-  if (order) sql += ` ORDER BY ${order}`
-  if (limit) sql += ` LIMIT ${limit}`
 
-  return sql
-}
-function tidy(data) {
-  return data?.map((post) => {
-    return {
-      ...post,
-      liked_user_ids: post.liked_user_ids
-        ? post.liked_user_ids.split(',').map(Number)
-        : [],
-      saved_user_ids: post.saved_user_ids
-        ? post.saved_user_ids.split(',').map(Number)
-        : [],
-      updated_at: dayjs(post.updated_at, 'YYYY-MM-DD HH:mm:ss'),
-    }
-  })
-}
+  const userID = req.body.userID || req.query.userID || 0
+  const pageName = req.params.pageName
+  let postsResult
+  let morePostsResult
+  let isResultExist = true
+  let otherPosts
 
-router.get('/home', async function (req, res) {
-  try {
-    const tabQuery = req.query.tab
-    const keywordQuery = req.query.keyword
-    const productCateQuery = req.query.productCate?.split(',').map(Number)
-    const postCateQuery = req.query.postCate?.split(',').map(Number)
-    // console.log({ tabQuery, keywordQuery, productCateQuery, postCateQuery })
-
-    let sqlHome
-    let posts
-    let otherPostsData = []
-    let wherePlaceholder = []
-    let whereParams = []
-
-    if (keywordQuery) {
-      wherePlaceholder.push(` (p.title LIKE ? OR p.content LIKE ?)`)
-      whereParams.push(`%${keywordQuery}%`, `%${keywordQuery}%`)
-    }
-    if (productCateQuery) {
-      wherePlaceholder.push(
-        ` p.product_cate_id IN (${productCateQuery.map(() => '?').join(',')})`
+  switch (pageName) {
+    case 'post-detail': {
+      const postID = req.query.postID
+      postsResult = await db.query(`${postsQuery} AND p.id=${postID}`)
+      morePostsResult = await db.query(
+        `${postsQuery} 
+        AND p.cate_id = (SELECT cate_id FROM post WHERE id = ${postID}) 
+        AND p.id != ${postID} ORDER BY likes DESC LIMIT 4`
       )
-      whereParams.push(...productCateQuery)
-    }
-    if (postCateQuery) {
-      wherePlaceholder.push(
-        ` p.cate_id IN (${postCateQuery.map(() => '?').join(',')})`
-      )
-      whereParams.push(...postCateQuery)
-    }
-
-    if (tabQuery || keywordQuery || productCateQuery || postCateQuery) {
-      sqlHome = buildPostsQuery({
-        where: wherePlaceholder.join('AND'),
+      // QU 為什麼likes不能是p.likes？
+      // if (postsResult || morePostsResult) {
+      return res.json({
+        status: 'success',
+        data: { posts: postsResult[0], morePosts: morePostsResult[0] },
       })
-      whereParams.push(...tabQuery, ...keywordQuery, ...productCateQuery)
-      console.log({ clg: '------', sqlHome, whereParams })
-      // posts = await db.query(sqlHome, [whereParams])
-      // const postsIdArr = posts[0].map((v) => v.id)
-      // console.log(postsIdArr)
-      // const [allPostsData] = await db.query(buildPostsQuery({}))
-      // otherPostsData = allPostsData?.filter((v) => !postsIdArr.includes(v.id))
+      // }
+      // break
     }
+    case 'home': {
+      console.log('----------home---------')
+      const tab = req.query.tab
+      const keyword = req.query.keyword
+      const productCate = req.query.productCate?.split(',')
+      const postCate = req.query.postCate?.split(',')
+      // console.log({ keyword, productCate, postCate })
 
-    const cursor = req.query.cursor || DEFAULT_MAX_CURSOR
-    const postID = req.query.postID || DEFAULT_MAX_POST_ID
+      // WHERE p.title LIKE ? OR p.content LIKE ? AND p.cate_id = ? AND p.product_cate_id = ?
+      // 冷靜的找到篩選問題是括號，我好棒！
+      if (tab || keyword || productCate || postCate) {
+        const tabValue = tab !== '1' ? 'updated_at' : 'likes'
+        // console.log(tab, tabValue)
+        postsResult = await db.query(`${postsQuery} ORDER BY ${tabValue} DESC`)
+        if (keyword || productCate || postCate) {
+          const keywordClause = keyword
+            ? `(p.title LIKE ? OR p.content LIKE ?)`
+            : ''
+          //WHERE (p.title LIKE '%清爽%' OR p.content LIKE '%清爽%') AND ORDER BY updated_at DESC",
+          const keywordValue = keyword ? `%${keyword}%` : ''
+          const productClause = productCate
+            ? `p.product_cate_id IN (${productCate.map((c) => '?').join(',')})`
+            : ''
+          const productValue = productCate ?? []
+          const postClause = postCate
+            ? `p.cate_id IN (${postCate.map((c) => '?').join(',')})`
+            : ''
+          const postValue = postCate ?? []
 
-    const cursorClause =
-      tabQuery === 2
-        ? ``
-        : `(
-        IFNULL(liked.count + saved.count + comment.count, 0) < ${cursor} 
-        OR (
-          IFNULL(liked.count + saved.count + comment.count, 0) = ${cursor} 
-          AND p.id < ${postID}
-        )
-      )`
-    const orderClause =
-      tabQuery === 2
-        ? `p.updated_at DESC, p.id DESC`
-        : `IFNULL( liked.count + saved.count + comment.count, 0) DESC, p.id DESC`
+          const totalClause = [keywordClause, productClause, postClause]
+            .filter((c) => c.length > 0)
+            .join(' AND ')
 
-    const limit = 5
-    sqlHome = buildPostsQuery({
-      where: cursorClause,
-      order: orderClause,
-      limit: limit,
-    })
-    posts = await db.query(sqlHome)
-    const postsData = posts[0] ?? []
-    const postsTidy = tidy(postsData)
+          const totalValue = [
+            keywordValue,
+            keywordValue,
+            ...productValue,
+            ...postValue,
+          ].filter(Boolean)
 
-    const last = postsTidy.at(-1)
-    const lastCursor =
-      posts[0].length === limit ? { popular: last.popular, id: last.id } : null // 若資料是最尾端了，則cursor為null
+          postsResult = await db.query(
+            `${postsQuery} AND ${totalClause} ORDER BY ${tabValue} DESC`,
+            totalValue
+          )
+        }
+      } else {
+        postsResult = await db.query(`${postsQuery} ORDER BY likes DESC`)
+        // const { page = '1', limit = '5' } = req.query
+        // const offset = (parseInt(page) - 1) * parseInt(limit)
 
-    console.log(sqlHome)
-    return res.json({
-      status: 'success',
-      data: { posts: postsTidy, lastCursor },
-    })
-  } catch (error) {
-    res.status(500).json({ status: 'error', message: error.message })
+        // postsResult = await db.query(
+        //   `${postsQuery} ORDER BY likes DESC LIMIT ? OFFSET ?`,
+        //   [parseInt(limit), offset]
+        // )
+      }
+      if (postsResult[0].length === 0) {
+        isResultExist = false
+        otherPosts = await db.query(`${postsQuery} ORDER BY likes DESC`)
+      }
+      // console.log('有資料')
+      // console.log('---------' + isResultExist)
+      break
+    }
+    case 'profile': {
+      // req網址 http://localhost:3005/api/forum/posts/profile?authorID=${authorID}
+      const authorID = req.query.authorID
+      postsResult = await db.query(`${postsQuery} AND p.user_id = ${authorID}`)
+      // user FIXME 判斷有無追蹤、userName等等
+      break
+    }
+    case 'my-post': {
+      postsResult = await db.query(
+        `${postsQuery} AND p.user_id = ${userID} ORDER BY p.updated_at DESC`
+      )
+      break
+    }
+    case 'saved-post': {
+      postsResult = await db.query(
+        `${postsQuery} ORDER BY p.updated_at DESC LIMIT 4`
+      )
+      // console.log(postsResult[0])
+      // postsResult[0] = postsResult[0].filter((p) =>
+      //   p.saved_user_ids.split(',').map(Number).includes(userID)
+      // )
+      console.log(postsResult[0])
+      break
+    }
+    case 'tidy': {
+      postsResult = await db.query(postsQuery)
+      break
+    }
   }
-})
 
-router.get('/post-detail', async function (req, res) {
-  try {
-    const postID = req.query.postID
-    const sqlDetail = buildPostsQuery({ where: `p.id = ${postID}` })
-    const postsResult = await db.query(sqlDetail)
-
-    const sqlMorePosts = buildPostsQuery({
-      where: `p.cate_id = (SELECT cate_id FROM post WHERE id = ${postID}) AND p.id != ${postID} ORDER BY popular DESC LIMIT 4`,
-    })
-    const morePostsResult = await db.query(sqlMorePosts)
-
-    console.log(sqlMorePosts)
-
-    return res.json({
-      status: 'success',
-      data: { posts: postsResult[0], morePosts: morePostsResult[0] },
-    })
-  } catch (error) {
-    res.status(500).json({ status: 'error', message: error.message })
-  }
+  // const [posts] = postsResult
+  return res.json({
+    status: 'success',
+    data: postsResult[0],
+    isResultExist,
+    otherPosts: otherPosts?.[0],
+  })
 })
 
 // 新增一筆文章 - 網址：POST /api/forum/posts
 const storage = multer.diskStorage({
   destination: path.join(import.meta.dirname, '../../public/images/forum'),
+  // QU path是內建方法嗎？
   filename: (req, file, cb) => {
     const userID = req.body.userID
     const filename = path.basename(file.originalname)
+    // const ext = path.extname(file.originalname)
     cb(null, `${userID}_${Date.now()}_${filename}`)
   },
 })
@@ -221,11 +215,13 @@ router.put('/', upload.none(), async function (req, res) {
   // 用try/catch捕獲了一個本來淹沒在終端機、看不出所以然的錯誤，覺得自己又更像工程師了
   try {
     const { postID, productCate, postCate, title, content, userID } = req.body
+    // console.log(req.body.postID)
     const [result] = await db.query(
       `UPDATE post SET title=?, content=?, updated_at=NOW(), user_id=?, cate_id=?, product_cate_id=? WHERE id=?`,
       [title, content, userID, postCate, productCate, postID]
     )
     if (result.affectedRows === 0) throw new Error('沒有資料被更改(put)')
+    // console.log(result)
     return res.json({ status: 'success', data: null })
   } catch (error) {
     console.log(error)
@@ -245,6 +241,7 @@ router.put('/soft-delete/:postID', async function (req, res) {
   } catch (error) {
     return res.json({ status: 'error', message: error.message })
   }
+  // return res.json({ status: 'success', data: null })
 })
 
 // header 搜尋

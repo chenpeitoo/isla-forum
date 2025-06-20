@@ -7,7 +7,6 @@ import Footer from './_components/footer/footer'
 import Path from './_components/path/path'
 import '@/app/_styles/globals.scss'
 import Provider from './provider'
-import Chat from './service-chat/chat'
 import ToastClient from './_components/toast-client'
 import { relative } from 'path'
 

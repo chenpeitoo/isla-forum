@@ -14,7 +14,6 @@ import CommentSection from './comment-section'
 import CommentInput from './comment-input'
 import Link from 'next/link'
 import PostDetailLoader from '../_components/loader-detail'
-import { UseDirectToLogin } from '../_hooks/useDirectToLogin'
 import { toast } from 'react-toastify'
 
 const fetcher = (url) => fetch(url).then((res) => res.json())
@@ -34,6 +33,8 @@ export default function PostIDPage(props) {
   let posts = data?.data?.posts
   let post = {}
   let morePosts = data?.data?.morePosts
+
+  console.log(data)
 
   // 新增 minimum loading 狀態
   const [showLoading, setShowLoading] = useState(true)
@@ -109,16 +110,11 @@ export default function PostIDPage(props) {
       { method: 'PUT' }
     )
     if (!res.ok) throw new Error('未成功連線')
-    // 已刪除提示 FIXME
     router.push('/forum')
     toast.info('已成功刪除貼文')
   }
-
-  // const handleDirectLogin = UseDirectToLogin(isAuth)
-  // console.log(post)
   return (
     <>
-      {/* <PostDetailLoader /> */}
       <main className="main col col-10 col-xl-8 d-flex flex-column align-items-center px-0 h-100">
         {error ? (
           <div className="fs24 d-flex flex-column align-items-center mx-auto mt-3 gap-2">
@@ -226,12 +222,7 @@ export default function PostIDPage(props) {
                   mutate={mutate}
                   color={''}
                 />
-                <button
-                  className="evaluate px-2 py-1 border-0 rounded-3 d-flex align-items-center"
-                  // onClick={() => {
-                  //   router.push('#scrollToBottom')
-                  // }}
-                >
+                <button className="evaluate px-2 py-1 border-0 rounded-3 d-flex align-items-center">
                   <i className="bi bi-chat me-1 fs16" />
                   {post.comment_count}
                 </button>
@@ -302,7 +293,6 @@ export default function PostIDPage(props) {
             postTitle=""
             postContent=""
             isUpdated={false}
-            // mutate={mutate}
           />
           <ConfirmModal
             title="確定刪除嗎？"

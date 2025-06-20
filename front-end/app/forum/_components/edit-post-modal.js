@@ -9,6 +9,7 @@ import UseImg from '../_hooks/useImg'
 import GetPosts from '../_hooks/getPosts'
 import Ripples from 'react-ripples'
 import { toast } from 'react-toastify'
+import GetPostsInfinite from '../_hooks/getPostsInfinite'
 // import '/bootstrap/dist/js/bootstrap.bundle.min.js' 無法直接引入
 
 export default function EditPostModal({
@@ -28,7 +29,7 @@ export default function EditPostModal({
   const userNick = user.nickname
 
   const { productCateItems, postCateItems } = useFilter()
-  const { mutate } = GetPosts('tab=2') //因為新增貼文後會導向tab=2，保持key一致才能成功mutate
+  const { mutate } = GetPostsInfinite('tab=2') //因為新增貼文後會導向tab=2，保持key一致才能成功mutate
 
   useEffect(() => {
     titleRef.current.innerText = postTitle
@@ -121,15 +122,11 @@ export default function EditPostModal({
       ? 'bg-main color-isla-white'
       : 'bg-hover-gray sub-text-color'
 
-  // console.log({ isUpdated })
-  // console.log({ isTitleValid, isContentValid, hasTitleTouched })
   return (
     <>
       <form>
-        {/* <button onClick={mutate}>mutate</button> */}
         <div
           className="modal fade"
-          // id="editPostModal"
           id={isUpdated ? 'updatedPostModal' : 'editPostModal'}
           ref={modalRef}
           tabIndex={-1}
@@ -169,7 +166,6 @@ export default function EditPostModal({
                     aria-label="Small select example"
                     defaultValue={isUpdated ? productCate : 1}
                   >
-                    {/* FIXME 產品類型不可點選、警告 */}
                     <option disabled>產品類型</option>
                     {productCateItems.map((v, i) => {
                       return (
@@ -199,30 +195,24 @@ export default function EditPostModal({
               <div className="modal-body d-flex flex-column w-100">
                 <div className="d-flex align-items-center px-4 py-2">
                   <div
-                    // QU 避免標題換行、第一行沒有div包裹
                     ref={titleRef}
                     className="edit-title main-text-color fs20 me-auto text-wrap w-100"
                     contentEditable
                     data-placeholder="輸入文章標題"
-                    // dangerouslySetInnerHTML={{ __html: postTitle }} 不能修改
                     onInput={(e) => {
-                      // 沒有trim的話會剩下，可能殘留<br>
                       const titleLength = e.target.innerText.trim().length
                       setTitleLength(titleLength)
                       setHasTitleTouched(true)
-                      // console.log(titleLength)
                       titleLength <= 50 && titleLength > 0
                         ? setTitleValid(true)
                         : setTitleValid(false)
                     }}
                     onPaste={(e) => {
                       e.preventDefault()
-                      const text = e.clipboardData.getData('text/plain') //防止複製貼上鬼東西
+                      const text = e.clipboardData.getData('text/plain')
                       document.execCommand('insertText', false, text)
                     }}
-                  >
-                    {/* {isUpdated && postTitle} */}
-                  </div>
+                  ></div>
                 </div>
                 <div
                   className={`fs14 sub-text-color px-4 ${!isTitleValid && hasTitleTouched ? 'titleError' : ''} `}
@@ -241,11 +231,6 @@ export default function EditPostModal({
                   data-placeholder="分享你的美妝新發現✨"
                   onInput={(e) => {
                     setContentValid(true)
-                    // if (contentlength > 0 && contentlength <= 50) {
-                    //   setContentValid(true)
-                    // } else {
-                    //   setContentValid(false)
-                    // }
                   }}
                   onPaste={(e) => {
                     // 防止xss攻擊
@@ -296,11 +281,6 @@ export default function EditPostModal({
                     disabled={isTitleValid && isContentValid ? false : true}
                     onClick={(e) => {
                       e.preventDefault()
-                      // console.log({
-                      //   isTitleValid,
-                      //   isContentValid,
-                      //   hasTitleTouched,
-                      // })
                       handleSubmit(e)
                     }}
                   >

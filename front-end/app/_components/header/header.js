@@ -23,7 +23,7 @@ export default function Header() {
   const router = useRouter()
   const [hamMenuOpen, setHamMenuOpen] = useState(false) // 開啟手機、平板的nav
   const [searchOpen, setSearchOpen] = useState(false) // 開啟搜尋功能
-  console.log('searchOpen', searchOpen)
+  // console.log('searchOpen', searchOpen)
   const { user, isAuth } = useAuth()
   // console.log('header: user: ', user)
   // ==== 購物車按鈕路徑定義 ====
@@ -57,7 +57,7 @@ export default function Header() {
   ) : (
     <i className="bi bi-person-circle" />
   )
-  console.log('🛒 Header totalCount:', totalCount)
+  // console.log('🛒 Header totalCount:', totalCount)
 
   // ==== END 使用者按鈕路徑、圖像定義 ====
   if (

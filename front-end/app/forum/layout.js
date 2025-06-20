@@ -20,14 +20,11 @@ export default function Layout({ children }) {
 
   return (
     <FilterProvider>
-      <div className="no-bounce">
-        {/* <div className="bg-article"></div> */}
-        <div className="body">
-          <div className="container-lg my-container">
-            <div className="row justify-content-center">
-              <ComponentsSubNav />
-              {children}
-            </div>
+      <div className="body">
+        <div className="container-lg my-container">
+          <div className="row justify-content-center">
+            <ComponentsSubNav />
+            {children}
           </div>
         </div>
       </div>
