@@ -8,4 +8,4 @@
 - 即時雙方、多方聊天室  
 - 全站響應式設計，支援動態伸縮  
 
-![image](picture or gif url)
+![image](https://github.com/chenpeitoo/isla-forum/blob/main/demo-pic/%E8%AB%96%E5%A3%87%E9%A6%96%E9%A0%81-forum-post-1920.png)
