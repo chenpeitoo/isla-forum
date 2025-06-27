@@ -1,6 +1,6 @@
 'use client'
 import { AuthProvider } from '@/hook/use-auth'
-import { CartProvider } from './cart/context/cart-context'
+// import { CartProvider } from './cart/context/cart-context'
 import {
   QueryClient,
   QueryClientProvider,
@@ -27,12 +27,12 @@ export default function Provider({ children }) {
   return (
     <>
       <AuthProvider>
-        <CartProvider>
-          <QueryClientProvider client={queryClient}>
-            <ProgressHandler />
-            {children}
-          </QueryClientProvider>
-        </CartProvider>
+        {/* <CartProvider> */}
+        <QueryClientProvider client={queryClient}>
+          <ProgressHandler />
+          {children}
+        </QueryClientProvider>
+        {/* </CartProvider> */}
       </AuthProvider>
     </>
   )

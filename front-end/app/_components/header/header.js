@@ -3,12 +3,12 @@ import Link from 'next/link'
 import Image from 'next/image'
 //style
 import { useAuth } from '@/hook/use-auth'
-import { useCartContext } from '../../cart/context/cart-context'
+// import { useCartContext } from '../../cart/context/cart-context'
 // component
 import HamMenu from './_component/ham-menu'
 import HamMeunNav from './_component/ham-meun-nav'
 import HeaderNav from './_component/header-nav'
-import CartDropdown from '../../cart/_component/cart-dropdown/cart-dropdown'
+// import CartDropdown from '../../cart/_component/cart-dropdown/cart-dropdown'
 import SearchBlockLg from './_component/search-block/search-block-lg'
 import './header.css'
 // hook
@@ -18,7 +18,7 @@ import { useState } from 'react'
 import { USER_AVA_URL } from '@/_route/img-url'
 
 export default function Header() {
-  const { totalCount, cartItems } = useCartContext()
+  // const { totalCount, cartItems } = useCartContext()
   const pathname = usePathname()
   const router = useRouter()
   const [hamMenuOpen, setHamMenuOpen] = useState(false) // 開啟手機、平板的nav
@@ -118,11 +118,11 @@ export default function Header() {
               />
               <div>{totalCount}</div>
             </button> */}
-            <CartDropdown
+            {/* <CartDropdown
               totalCount={totalCount}
               cartItems={cartItems}
               onCartClick={handleCartClick}
-            />
+            /> */}
 
             <Link href={'/member/' + loginUrl} className="d-lg-block d-none">
               <button>{loginAva}</button>

@@ -1,4 +1,3 @@
-// import { Geist, Geist_Mono } from 'next/font/google'
 import '@fontsource/plaster'
 import '@fontsource/noto-sans-tc'
 import 'react-toastify/dist/ReactToastify.css'
@@ -8,7 +7,7 @@ import Path from './_components/path/path'
 import '@/app/_styles/globals.scss'
 import Provider from './provider'
 import ToastClient from './_components/toast-client'
-import { relative } from 'path'
+import { Suspense } from 'react'
 
 export const metadata = {
   title: 'ISLA 美妝生活',
@@ -70,18 +69,21 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
-        <Provider>
-          <Header />
-          {/* ToastContainer由客戶端元件引入，避免hydration */}
-          <ToastClient />
-          <div style={{ marginTop: '80px', position: 'relative' }}>
-            <Path />
-            {children}
-          </div>
-          <Footer />
-          {/* <ToastContainer /> */}
-          {/* <Chat /> */}
-        </Provider>
+        <Suspense fallback={<div>載入中</div>}>
+          <Provider>
+            <Header />
+            {/* ToastContainer由客戶端元件引入，避免hydration */}
+            <ToastClient />
+
+            <div style={{ marginTop: '80px', position: 'relative' }}>
+              <Path />
+              {children}
+            </div>
+            <Footer />
+            {/* <ToastContainer /> */}
+            {/* <Chat /> */}
+          </Provider>
+        </Suspense>
       </body>
     </html>
   )

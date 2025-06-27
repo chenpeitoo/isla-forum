@@ -1,14 +1,8 @@
 'use client'
 
-import { useParams, useRouter, useSearchParams } from 'next/navigation'
-import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
-import useSWR from 'swr'
-import { method } from 'lodash'
 import { useAuth } from '../../../hook/use-auth'
-import ComponentsAddChat from './_components/add-chat'
 import ComponentsAvatar from '../_components/avatar'
-import { BeatLoader } from 'react-spinners'
 import GetChatList from './_method/getChatList'
 
 // /* TODO 換成幾小時 */
