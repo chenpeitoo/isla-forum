@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "postinstall": "prisma generate",
     "start": "node ./api/index.js",
     "cdev": "dotenv -e .env.chris -- node --inspect ./api/index.js",
     "dev": "nodemon ./api/index.js",
@@ -50,6 +51,7 @@
     "nodemon": "^3.1.7",
     "otpauth": "^9.3.5",
     "pug": "^3.0.3",
+    "prisma": "^6.10.1",
     "redis": "^4.7.0",
     "request": "^2.88.2",
     "secure-compare": "^3.0.1",
