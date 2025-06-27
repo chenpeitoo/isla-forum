@@ -18,3 +18,5 @@ yarn-error.log*
 /config/development.json
 .env.local-nouse
 /testing
+
+/lib/generated/prisma

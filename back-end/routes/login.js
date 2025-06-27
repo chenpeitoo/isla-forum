@@ -1,4 +1,4 @@
- import express from 'express'
+import express from 'express'
 const router = express.Router()
 // 導入上傳圖片的函式 vercel blob
 import { put, del } from '@vercel/blob'
@@ -19,7 +19,7 @@ import authenticate from '../middlewares/authenticate.js'
 // 用來處理FormData的中介軟體，上傳檔案用使用multer
 import path from 'path'
 import multer from 'multer'
-import prisma from '../lib/prisma.js'
+// import prisma from '../lib/prisma.js'
 import db from '../config/mysql.js'
 
 // #region ------ multer ------
@@ -93,7 +93,6 @@ router.get('/:userId', async (req, res) => {
   }
 })
 // #endregion ------------
-
 
 // #region ------ POST ------
 // 新增會員資料(註冊會員使用)
