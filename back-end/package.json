@@ -7,6 +7,7 @@
     "start": "node ./api/index.js",
     "cdev": "dotenv -e .env.chris -- node --inspect ./api/index.js",
     "dev": "nodemon ./api/index.js",
+    "build": "npm run generate",
     "debug": "DEBUG=express:* node ./api/index.js",
     "debug-win": "set DEBUG=express:* & node ./api/index.js",
     "lint-js": "export TIMING=1 || set TIMING=1&& eslint --ext .js,.jsx,.ts,.tsx prisma/seed.js --cache --cache-strategy metadata"
