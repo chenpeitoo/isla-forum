@@ -7,6 +7,7 @@
     "start": "node ./api/index.js",
     "cdev": "dotenv -e .env.chris -- node --inspect ./api/index.js",
     "dev": "nodemon ./api/index.js",
+    "generate": "prisma generate",
     "build": "npm run generate",
     "debug": "DEBUG=express:* node ./api/index.js",
     "debug-win": "set DEBUG=express:* & node ./api/index.js",
