@@ -45,7 +45,10 @@ export default function ForumPage() {
       ...asideParams.entries(),
       ...params.entries(),
     ])
-    router.push(`http://localhost:3000/forum?${mergedParams.toString()}`)
+    // router.push(`http://localhost:3000/forum?${mergedParams.toString()}`)
+    router.push(
+      `${process.env.NEXT_PUBLIC_API_URL}/forum?${mergedParams.toString()}`
+    )
   }
 
   const handleAsideSearchChange = (keyword, productCate, postCate) => {
