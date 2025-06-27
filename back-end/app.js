@@ -3,7 +3,7 @@ import express from 'express'
 import cors from 'cors'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import productRoutes from './routes/product/products.js'
+// import productRoutes from './routes/product/products.js'
 import 'dotenv/config.js'
 
 const app = express()
@@ -21,7 +21,7 @@ app.use(express.json())
 // app.use('/imgs', express.static(path.join(__dirname, 'public', 'imgs')))
 
 // 掛載產品 API 路由
-app.use('/products', productRoutes)
+// app.use('/products', productRoutes)
 
 // 啟動伺服器
 app.listen(PORT, () => {
