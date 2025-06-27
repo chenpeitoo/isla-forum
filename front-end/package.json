@@ -1,4 +1,7 @@
 {
+  "engines": {
+    "node": ">=20"
+  },
   "name": "next-start-latest",
   "version": "1.0.0",
   "private": true,
