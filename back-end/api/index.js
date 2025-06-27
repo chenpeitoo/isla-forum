@@ -22,8 +22,8 @@ import { pathToFileURL } from 'url'
 
 import 'dotenv/config.js'
 import { request } from 'http'
-import wishlistRouter from '../routes/course/wishlist.js'
-import courseManageRoutes from '../routes/courses-manage/course-list.js'
+// import wishlistRouter from '../routes/course/wishlist.js'
+// import courseManageRoutes from '../routes/courses-manage/course-list.js'
 
 // 建立 Express 應用程式
 const app = express()
@@ -220,8 +220,8 @@ const port = process.env.PORT || 3000
 
 app.listen(port, () => console.log(`Server ready on port ${port}`))
 
-app.use('/api/course/wishlist', wishlistRouter)
-app.use('/api/courses-manage/course-list', courseManageRoutes)
+// app.use('/api/course/wishlist', wishlistRouter)
+// app.use('/api/courses-manage/course-list', courseManageRoutes)
 // 讓靜態圖片資料夾能被前端正確存取
 app.use('/images', express.static('public/images'))
 
