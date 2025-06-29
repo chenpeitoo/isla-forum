@@ -18,7 +18,7 @@ export default function Email({
     e.preventDefault()
     try {
       const response = await fetch(
-        'http://localhost:3005/api/member/forget-pass/otp',
+        '${process.env.NEXT_PUBLIC_API_URL}/api/member/forget-pass/otp',
         {
           method: 'POST',
           headers: {

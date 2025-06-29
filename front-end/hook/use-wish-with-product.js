@@ -6,7 +6,7 @@ export const useWishProduct = (token) => {
     queryKey: ['wishlist-product'],
     queryFn: async () => {
       const res = await axios.get(
-        'http://localhost:3005/api/wish-list/products',
+        '${process.env.NEXT_PUBLIC_API_URL}/api/wish-list/products',
         {
           headers: { Authorization: `Bearer ${token}` },
         }

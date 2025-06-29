@@ -22,7 +22,7 @@ export default function SavedPostPage(props) {
 // export default function MyPostPage(props) {
 //   const userID = useAuth().user.id
 //   const fetcher = (...arg) => fetch(...arg).then((res) => res.json())
-//   const postsAPI = `http://localhost:3005/api/forum/posts/saved-post?userID=${userID}`
+//   const postsAPI = `${process.env.NEXT_PUBLIC_API_URL}/api/forum/posts/saved-post?userID=${userID}`
 //   const { data, isLoading, error, mutate } = useSWR(postsAPI, fetcher)
 //   if (error) {
 //     console.log(error)

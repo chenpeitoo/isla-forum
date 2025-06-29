@@ -14,7 +14,8 @@ export default function GetPostsInfinite(params) {
     const cursor = previous?.data?.lastCursor
       ? `cursor=${previous.data.lastCursor.popular}&postID=${previous.data.lastCursor.id}`
       : ''
-    return `http://localhost:3005/api/forum/posts/home?${cursor}&${params}`
+    // return `http://localhost:3005/api/forum/posts/home?${cursor}&${params}`
+    return `${process.env.NEXT_PUBLIC_API_URL}/api/forum/posts/home?${cursor}&${params}`
   }
 
   const { data, error, isLoading, mutate, size, setSize } = useSWRInfinite(

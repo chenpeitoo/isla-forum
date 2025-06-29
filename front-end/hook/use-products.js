@@ -33,7 +33,7 @@ export const useProducts = (filters, { pageSize = 20 } = {}) => {
     queryKey: ['filters'],
     queryFn: async () => {
       const res = await axios.get(
-        'http://localhost:3005/api/product-filter/filters',
+        '${process.env.NEXT_PUBLIC_API_URL}/api/product-filter/filters',
         {
           headers: {
             'Content-Type': 'application/json',
@@ -56,14 +56,17 @@ export const useProducts = (filters, { pageSize = 20 } = {}) => {
         offset: pageParam * pageSize,
       }
 
-      const res = await axios.get('http://localhost:3005/api/products', {
-        params: queryParams,
-        paramsSerializer: (params) =>
-          qs.stringify(params, { arrayFormat: 'brackets' }), // categoryIds[]=1&categoryIds[]=2
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
+      const res = await axios.get(
+        '${process.env.NEXT_PUBLIC_API_URL}/api/products',
+        {
+          params: queryParams,
+          paramsSerializer: (params) =>
+            qs.stringify(params, { arrayFormat: 'brackets' }), // categoryIds[]=1&categoryIds[]=2
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
 
       if (res.status !== 200 || res.data.status !== 'success') {
         throw new Error('Failed to fetch products')
@@ -114,7 +117,9 @@ export const UseProductDetail = (id) => {
   return useQuery({
     queryKey: ['product', id],
     queryFn: async () => {
-      const res = await axios.get(`http://localhost:3005/api/product/${id}`)
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/product/${id}`
+      )
       if (res.status !== 200 || res.data.success !== true) {
         throw new Error('資料庫查無商品資料')
       }
@@ -130,7 +135,7 @@ export const UseProductReviews = (id) => {
     queryKey: ['product-reviews', id],
     queryFn: async () => {
       const res = await axios.get(
-        `http://localhost:3005/api/product-reviews/${id}`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/product-reviews/${id}`
       )
       if (res.status !== 200 || res.data.success !== true) {
         throw new Error('Failed to fetch product reviews')
@@ -149,7 +154,7 @@ export const UseUserReview = (product_id, user_id) => {
     queryFn: async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3005/api/product-reviews/user/check?product_id=${product_id}&user_id=${user_id}`
+          `${process.env.NEXT_PUBLIC_API_URL}/api/product-reviews/user/check?product_id=${product_id}&user_id=${user_id}`
         )
         if (res.data.success !== true) {
           console.error('API 錯誤回傳:', res.data)
@@ -172,7 +177,7 @@ export function UseSaveOrUpdateReview() {
   return useMutation({
     mutationFn: async (formData) => {
       const res = await axios.post(
-        'http://localhost:3005/api/product-reviews/save',
+        '${process.env.NEXT_PUBLIC_API_URL}/api/product-reviews/save',
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' },
@@ -194,7 +199,7 @@ export const UseProductIngredient = (id) => {
     queryKey: ['product-ingredient', id],
     queryFn: async () => {
       const res = await axios.get(
-        `http://localhost:3005/api/product-ingredient/${id}`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/product-ingredient/${id}`
       )
       if (res.status !== 200 || res.data.success !== true) {
         throw new Error('Failed to fetch product reviews')

@@ -41,7 +41,7 @@ export default function ComponentsSubNav() {
   const isAuth = userID !== 0
   const { data, isLoading, error, mutate } = useSWR(
     [
-      `http://localhost:3005/api/forum/follow/get-follow-list`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/forum/follow/get-follow-list`,
       { userID, pageName: 'subNav' },
     ],
     fetcher

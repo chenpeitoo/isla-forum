@@ -54,7 +54,7 @@ export default function UseImg() {
       imageFD.append('images', f)
     })
 
-    fetch('http://localhost:3005/api/forum/posts/upload-image', {
+    fetch('${process.env.NEXT_PUBLIC_API_URL}/api/forum/posts/upload-image', {
       method: 'POST',
       body: imageFD,
     })
@@ -66,7 +66,7 @@ export default function UseImg() {
         // console.log(`上傳成功-應該是含url的物件: ${data.filenames}`)
         const { filenames } = data
         const filenamesToUrl = filenames.map(
-          (f) => `http://localhost:3005/images/forum/${f}`
+          (f) => `${process.env.NEXT_PUBLIC_API_URL}/images/forum/${f}`
         )
 
         files.forEach((f, i) => {

@@ -16,28 +16,31 @@ POST /api/cart-items/create
 
 ```js
 const handleAddToCart = async () => {
-  const token = localStorage.getItem("jwtToken");
+  const token = localStorage.getItem('jwtToken')
 
   try {
-    const res = await fetch("http://localhost:3005/api/cart-items/create", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        product_id: 109129, // 或 course_id / course_experience_id
-        quantity: 1,
-        color_id: 114, // 有色號才需要傳
-      }),
-    });
+    const res = await fetch(
+      '${process.env.NEXT_PUBLIC_API_URL}/api/cart-items/create',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          product_id: 109129, // 或 course_id / course_experience_id
+          quantity: 1,
+          color_id: 114, // 有色號才需要傳
+        }),
+      }
+    )
 
-    const data = await res.json();
-    console.log("加入成功：", data);
+    const data = await res.json()
+    console.log('加入成功：', data)
   } catch (err) {
-    console.error("加入購物車失敗：", err);
+    console.error('加入購物車失敗：', err)
   }
-};
+}
 ```
 
 ---
@@ -46,9 +49,9 @@ const handleAddToCart = async () => {
 
 | 欄位名稱               | 型別 | 必填 | 說明                 |
 | ---------------------- | ---- | ---- | -------------------- |
-| `product_id`           | int  | ⭕️  | 加入商品時傳入       |
-| `course_id`            | int  | ⭕️  | 加入一般課程時傳入   |
-| `course_experience_id` | int  | ⭕️  | 加入體驗課程時傳入   |
+| `product_id`           | int  | ⭕️   | 加入商品時傳入       |
+| `course_id`            | int  | ⭕️   | 加入一般課程時傳入   |
+| `course_experience_id` | int  | ⭕️   | 加入體驗課程時傳入   |
 | `quantity`             | int  | ❌   | 預設為 1             |
 | `color_id`             | int  | ❌   | 商品有選色功能時傳入 |
 

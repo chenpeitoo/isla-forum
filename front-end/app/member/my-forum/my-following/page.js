@@ -16,7 +16,10 @@ const fetcher = ([url, body]) =>
 export default function MyPostPage() {
   const userID = useAuth().user.id
   const { data, isLoading, error, mutate } = useSWR(
-    [`http://localhost:3005/api/forum/follow/get-follow-list`, { userID }],
+    [
+      `${process.env.NEXT_PUBLIC_API_URL}/api/forum/follow/get-follow-list`,
+      { userID },
+    ],
     fetcher
   )
   const followings = data?.data

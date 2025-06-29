@@ -22,7 +22,7 @@ export const useAddCart = (token) => {
       try {
         console.log('送出的 token:', token)
         const res = await axios.post(
-          `http://localhost:3005/api/cart-items/create`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/cart-items/create`,
           {
             product_id: Number(product_id),
             quantity: Number(quantity),

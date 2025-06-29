@@ -18,7 +18,7 @@ export default function CommentSection({
   const userID = useAuth().user.id
   const postID = useParams().postID
   const { data, isLoading, error, mutate } = useSWR(
-    `http://localhost:3005/api/forum/comment?postID=${postID}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/forum/comment?postID=${postID}`,
     fetcher
   )
   useEffect(() => {

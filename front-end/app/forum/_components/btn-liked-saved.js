@@ -43,7 +43,7 @@ export default function ComponentsBtnLikedSaved({
           if (isAuth) {
             const method = active ? 'DELETE' : 'POST'
             const res = await fetch(
-              `http://localhost:3005/api/forum/liked-saved/${type}`,
+              `${process.env.NEXT_PUBLIC_API_URL}/api/forum/liked-saved/${type}`,
               {
                 method: method,
                 headers: {

@@ -26,7 +26,7 @@ export default function ChatRoom() {
   const inputRef = useRef()
 
   const { data, isLoading, error } = useSWR(
-    `http://localhost:3005/api/forum/chat?userID=${userID}&roomID=${roomID}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/forum/chat?userID=${userID}&roomID=${roomID}`,
     fetcher
   )
   const roomHeader = data?.roomHeader?.[0] || {}
@@ -60,7 +60,7 @@ export default function ChatRoom() {
 
   const handleCreateMsg = async (newMsg) => {
     const res = await fetch(
-      `http://localhost:3005/api/forum/chat?roomID=${roomID}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/forum/chat?roomID=${roomID}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

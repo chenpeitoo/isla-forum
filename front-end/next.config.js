@@ -39,7 +39,7 @@ const nextConfig = {
   //   return [
   //     {
   //       source: '/api/:path*',
-  //       destination: 'http://localhost:3005/:path*', // 代理Proxy到其它伺服器
+  //       destination: '${process.env.NEXT_PUBLIC_API_URL}/:path*', // 代理Proxy到其它伺服器
   //     },
   //   ]
   // },

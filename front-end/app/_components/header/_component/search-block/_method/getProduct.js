@@ -1,13 +1,16 @@
 export default async function getProduct(search = '') {
   if (search === '') return []
   let error = ''
-  const products = await fetch('http://localhost:3005/api/products/search', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ keyword: search }),
-  })
+  const products = await fetch(
+    '${process.env.NEXT_PUBLIC_API_URL}/api/products/search',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ keyword: search }),
+    }
+  )
     .then(async (data) => await data.json())
     .then((data) => data['data'])
     .catch((err) => {
