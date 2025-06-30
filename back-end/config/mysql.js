@@ -5,11 +5,11 @@ import 'dotenv/config.js'
 
 // 資料庫連結資訊
 const db = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USERNAME,
-  port: process.env.DB_PORT,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
+  host: process.env.MYSQLHOST,
+  user: process.env.MYSQLUSERNAME,
+  port: process.env.MYSQLPORT,
+  password: process.env.MYSQLPASSWORD,
+  database: process.env.MYSQLDATABASE,
   dateStrings: true, // 轉換日期字串格式用
   waitForConnections: true,
   connectionLimit: 10, // 最多同時 10 條連線
