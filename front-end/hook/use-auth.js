@@ -72,7 +72,7 @@ export function AuthProvider({ children }) {
     // get user's data from db
     try {
       const response = await fetch(
-        '${process.env.NEXT_PUBLIC_API_URL}/api/member/login',
+        `${process.env.NEXT_PUBLIC_API_URL}/api/member/login`,
         {
           method: 'GET',
           headers: { Authorization: `Bearer ${token}` },
@@ -99,7 +99,7 @@ export function AuthProvider({ children }) {
     // fetch login auth api (post)
     try {
       const response = await fetch(
-        '${process.env.NEXT_PUBLIC_API_URL}/api/member/login',
+        `${process.env.NEXT_PUBLIC_API_URL}/api/member/login`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
