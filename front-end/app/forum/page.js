@@ -72,8 +72,6 @@ export default function ForumPage() {
     router.push(`http://localhost:3000/forum?${mergedParams.toString()}`)
   }
 
-  localStorage.setItem()
-
   return (
     <>
       <main className="main col col-10 col-xl-8 d-flex flex-column align-items-center mx-0 px-0 position-relative overflow-hidden h-100">
