@@ -17,7 +17,7 @@ export default function MyPostPage() {
   const { user } = useAuth() //NOTE
   const userID = user.id
 
-  const postsAPI = `http://localhost:3005/api/forum/posts/my-post?userID=${userID}`
+  const postsAPI = `${process.env.NEXT_PUBLIC_API_URL}/api/forum/posts/my-post?userID=${userID}`
   const { data, isLoading, error, mutate } = useSWR(postsAPI, fetcher)
   const posts = data?.status === 'success' ? data?.data : []
   // console.log(posts)

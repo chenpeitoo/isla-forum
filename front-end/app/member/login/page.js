@@ -207,18 +207,18 @@ export default function LoginPage() {
             {/* ==== 分隔線 ==== */}
             <div className="d-flex justify-content-center align-items-center gap-2 w-100">
               <div className="gray-line" />
-              <div>或者</div>
-              <div className="gray-line" />
+              {/* <div>或者</div>
+              <div className="gray-line" /> */}
             </div>
             {/* ==== Google 登入按鈕 ==== */}
-            <GoogleOAuthProvider clientId="104246971541-iteifad48ud3h6dp85k6qoqgqta9flir.apps.googleusercontent.com">
+            {/* <GoogleOAuthProvider clientId="104246971541-iteifad48ud3h6dp85k6qoqgqta9flir.apps.googleusercontent.com">
               <div className="w-100">
                 <GoogleLogin
                   onSuccess={responseMessage}
                   onError={errorMessage}
                 />
               </div>
-            </GoogleOAuthProvider>
+            </GoogleOAuthProvider> */}
           </div>
         </div>
       </div>
