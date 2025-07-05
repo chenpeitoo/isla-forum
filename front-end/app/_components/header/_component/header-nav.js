@@ -40,9 +40,7 @@ export default function HeaderNav() {
             <CouponNav open={open} />
           </li>
           <li>
-            <Link href="/forum" onClick={handleOnClick}>
-              美妝論壇
-            </Link>
+            <Link href="/forum">美妝論壇</Link>
           </li>
         </ul>
       </nav>
