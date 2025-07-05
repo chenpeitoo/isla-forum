@@ -79,7 +79,7 @@ export default function RegisterPage() {
     if (!user.email) {
       try {
         const response = await fetch(
-          '${process.env.NEXT_PUBLIC_API_URL}/api/member/register',
+          'http://localhost:3005/api/member/register',
           {
             method: 'POST',
             headers: {
@@ -113,7 +113,7 @@ export default function RegisterPage() {
       try {
         console.log('新增使用者(google account)')
         const response = await fetch(
-          '${process.env.NEXT_PUBLIC_API_URL}/api/member/register/google',
+          'http://localhost:3005/api/member/register/google',
           {
             method: 'POST',
             headers: {

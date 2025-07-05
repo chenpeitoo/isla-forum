@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 
 export default function ComponentsAvatar({
-  src = '${process.env.NEXT_PUBLIC_API_URL}/images/member/default-avatar.jpg',
+  src = 'http://localhost:3005/images/member/default-avatar.jpg',
   alt = '123',
   classWidth = '',
 }) {
@@ -16,7 +16,7 @@ export default function ComponentsAvatar({
       >
         <Image
           className="rounded-circle object-fit-cover w-100"
-          src={`${process.env.NEXT_PUBLIC_API_URL}/images/member/${src}`}
+          src={`http://localhost:3005/images/member/${src}`}
           alt={alt}
           fill={true}
         />

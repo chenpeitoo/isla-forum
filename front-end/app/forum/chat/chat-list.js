@@ -10,7 +10,7 @@ import GetChatList from './_method/getChatList'
 export default function ChatList({ setListMutate }) {
   const { user, isAuth } = useAuth()
   const userID = user.id
-  // const url = `${process.env.NEXT_PUBLIC_API_URL}/api/forum/chat?userID=${userID}` //QU 在這邊放userID好嗎？
+  // const url = `http://localhost:3005/api/forum/chat?userID=${userID}` //QU 在這邊放userID好嗎？
   // const { data, isLoading, error, mutate } = useSWR(url, fetcher)
 
   // const rooms = data?.roomList?.map((room) => ({

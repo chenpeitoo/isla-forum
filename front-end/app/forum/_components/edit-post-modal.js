@@ -4,12 +4,12 @@ import { useState, useEffect, useRef } from 'react'
 import ComponentsAuthorInfo from './author-info'
 import { useAuth } from '../../../hook/use-auth'
 import { useFilter } from '../_context/filterContext'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import UseImg from '../_hooks/useImg'
 import GetPosts from '../_hooks/getPosts'
 import Ripples from 'react-ripples'
-import { toast } from 'react-toastify'
-import GetPostsInfinite from '../_hooks/getPostsInfinite'
+import { toast, ToastContainer } from 'react-toastify'
+import usePostsInfinite from '../_hooks/usePostsInfinite'
 // import '/bootstrap/dist/js/bootstrap.bundle.min.js' 無法直接引入
 
 export default function EditPostModal({
@@ -23,13 +23,14 @@ export default function EditPostModal({
 }) {
   const modalRef = useRef()
   const router = useRouter()
+  const queryObj = useSearchParams()
   const { user, isAuth } = useAuth()
   const userID = user.id
   const userUrl = user.ava_url
   const userNick = user.nickname
 
   const { productCateItems, postCateItems } = useFilter()
-  const { mutate } = GetPostsInfinite('tab=2') //因為新增貼文後會導向tab=2，保持key一致才能成功mutate
+  const { mutate } = usePostsInfinite(queryObj) //因為新增貼文後會導向tab=2，保持key一致才能成功mutate
 
   useEffect(() => {
     titleRef.current.innerText = postTitle
@@ -43,30 +44,22 @@ export default function EditPostModal({
   const titleRef = useRef()
   const contentRef = useRef()
 
-  // // 類別預設值
-  // useEffect(() => {
-  //   productCateRef.current.value = productCate
-  //   postCateRef.current.value = postCate
-  // }, [])
-
   const { handleImgUpload } = UseImg()
 
   // 提交表單
-  const handleSubmit = async (e) => {
-    console.log('handleSubmit')
+  const handleSubmit = async () => {
+    // console.log('handleSubmit')
     // e.preventDefault()
     const productCate = productCateRef.current.value
     const postCate = postCateRef.current.value
     // console.log({ productCate, postCate })
-    const title = titleRef.current.innerHTML.trim() //QU WHY trim
+    const title = titleRef.current.innerHTML.trim()
     const content = contentRef.current.innerHTML.trim()
     if (title === '' || title === '<br>') {
-      // QU 怎麼精簡判斷式
-      console.log('請輸入標題')
-      console.log(title)
+      toast.info('請輸入標題')
       return
     } else if (content === '' || content === '<br>') {
-      console.log('請輸入內容')
+      toast.info('請輸入內容')
       return
     }
 
@@ -80,7 +73,7 @@ export default function EditPostModal({
     const method = isUpdated ? 'PUT' : 'POST'
 
     // 建立還是更新
-    fetch('${process.env.NEXT_PUBLIC_API_URL}/api/forum/posts', {
+    fetch('http://localhost:3005/api/forum/posts', {
       method: method,
       body: fd,
     })
@@ -95,7 +88,7 @@ export default function EditPostModal({
           router.push(`/forum/${postID}`)
           toast.info('已成功編輯貼文')
         } else {
-          mutate()
+          mutate() //BUG 因為usePostsInfinite帶入參數改變，沒有成功mutate新資料
           router.push('/forum?tab=2')
           toast.info('已成功發佈貼文')
         }

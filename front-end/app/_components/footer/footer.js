@@ -40,9 +40,7 @@ export default function Footer() {
             <div className="col-lg-2 col-12 footer-side">
               <div className="footer-side-text">ISLA 你的自由彩妝生活</div>
               <Image
-                src={
-                  '${process.env.NEXT_PUBLIC_API_URL}/images/ad/footer-header-left.jpg'
-                }
+                src={'http://localhost:3005/images/ad/footer-header-left.jpg'}
                 alt="footer-ad"
                 width={10}
                 height={10}

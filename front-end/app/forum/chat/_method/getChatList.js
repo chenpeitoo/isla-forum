@@ -6,7 +6,7 @@ import useSWR from 'swr'
 const fetcher = (url) => fetch(url).then((res) => res.json())
 
 export default function GetChatList(userID) {
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/forum/chat?userID=${userID}`
+  const url = `http://localhost:3005/api/forum/chat?userID=${userID}`
   // const { data, isLoading, error, mutate } = useSWR(url, fetcher)
 
   // const rooms = data?.roomList?.map((room) => ({

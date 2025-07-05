@@ -19,7 +19,7 @@ export const useAddWish = (token) => {
       if (ids.length !== 1) throw new Error('請傳入一種收藏類型的 ID')
 
       const res = await axios.post(
-        '${process.env.NEXT_PUBLIC_API_URL}/api/wish-list',
+        'http://localhost:3005/api/wish-list',
         { courses_id, courses_experience_id, product_id },
         { headers: { Authorization: `Bearer ${token}` } }
       )
@@ -36,12 +36,9 @@ export const useWish = (token) => {
   return useQuery({
     queryKey: ['wishlist'],
     queryFn: async () => {
-      const res = await axios.get(
-        '${process.env.NEXT_PUBLIC_API_URL}/api/wish-list',
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      )
+      const res = await axios.get('http://localhost:3005/api/wish-list', {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       return res.data.data
     },
     enabled: !!token, // 有 token 才執行
@@ -58,13 +55,10 @@ export const useDeleteWish = (token) => {
       )
       if (ids.length !== 1) throw new Error('請傳入一種收藏類型的 ID')
 
-      const res = await axios.delete(
-        '${process.env.NEXT_PUBLIC_API_URL}/api/wish-list',
-        {
-          data: { courses_id, courses_experience_id, product_id },
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      )
+      const res = await axios.delete('http://localhost:3005/api/wish-list', {
+        data: { courses_id, courses_experience_id, product_id },
+        headers: { Authorization: `Bearer ${token}` },
+      })
       return res.data
     },
     onSuccess: () => {

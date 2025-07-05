@@ -2,7 +2,7 @@ export async function getCoursePath(thisPath) {
   let error = ''
   // ==== 取得課程標題 ====
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/course/course-list/${thisPath}`
+    `http://localhost:3005/api/course/course-list/${thisPath}`
   ).catch((err) => {
     error = err?.message || err
     return ''
@@ -24,7 +24,7 @@ export async function getExperiencePath(thisPath) {
   let error = ''
   // ==== 取得課程標題 ====
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/course/experience-list/${thisPath}`
+    `http://localhost:3005/api/course/experience-list/${thisPath}`
   ).catch((err) => {
     error = err?.message || err
     return ''
@@ -46,7 +46,7 @@ export async function getTeacherPath(thisPath) {
   let error = ''
   // ==== 取得課程標題 ====
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/course/teacher-list/${thisPath}`
+    `http://localhost:3005/api/course/teacher-list/${thisPath}`
   ).catch((err) => {
     error = err?.message || err
     return ''

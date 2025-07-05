@@ -1,12 +1,11 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useFilter } from '../_context/filterContext'
+import { useRouter, useSearchParams } from 'next/navigation'
 
-export default function ComponentsSearchBar({
-  handleAsideSearchChange = () => {},
-}) {
-  // const router = useRouter()
+export default function ComponentsSearchBar() {
+  const router = useRouter()
   const {
     setKeyword,
     keyword,
@@ -18,25 +17,50 @@ export default function ComponentsSearchBar({
     postCateItems,
   } = useFilter()
   const keywordInputRef = useRef()
-  const [isSearchEmpty, setSearchEmpty] = useState(true)
+  const [isKeywordEmpty, setKeywordEmpty] = useState(true) //判斷輸入框的x按鈕、清除篩選按鈕是否顯示
 
+  // keyword設定
+  const handleKeywordSearch = (e, type) => {
+    e.preventDefault()
+    let inputKeyword
+    if (type === 'clear') {
+      inputKeyword = ''
+      keywordInputRef.current.value = ''
+    } else {
+      inputKeyword = keywordInputRef.current.value.trim()
+    }
+    setKeyword(inputKeyword) //更新context的keyword
+    setKeywordEmpty(!inputKeyword)
+  }
+  useEffect(() => {
+    keywordInputRef.current.value = keyword ?? ''
+    setKeywordEmpty(keyword ? false : true)
+  }, [keyword])
+
+  // 獲取網址參數
+  const paramsKeyword = useSearchParams().get('keyword') ?? []
+  const paramsProductCate =
+    useSearchParams().get('productCate')?.split(',').map(Number) ?? []
+  const paramsPostCate =
+    useSearchParams().get('postCate')?.split(',').map(Number) ?? []
+
+  // 將網址參數設定至filter context
+  useEffect(() => {
+    setKeyword(paramsKeyword)
+    setProductCate(paramsProductCate)
+    setPostCate(paramsPostCate)
+  }, [])
+
+  // console.log({ paramsKeyword, paramsProductCate, paramsPostCate })
+  // console.log({ keyword, productCate, postCate })
   return (
     <>
       <aside className="aside d-flex flex-column pt-2 position-sticky">
-        <form action="${process.env.NEXT_PUBLIC_API_URL}/api/forum/posts">
+        <form action="http://localhost:3005/api/forum/posts">
           <div className="search-bar d-flex flex-row align-items-center bottom-stroke">
             <button
               className="d-inline-block button-clear sub-text-color me-2"
-              onClick={(e) => {
-                e.preventDefault()
-                const inputKeyword = keywordInputRef.current.value
-                if (!isSearchEmpty) {
-                  setKeyword(inputKeyword)
-                  handleAsideSearchChange(inputKeyword, productCate, postCate)
-                  // keywordInputRef.current.value = ''
-                  setSearchEmpty(true)
-                }
-              }}
+              onClick={handleKeywordSearch}
             >
               <i className="bi bi-search"></i>
             </button>
@@ -47,91 +71,63 @@ export default function ComponentsSearchBar({
                 type="text"
                 placeholder="輸入關鍵字"
                 onChange={() => {
-                  setSearchEmpty(false)
+                  setKeywordEmpty(false)
                 }}
                 onKeyDown={(e) => {
-                  const inputKeyword = keywordInputRef.current.value.trim()
-                  if (
-                    e.key === 'Enter' &&
-                    inputKeyword.length !== 0 &&
-                    !isSearchEmpty &&
-                    !e.nativeEvent.isComposing
-                  ) {
-                    e.preventDefault()
-                    setKeyword(inputKeyword)
-                    handleAsideSearchChange(inputKeyword, productCate, postCate)
-                    // FIXME 重複enter搜尋詞不要消失
-                    // keywordInputRef.current.value = ''
-                    setSearchEmpty(false)
-                    e.target.blur()
+                  if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
+                    handleKeywordSearch(e)
                   }
                 }}
               />
             </div>
-            {!isSearchEmpty && (
+            {!isKeywordEmpty && (
               <button
                 className={`search-clear d-inline-block button-clear sub-text-color pe-1`}
                 onClick={(e) => {
-                  e.preventDefault()
-                  if (keywordInputRef.current.value)
-                    keywordInputRef.current.value = ''
-                  setKeyword('')
-                  handleAsideSearchChange('', productCate, postCate)
-                  setSearchEmpty(true)
+                  handleKeywordSearch(e, 'clear')
                 }}
               >
                 <i className="bi bi-x fs20"></i>
               </button>
             )}
           </div>
-          <div
-            className={`reset-filter d-flex ${keyword || productCate.length > 0 || postCate.length > 0 ? '' : 'hidden'}`}
-          >
-            <button
-              className={`ps-1 sub-text-color button-clear py-1 fs14`}
-              onClick={(e) => {
-                e.preventDefault()
-                console.log({ keyword, productCate, postCate })
-                handleAsideSearchChange('', productCate, postCate)
-                setKeyword('')
-                setSearchEmpty(true)
-                keywordInputRef.current.value = ''
-                setProductCate('')
-                setPostCate('')
-                handleAsideSearchChange('', '', '')
-              }}
-            >
-              清除篩選
-            </button>
-          </div>
         </form>
 
         <div className="cate ps-1">
-          <div className="cate-title pt-2 pb-2 rounded-3 fs14 fw-medium main-color">
-            商品類型
+          <div className="cate-title pt-2 pb-2 rounded-3 fs14 fw-medium">
+            <span className="main-color">商品類型</span>
+            <button
+              className="button-clear ps-3 sub-text-color"
+              onClick={() => {
+                const allProductCate = Array(productCateItems.length)
+                  .fill(0)
+                  .map((v, i) => i + 1)
+                setProductCate(allProductCate)
+              }}
+            >
+              全選
+            </button>
           </div>
           <div className="cate-input">
             {productCateItems.map((item, i) => (
               <div
-                className={`d-flex gap-2 px-2 py-2 m-1 align-items-center rounded-2 fs14 fw-medium sub-text-color text-start rounded-pill ${productCate.includes(i + 1) ? 'active' : ''}`}
+                className={`d-flex gap-2 px-2 py-2 m-1 align-items-center rounded-2 fs14 fw-medium sub-text-color text-start rounded-pill`}
                 key={i}
               >
                 <input
                   className="form-check-input m-0"
                   type="checkbox"
                   id={`productCate${i}`}
-                  checked={productCate.includes(i + 1)}
-                  onChange={(e) => {
-                    let newProductCate
-                    if (productCate.includes(i + 1)) {
-                      newProductCate = productCate.filter((c) => c !== i + 1)
-                      setProductCate(newProductCate)
-                    } else {
-                      newProductCate = [...productCate, i + 1]
-                      setProductCate(newProductCate)
-                    }
-                    handleAsideSearchChange(keyword, newProductCate, postCate)
-                    // e.target.blur()
+                  checked={
+                    paramsProductCate
+                      ? paramsProductCate.includes(i + 1)
+                      : productCate.includes(i + 1)
+                  }
+                  onChange={() => {
+                    const newProductCate = productCate.includes(i + 1)
+                      ? productCate.filter((c) => c !== i + 1)
+                      : [...productCate, i + 1]
+                    setProductCate(newProductCate)
                   }}
                 />
                 <label className="form-check-label" htmlFor={`productCate${i}`}>
@@ -142,8 +138,19 @@ export default function ComponentsSearchBar({
           </div>
         </div>
         <div className="cate ps-1">
-          <div className="cate-title pt-4 pb-2 rounded-3 fs14 fw-medium main-color">
-            文章類型
+          <div className="cate-title pt-2 pb-2 rounded-3 fs14 fw-medium">
+            <span className="main-color">文章類型</span>
+            <button
+              className="button-clear ps-3 sub-text-color"
+              onClick={() => {
+                const allPostCate = Array(postCateItems.length)
+                  .fill(0)
+                  .map((v, i) => i + 1)
+                setPostCate(allPostCate)
+              }}
+            >
+              全選
+            </button>
           </div>
           <div className="cate-input">
             {postCateItems.map((item, i) => (
@@ -156,17 +163,11 @@ export default function ComponentsSearchBar({
                   type="checkbox"
                   id={`postCate${i}`}
                   checked={postCate.includes(i + 1)}
-                  onChange={(e) => {
-                    let newPostCate
-                    if (postCate.includes(i + 1)) {
-                      newPostCate = postCate.filter((c) => c !== i + 1)
-                      setPostCate(newPostCate)
-                    } else {
-                      newPostCate = [...postCate, i + 1]
-                      setPostCate(newPostCate)
-                    }
-                    handleAsideSearchChange(keyword, productCate, newPostCate)
-                    // e.target.blur()
+                  onChange={() => {
+                    const newPostCate = postCate.includes(i + 1)
+                      ? postCate.filter((c) => c !== i + 1)
+                      : [...postCate, i + 1]
+                    setPostCate(newPostCate)
                   }}
                 />
                 <label className="form-check-label" htmlFor={`postCate${i}`}>
@@ -175,6 +176,22 @@ export default function ComponentsSearchBar({
               </div>
             ))}
           </div>
+        </div>
+        <div
+          className={`reset-filter d-flex ${!keyword & !productCate & !postCate ? 'hidden' : ''}`}
+        >
+          <button
+            className={`ps-1 sub-text-color button-clear py-2 fs14`}
+            onClick={(e) => {
+              handleKeywordSearch(e, 'clear')
+              setProductCate('')
+              setPostCate('')
+              console.log('💥 print reset')
+              router.push('/forum')
+            }}
+          >
+            清除所有篩選
+          </button>
         </div>
       </aside>
     </>

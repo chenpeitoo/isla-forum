@@ -30,7 +30,7 @@ export default function MyPostPage(props) {
 //   const userID = user.id
 //   const userNick = user.nickname
 
-//   const postsAPI = `${process.env.NEXT_PUBLIC_API_URL}/api/forum/posts/my-post?userID=${userID}`
+//   const postsAPI = `http://localhost:3005/api/forum/posts/my-post?userID=${userID}`
 //   const { data, isLoading, error, mutate } = useSWR(postsAPI, fetcher)
 //   let posts = data?.data
 //   console.log(posts)

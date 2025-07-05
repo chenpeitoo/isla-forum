@@ -2,7 +2,7 @@ export async function getProductPath(thisPath) {
   let error = ''
   // ==== 取得課程標題 ====
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/product/bread/${thisPath}`
+    `http://localhost:3005/api/product/bread/${thisPath}`
   ).catch((err) => {
     error = err?.message || err
     return ''

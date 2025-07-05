@@ -11,6 +11,7 @@ import Ripples from 'react-ripples'
 import { UseDirectToLogin } from '../_hooks/useDirectToLogin'
 import { useAuth } from '../../../hook/use-auth'
 import useSWR from 'swr'
+import { useFilter } from '../_context/filterContext'
 
 const fetcher = ([url, body]) =>
   fetch(url, {
@@ -21,6 +22,7 @@ const fetcher = ([url, body]) =>
 
 export default function ComponentsSubNav() {
   const modalRef = useRef()
+  const { setKeyword, setProductCate, setPostCate, setTab } = useFilter()
   useEffect(() => {
     import('bootstrap/dist/js/bootstrap.bundle.min.js').then((bootstrap) => {
       document
@@ -41,7 +43,7 @@ export default function ComponentsSubNav() {
   const isAuth = userID !== 0
   const { data, isLoading, error, mutate } = useSWR(
     [
-      `${process.env.NEXT_PUBLIC_API_URL}/api/forum/follow/get-follow-list`,
+      `http://localhost:3005/api/forum/follow/get-follow-list`,
       { userID, pageName: 'subNav' },
     ],
     fetcher
@@ -82,6 +84,12 @@ export default function ComponentsSubNav() {
                 className={`sub-nav-item d-flex px-3 py-3 gap-2 rounded-3 text-decoration-none fw-medium main-text-color`}
                 onMouseUp={(e) => {
                   e.currentTarget.blur()
+                }}
+                onClick={() => {
+                  setKeyword('')
+                  setProductCate('')
+                  setPostCate('')
+                  setTab(1)
                 }}
               >
                 <i

@@ -16,6 +16,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
 // route
 import { USER_AVA_URL } from '@/_route/img-url'
+import { toast } from 'react-toastify'
 
 export default function Header() {
   // const { totalCount, cartItems } = useCartContext()
@@ -70,6 +71,10 @@ export default function Header() {
   }
   // console.log('main-page isAuth:', isAuth)
   // console.log('main-page user:', user)
+  const handleOnClick = (e) => {
+    e.preventDefault()
+    toast.info('功能已關閉')
+  }
   return (
     <>
       <header>
@@ -84,17 +89,18 @@ export default function Header() {
           />
           <HamMenu hamMenuOpen={hamMenuOpen} setHamMenuOpen={setHamMenuOpen} />
           {/* (END) for burger menu */}
-          <Link href="/">
+          <div>
             <div className="order-lg-1 order-2 title">ISLA</div>
-          </Link>
+          </div>
           {/*  nav-bar */}
           <HeaderNav />
           <div className="order-3 icons">
             <button
               className="d-lg-block d-none"
-              onClick={() => {
-                setSearchOpen(!searchOpen)
-              }}
+              onClick={handleOnClick}
+              // onClick={() => {
+              //   setSearchOpen(!searchOpen)
+              // }}
               // onMouseEnter={() => {
               //   setSearchOpen(true)
               // }}

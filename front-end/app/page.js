@@ -46,13 +46,13 @@ export default function AppPage(props) {
 //   const [hasChecked, setHasChecked] = useState(false)
 
 //   const images = [
-//     '${process.env.NEXT_PUBLIC_API_URL}/images/ad/isla-ad.001.jpeg',
-//     '${process.env.NEXT_PUBLIC_API_URL}/images/ad/isla-ad.002.jpeg',
-//     '${process.env.NEXT_PUBLIC_API_URL}/images/ad/isla-ad.003.jpeg',
-//     '${process.env.NEXT_PUBLIC_API_URL}/images/ad/isla-ad4.png',
-//     '${process.env.NEXT_PUBLIC_API_URL}/images/ad/isla-ad.005.jpeg',
+//     'http://localhost:3005/images/ad/isla-ad.001.jpeg',
+//     'http://localhost:3005/images/ad/isla-ad.002.jpeg',
+//     'http://localhost:3005/images/ad/isla-ad.003.jpeg',
+//     'http://localhost:3005/images/ad/isla-ad4.png',
+//     'http://localhost:3005/images/ad/isla-ad.005.jpeg',
 //   ]
-//   const swiperSubImages = ['${process.env.NEXT_PUBLIC_API_URL}/images/ad/discount-info.jpg']
+//   const swiperSubImages = ['http://localhost:3005/images/ad/discount-info.jpg']
 
 //   const router = useRouter()
 //   // const handleForumTab = () => {}

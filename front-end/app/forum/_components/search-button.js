@@ -2,9 +2,7 @@
 
 import ComponentsSearchBar from './search-bar'
 
-export default function ComponentsSearchButton({
-  handleAsideSearchChange = () => {},
-}) {
+export default function ComponentsSearchButton() {
   return (
     <>
       <button
@@ -25,9 +23,7 @@ export default function ComponentsSearchButton({
         aria-labelledby="offcanvasWithBothOptionsLabel"
       >
         <div className="search-bar-wrapper overflow-scroll no-scroll-bar">
-          <ComponentsSearchBar
-            handleAsideSearchChange={handleAsideSearchChange}
-          />
+          <ComponentsSearchBar />
         </div>
       </div>
     </>

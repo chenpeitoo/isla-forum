@@ -7,9 +7,9 @@ export const isDev = env === 'development'
 
 // 本機環境
 const local = {
-  apiURL: '${process.env.NEXT_PUBLIC_API_URL}/api',
-  serverURL: '${process.env.NEXT_PUBLIC_API_URL}',
-  avatarURL: '${process.env.NEXT_PUBLIC_API_URL}/avatar',
+  apiURL: 'http://localhost:3005/api',
+  serverURL: 'http://localhost:3005',
+  avatarURL: 'http://localhost:3005/avatar',
   nextUrl: 'http://localhost:3000',
 }
 

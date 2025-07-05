@@ -8,11 +8,11 @@ const fetcher = (url) => fetch(url).then((res) => res.json())
 
 export default function UseFollow(userID, followID) {
   const { data, isLoading, error, mutate } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/forum/follow?followID=${followID}&userID=${userID}`,
+    `http://localhost:3005/api/forum/follow?followID=${followID}&userID=${userID}`,
     fetcher
   )
   console.log(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/forum/follow?followID=${followID}&userID=${userID}`
+    `http://localhost:3005/api/forum/follow?followID=${followID}&userID=${userID}`
   )
   const isFollow = data?.data.includes(userID)
   const followCount = data?.data.length
@@ -21,14 +21,11 @@ export default function UseFollow(userID, followID) {
 
   const handleFollow = async () => {
     // console.log({ method, isFollow })
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/forum/follow`,
-      {
-        method: method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ followID, userID }),
-      }
-    )
+    const res = await fetch(`http://localhost:3005/api/forum/follow`, {
+      method: method,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ followID, userID }),
+    })
     if (!res.ok) toast('請稍後再試')
     const result = await res.json()
     if (result.data) {

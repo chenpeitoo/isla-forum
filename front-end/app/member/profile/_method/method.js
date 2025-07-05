@@ -4,13 +4,10 @@ export async function getProfile(setText) {
   try {
     const token = localStorage.getItem('jwtToken')
 
-    const response = await fetch(
-      '${process.env.NEXT_PUBLIC_API_URL}/api/member/profile',
-      {
-        method: 'GET',
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    )
+    const response = await fetch('http://localhost:3005/api/member/profile', {
+      method: 'GET',
+      headers: { Authorization: `Bearer ${token}` },
+    })
     const data = await response.json()
 
     if (response.ok && data?.data) {
@@ -51,17 +48,14 @@ export const handleSubmit = async (event) => {
     }
     try {
       const token = localStorage.getItem('jwtToken')
-      const response = await fetch(
-        '${process.env.NEXT_PUBLIC_API_URL}/api/member/profile',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(formData),
-        }
-      )
+      const response = await fetch('http://localhost:3005/api/member/profile', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
+      })
       const data = await response.json()
       // ==== 清除上次錯誤提示 ====
       setError({ ...defaultProfile })

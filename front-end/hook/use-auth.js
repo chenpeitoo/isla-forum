@@ -71,13 +71,10 @@ export function AuthProvider({ children }) {
     }
     // get user's data from db
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/member/login`,
-        {
-          method: 'GET',
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      )
+      const response = await fetch(`http://localhost:3005/api/member/login`, {
+        method: 'GET',
+        headers: { Authorization: `Bearer ${token}` },
+      })
 
       const data = await response.json()
       if (response.ok && data?.data) {
@@ -98,18 +95,15 @@ export function AuthProvider({ children }) {
     // setError用於承接輸入錯誤，用於提示
     // fetch login auth api (post)
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/member/login`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email: email,
-            password: passowrd,
-            isAdmin: false,
-          }),
-        }
-      )
+      const response = await fetch(`http://localhost:3005/api/member/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email,
+          password: passowrd,
+          isAdmin: false,
+        }),
+      })
       const data = await response.json()
 
       if (response.ok) {

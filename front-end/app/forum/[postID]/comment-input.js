@@ -32,7 +32,7 @@ export default function CommentInput({
 
   // const handleCommentSubmit = async (e) => {
   //   const content = e.target.value
-  //   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/forum/comment`
+  //   const url = `http://localhost:3005/api/forum/comment`
   //   const res = await fetch(url, {
   //     method: 'POST',
   //     headers: { 'Content-Type': 'application/json' },

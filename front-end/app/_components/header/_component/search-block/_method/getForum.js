@@ -2,7 +2,7 @@ export default async function getForum(search = '') {
   if (search === '') return []
   let error = ''
   const forums = await fetch(
-    '${process.env.NEXT_PUBLIC_API_URL}/api/forum/posts/header-search',
+    'http://localhost:3005/api/forum/posts/header-search',
     {
       method: 'POST',
       headers: {

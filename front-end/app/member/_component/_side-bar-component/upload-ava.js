@@ -33,7 +33,7 @@ export default function UploadAva({
 
     try {
       const token = localStorage.getItem('jwtToken')
-      await fetch('${process.env.NEXT_PUBLIC_API_URL}/api/member/avatar', {
+      await fetch('http://localhost:3005/api/member/avatar', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,

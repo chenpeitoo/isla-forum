@@ -104,18 +104,15 @@ export default function LoginPage() {
   // ==== google 認證設定 ====
   // course登入後跳回原本畫面並自動執行收藏
   const responseMessage = async (response) => {
-    const data = await fetch(
-      '${process.env.NEXT_PUBLIC_API_URL}/api/member/google',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          token: response.credential, // Google Token
-        }),
-      }
-    )
+    const data = await fetch('http://localhost:3005/api/member/google', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        token: response.credential, // Google Token
+      }),
+    })
       .then((response) => response.json())
       .catch((error) => console.error('Error:', error))
     if (!data || !data.data || !data.data.token) {

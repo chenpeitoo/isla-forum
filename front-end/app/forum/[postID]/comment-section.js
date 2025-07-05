@@ -18,7 +18,7 @@ export default function CommentSection({
   const userID = useAuth().user.id
   const postID = useParams().postID
   const { data, isLoading, error, mutate } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/forum/comment?postID=${postID}`,
+    `http://localhost:3005/api/forum/comment?postID=${postID}`,
     fetcher
   )
   useEffect(() => {
@@ -27,13 +27,6 @@ export default function CommentSection({
   useEffect(() => {
     setLastCommentRef(lastCommentRef)
   }, [lastCommentRef, setLastCommentRef])
-
-  // useEffect(() => {
-  //   mainRef?.current?.scrollTo({
-  //     top: mainRef.current.scrollHeight,
-  //     behavior: 'smooth',
-  //   })
-  // }, [data])
 
   if (error) {
     return <>錯誤</>
@@ -103,7 +96,7 @@ export default function CommentSection({
   // console.log(commentsMap)
   // console.log(commentsTree)
   // console.log(commentsTree[0].subComments[0].subComments.length ?? '0')
-  console.log(commentsTree)
+  // console.log(commentsTree)
 
   return (
     <>

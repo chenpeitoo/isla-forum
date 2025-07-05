@@ -23,7 +23,7 @@ export default function PasswordPage() {
       const token = localStorage?.getItem('jwtToken') || null
       if (!token) return
       const response = await fetch(
-        '${process.env.NEXT_PUBLIC_API_URL}/api/member/password',
+        'http://localhost:3005/api/member/password',
         {
           method: 'POST',
           headers: {
