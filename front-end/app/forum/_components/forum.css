@@ -454,6 +454,7 @@
   .img {
     /* width: 130px; */
     height: 130px;
+    max-height: 130px;
     object-fit: cover;
     background-color: #dad3d3;
     transition: 0.1s;
