@@ -3,28 +3,33 @@
 import React, { useState, useEffect } from 'react'
 import { useAuth } from '../../../hook/use-auth'
 import useSWR from 'swr'
-import { UseDirectToLogin } from '../_hooks/useDirectToLogin'
-import { toast } from 'react-toastify'
-import ConfirmModal from './confirmModal'
+import { useDirectToLogin } from '../_hooks/useDirectToLogin'
 
-export default function ComponentsButtonFollowing({ isFollow, handleFollow }) {
+export default function ComponentsButtonFollowing({ isFollow }) {
   const { user } = useAuth()
-  const userID = user.id
   const isAuth = user.id !== 0
-  const handleDirectLogin = UseDirectToLogin({ isAuth })
+  const handleDirectLogin = useDirectToLogin({ isAuth })
 
   return (
     <>
+      {/* <button
+        className="dropdown-item-forum px-0 py-2 button-clear color-accent"
+        type="button"
+        data-bs-toggle="modal"
+        data-bs-target="#confirmModal"
+      >
+        刪除文章
+      </button> */}
       <button
         className={`button-triggerable py-1 flex-grow-1 color-isla-white rounded-3 text-nowrap fw-medium fs14 ${isFollow && isAuth ? 'active' : 'default'} btn-follow`}
         type="button"
-        data-bs-toggle={isAuth && isFollow ? 'modal' : ''}
+        data-bs-toggle={'modal'}
         data-bs-target="#confirmModal"
         onClick={(e) => {
           e.preventDefault()
           e.stopPropagation()
-          !isAuth && handleDirectLogin('')
-          isAuth && !isFollow && handleFollow()
+          // isAuth && handleFollow()
+          if (!isAuth) handleDirectLogin('')
         }}
       >
         {isFollow && isAuth ? '追蹤中' : '追蹤'}

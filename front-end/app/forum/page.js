@@ -31,18 +31,7 @@ export default function ForumPage() {
 
   // const [params, setParams] = useState(new URLSearchParams())
   //
-  const {
-    keyword,
-    setKeyword,
-    productCate,
-    setProductCate,
-    postCate,
-    setPostCate,
-    tab,
-    setTab,
-    params,
-    setParams,
-  } = useFilter()
+  const { setTab } = useFilter()
 
   const fetchMore = () => {
     // 為了顯示無限滾動+loading設計

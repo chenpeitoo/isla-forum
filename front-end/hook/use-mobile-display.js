@@ -21,7 +21,7 @@ function useMobileDisplay(query) {
       try {
         media.addListener(listener) // fallback
       } catch (e) {
-        console.error('addListener failed', e)
+        // console.error('addListener failed', e)
       }
     }
 
@@ -32,7 +32,7 @@ function useMobileDisplay(query) {
         try {
           media.removeListener(listener) // fallback
         } catch (e) {
-          console.error('removeListener failed', e)
+          // console.error('removeListener failed', e)
         }
       }
     }

@@ -4,7 +4,7 @@ import React, { useState, useEffect, act } from 'react'
 import { useAuth } from '../../../hook/use-auth'
 import { ClimbingBoxLoader } from 'react-spinners'
 import { useParams, useRouter } from 'next/navigation'
-import { UseDirectToLogin } from '../_hooks/useDirectToLogin'
+import { useDirectToLogin } from '../_hooks/useDirectToLogin'
 
 // FIXME 讚數是否前端修改即可？
 // FIXME 點擊後被告知確認，但取消後仍然加上資料
@@ -23,7 +23,7 @@ export default function ComponentsBtnLikedSaved({
   const { user } = useAuth()
   const userID = user.id
   const isAuth = user.id !== 0
-  const handleDirectToLogin = UseDirectToLogin({ isAuth })
+  const handleDirectToLogin = useDirectToLogin({ isAuth })
   const iconClass =
     type === 'liked'
       ? active

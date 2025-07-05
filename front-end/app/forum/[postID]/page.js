@@ -34,8 +34,6 @@ export default function PostIDPage(props) {
   let post = {}
   let morePosts = data?.data?.morePosts
 
-  console.log(data)
-
   // 新增 minimum loading 狀態
   const [showLoading, setShowLoading] = useState(true)
   useEffect(() => {

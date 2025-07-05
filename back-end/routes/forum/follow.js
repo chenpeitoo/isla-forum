@@ -6,8 +6,6 @@ import path from 'path'
 const router = express.Router()
 
 router.get('/', async function (req, res) {
-  //   const { followID, userID } = req.body
-  // const userID = req.query.userID
   const followID = req.query.followID
   const userID = req.query.userID
 
@@ -20,8 +18,9 @@ router.get('/', async function (req, res) {
     [followID]
   )
 
+  // 該使用者追蹤了哪些人
   const [follows] = await db.query(
-    `SELECT uf.follow_id AS follow_id,
+    `SELECT uf.follow_id,
     u.nickname AS follow_nick,
     u.ava_url AS follow_img
     FROM user_follow AS uf

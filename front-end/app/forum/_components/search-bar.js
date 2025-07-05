@@ -99,13 +99,10 @@ export default function ComponentsSearchBar() {
             <button
               className="button-clear ps-3 sub-text-color"
               onClick={() => {
-                const allProductCate = Array(productCateItems.length)
-                  .fill(0)
-                  .map((v, i) => i + 1)
-                setProductCate(allProductCate)
+                setProductCate('')
               }}
             >
-              全選
+              清除
             </button>
           </div>
           <div className="cate-input">
@@ -143,13 +140,10 @@ export default function ComponentsSearchBar() {
             <button
               className="button-clear ps-3 sub-text-color"
               onClick={() => {
-                const allPostCate = Array(postCateItems.length)
-                  .fill(0)
-                  .map((v, i) => i + 1)
-                setPostCate(allPostCate)
+                setPostCate('')
               }}
             >
-              全選
+              清除
             </button>
           </div>
           <div className="cate-input">
@@ -186,7 +180,6 @@ export default function ComponentsSearchBar() {
               handleKeywordSearch(e, 'clear')
               setProductCate('')
               setPostCate('')
-              console.log('💥 print reset')
               router.push('/forum')
             }}
           >

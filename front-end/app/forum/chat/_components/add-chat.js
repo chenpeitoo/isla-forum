@@ -5,7 +5,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import ComponentsAvatar from '../../_components/avatar'
 import { useRouter } from 'next/navigation'
 import useSWR from 'swr'
-import UseFollow from '../../_hooks/useFollow'
+import useFollow from '../../_hooks/useFollow'
 import { useAuth } from '../../../../hook/use-auth'
 import Ripples from 'react-ripples'
 import UseAddChat from '../_method/useAddChat'
@@ -16,7 +16,7 @@ export default function ComponentsAddChat({ listMutate }) {
   const modalRef = useRef()
   const { user, isAuth } = useAuth()
   const userID = user.id
-  const { follows, isLoading, error } = UseFollow(userID)
+  const { follows, isLoading, error } = useFollow(userID)
   const [checkList, setCheckList] = useState([])
   const { handleAddChat } = UseAddChat()
 

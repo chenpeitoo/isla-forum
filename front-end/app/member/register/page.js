@@ -111,7 +111,7 @@ export default function RegisterPage() {
     // 新使用者(使用google 登入)
     if (user.email) {
       try {
-        console.log('新增使用者(google account)')
+        // console.log('新增使用者(google account)')
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/api/member/register/google`,
           {
@@ -149,7 +149,7 @@ export default function RegisterPage() {
   useEffect(() => {
     // ==== 檢查是否已登入 ====
     if (user.birthday && !user.birthday.includes('undefined')) {
-      console.log('register-page: 已登入')
+      // console.log('register-page: 已登入')
       router.push('profile')
       return
     }
@@ -160,7 +160,7 @@ export default function RegisterPage() {
       ['name']: user.name || '',
       ['tel']: user.tel || '',
     })
-    console.log('email: ', user.email)
+    // console.log('email: ', user.email)
   }, [isAuth])
 
   return (

@@ -56,7 +56,7 @@ export default function ConfirmModal({
                 onClick={(e) => {
                   e.preventDefault()
                   e.stopPropagation()
-                  handleModalAction(param)
+                  handleModalAction()
                 }}
               >
                 {confirm}

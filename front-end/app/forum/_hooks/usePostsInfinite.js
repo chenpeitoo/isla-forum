@@ -24,12 +24,7 @@ export default function usePostsInfinite(queryObj) {
 
     const api = `${process.env.NEXT_PUBLIC_API_URL}/api/forum/posts/home?${params === '' ? 'tab=1' : params}${cursorClause}`
 
-    console.log('💥triggerd getPostsInfinite')
-    console.log({
-      lastCursor,
-      api,
-      params,
-    })
+    // console.log('💥triggerd getPostsInfinite', {lastCursor,api,params,})
     return api
   }
 

@@ -45,7 +45,7 @@ function buildPostsQuery({ where = '', order = '', limit = '' }) {
       FROM comment
       GROUP BY post_id
     ) comment ON p.id = comment.post_id
-    WHERE p.valid=1`
+    WHERE p.valid = 1`
   if (where) sql += ` AND ${where}`
   if (order) sql += ` ORDER BY ${order}`
   if (limit) sql += ` LIMIT ${limit}`
@@ -109,7 +109,7 @@ router.get('/home', async function (req, res) {
     // 接收請求中的cursor
     const cursor = parseNull(req.query.cursor) || DEFAULT_MAX_CURSOR
     const postID = parseNull(req.query.postID) || DEFAULT_MAX_POST_ID
-    console.log({ cursor, postID })
+    // console.log({ cursor, postID })
 
     // 組織sql where order子句
     let orderClause
@@ -138,7 +138,7 @@ router.get('/home', async function (req, res) {
       order: orderClause,
       limit: limit,
     })
-    console.log(sqlHome, { whereParams })
+    // console.log(sqlHome, { whereParams })
 
     posts = await db.query(sqlHome, whereParams)
     const postsData = posts[0] ?? []
@@ -181,6 +181,89 @@ router.get('/post-detail', async function (req, res) {
     return res.json({
       status: 'success',
       data: { posts: postsResult[0], morePosts: morePostsResult[0] },
+    })
+  } catch (error) {
+    res.status(500).json({ status: 'error', message: error.message })
+  }
+})
+
+// 會員中心 - 我的收藏
+router.get('/saved-post', async function (req, res) {
+  try {
+    const userID = Number(req.query.userID)
+    if (!userID) throw new Error('無使用者編號')
+
+    const whereClause = `EXISTS (SELECT 1 FROM post_user_saved saved WHERE saved.post_id = p.id AND saved.user_id = ? )`
+
+    const orderClause = `p.updated_at DESC`
+
+    const sqlHome = buildPostsQuery({
+      where: whereClause,
+      order: orderClause,
+    })
+
+    const posts = await db.query(sqlHome, [userID])
+    const postsData = posts[0] ?? []
+    const postsTidy = tidy(postsData)
+    // console.log(sqlHome, { userID })
+    return res.json({
+      status: 'success',
+      data: postsTidy,
+    })
+  } catch (error) {
+    res.status(500).json({ status: 'error', message: error.message })
+  }
+})
+
+// 會員中心 - 我的文章
+router.get('/my-post', async function (req, res) {
+  try {
+    const userID = Number(req.query.userID)
+    if (!userID) throw new Error('無使用者編號')
+
+    const whereClause = `p.user_id = ?`
+    const orderClause = `p.updated_at DESC`
+
+    const sqlHome = buildPostsQuery({
+      where: whereClause,
+      order: orderClause,
+      // limit: 9999999999999,
+    })
+
+    const posts = await db.query(sqlHome, [userID])
+    const postsData = posts[0] ?? []
+    const postsTidy = tidy(postsData)
+    console.log(sqlHome, { userID, dataLength: postsTidy.length })
+    return res.json({
+      status: 'success',
+      data: postsTidy,
+    })
+  } catch (error) {
+    res.status(500).json({ status: 'error', message: error.message })
+  }
+})
+
+// 論壇 - 創作者個人頁面
+router.get('/profile', async function (req, res) {
+  try {
+    const authorID = Number(req.query.authorID)
+
+    const whereClause = `p.user_id = ?`
+    const orderClause = `p.updated_at DESC`
+
+    const sqlHome = buildPostsQuery({
+      where: whereClause,
+      order: orderClause,
+      // limit: 9999999999999,
+    })
+
+    const posts = await db.query(sqlHome, [authorID])
+    const postsData = posts[0] ?? []
+    const postsTidy = tidy(postsData)
+    console.log(sqlHome, { dataLength: postsTidy.length })
+    return res.json({
+      status: 'success',
+      data: postsTidy,
     })
   } catch (error) {
     res.status(500).json({ status: 'error', message: error.message })

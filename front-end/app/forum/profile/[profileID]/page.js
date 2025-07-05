@@ -12,7 +12,8 @@ import ComponentsButtonFollowing from '../../_components/btn-follow'
 import ComponentsButtonChat from '../../_components/btn-chat'
 import PostLoader from '../../_components/loader-post'
 import ConfirmModal from '../../_components/confirmModal'
-import UseFollow from '../../_hooks/useFollow'
+import useFollow from '../../_hooks/useFollow'
+import { toast } from 'react-toastify'
 
 const fetcher = (url) => fetch(url).then((res) => res.json())
 
@@ -27,15 +28,18 @@ export default function ForumPage(props) {
   const isOwnProfile = userID === followID
 
   // fetch每篇文章的資料
-  const postsAPI = `${process.env.NEXT_PUBLIC_API_URL}/api/forum/posts/profile?authorID=${authorID}&userID=${userID}`
+  const postsAPI = `${process.env.NEXT_PUBLIC_API_URL}/api/forum/posts/profile?authorID=${authorID}`
   const { data, isLoading, error, mutate } = useSWR(postsAPI, fetcher)
+
+  // 追蹤資料
+  const { handleFollow, isFollow, followCount } = useFollow(userID, followID)
 
   // 新增 minimum loading 狀態
   const [showLoading, setShowLoading] = useState(true)
   useEffect(() => {
     if (!isLoading) {
-      // 至少顯示 600ms
-      const timer = setTimeout(() => setShowLoading(false), 400)
+      // 至少顯示時間
+      const timer = setTimeout(() => setShowLoading(false), 300)
       return () => clearTimeout(timer)
     } else {
       setShowLoading(true)
@@ -52,10 +56,6 @@ export default function ForumPage(props) {
   }
   // console.log(data)
   const posts = data?.status === 'success' ? data?.data : []
-
-  const { handleFollow, isFollow, followCount } = UseFollow(userID, followID)
-  const method = isFollow ? 'DELETE' : 'POST'
-  console.log(isFollow, method, userID)
 
   return (
     <>
@@ -96,7 +96,8 @@ export default function ForumPage(props) {
                 <button
                   className={`button-triggerable default-sub px-3 py-1 my-auto  color-isla-white rounded-3 text-nowrap fw-medium fs14`}
                   onClick={() => {
-                    router.push('/member/profile')
+                    // router.push('/member/profile')
+                    toast.info('功能已關閉')
                   }}
                 >
                   編輯個人資料
@@ -186,7 +187,8 @@ export default function ForumPage(props) {
               <button
                 className={`button-triggerable default-sub px-3 py-1 my-auto  color-isla-white rounded-3 text-nowrap fw-medium fs14`}
                 onClick={() => {
-                  router.push('/member/profile')
+                  // router.push('/member/profile')
+                  toast.info('功能已關閉')
                 }}
               >
                 編輯個人資料
@@ -199,10 +201,9 @@ export default function ForumPage(props) {
       <ConfirmModal
         title="確認取消追蹤？"
         content="您可隨時重新追蹤對方"
-        confirm="取消追蹤"
-        cancel="繼續追蹤"
+        confirm={isFollow ? '取消追蹤' : '追蹤'}
+        cancel={isFollow ? '繼續追蹤' : '取消'}
         handleModalAction={handleFollow}
-        param={method}
       />
     </>
   )

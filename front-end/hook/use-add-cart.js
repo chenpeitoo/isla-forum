@@ -20,7 +20,7 @@ export const useAddCart = (token) => {
   return useMutation({
     mutationFn: async ({ product_id, quantity, color_id }) => {
       // try {
-      console.log('送出的 token:', token)
+      // console.log('送出的 token:', token)
       const res = await axios.post(
         `http://localhost:3005/api/cart-items/create`,
         {

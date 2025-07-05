@@ -130,7 +130,10 @@ export default function Header() {
               onCartClick={handleCartClick}
             /> */}
 
-            <Link href={'/member/' + loginUrl} className="d-lg-block d-none">
+            <Link
+              href={'/member/my-forum/my-following'}
+              className="d-lg-block d-none"
+            >
               <button>{loginAva}</button>
             </Link>
           </div>

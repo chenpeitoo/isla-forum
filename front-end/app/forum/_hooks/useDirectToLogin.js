@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import Link from 'next/link'
 
-export function UseDirectToLogin({ isAuth }) {
+export function useDirectToLogin({ isAuth }) {
   //   const router = useRouter()
   return (path) => {
     if (path.length === 0) {

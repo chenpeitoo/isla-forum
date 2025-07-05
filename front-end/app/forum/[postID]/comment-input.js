@@ -6,7 +6,7 @@ import { useAuth } from '../../../hook/use-auth'
 import ComponentsBtnLikedSaved from '../_components/btn-liked-saved'
 import { useParams, usePathname } from 'next/navigation'
 import { UseCommentSubmit } from '../_hooks/useCommentSubmit'
-import { UseDirectToLogin } from '../_hooks/useDirectToLogin'
+import { useDirectToLogin } from '../_hooks/useDirectToLogin'
 import { ClimbingBoxLoader } from 'react-spinners'
 
 export default function CommentInput({
@@ -28,7 +28,7 @@ export default function CommentInput({
     postID,
     mutate,
   })
-  const handleDirectToLogin = UseDirectToLogin({ userID })
+  const handleDirectToLogin = useDirectToLogin({ userID })
 
   return (
     <>

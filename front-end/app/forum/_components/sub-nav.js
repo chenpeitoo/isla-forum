@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from 'react'
 import ComponentsAuthorInfo from './author-info'
 import EditPostModal from './edit-post-modal'
 import Ripples from 'react-ripples'
-import { UseDirectToLogin } from '../_hooks/useDirectToLogin'
+import { useDirectToLogin } from '../_hooks/useDirectToLogin'
 import { useAuth } from '../../../hook/use-auth'
 import useSWR from 'swr'
 import { useFilter } from '../_context/filterContext'
@@ -52,7 +52,7 @@ export default function ComponentsSubNav() {
   // console.log(followings)
 
   const url = usePathname()
-  const handleDirectToLogin = UseDirectToLogin({ isAuth })
+  const handleDirectToLogin = useDirectToLogin({ isAuth })
 
   return (
     <>
@@ -147,7 +147,7 @@ export default function ComponentsSubNav() {
                   followings.map((v, i) => {
                     return (
                       <Link
-                        href={`/forum/profile/1`}
+                        href={`/forum/profile/${v.follow_id}`}
                         className="followings-link main-text-color py-1 text-truncate"
                         key={i}
                       >

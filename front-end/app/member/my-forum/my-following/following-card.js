@@ -4,14 +4,20 @@ import Link from 'next/link'
 import ComponentsAvatar from '@/app/forum/_components/avatar'
 import ComponentsButtonFollowing from '../../../forum/_components/btn-follow'
 import ComponentsButtonChat from '../../../forum/_components/btn-chat'
+import useFollow from '../../../forum/_hooks/useFollow'
+import { useAuth } from '../../../../hook/use-auth'
+import ConfirmModal from '../../../forum/_components/confirmModal'
 
 export default function FollowingCard({
+  followID,
   nick = '',
   cardHref = '',
   imgSrc = '',
   imgClassWidth = '',
   followMutate,
 }) {
+  const userID = useAuth().user.id
+  const { isFollow, handleFollow } = useFollow(userID, followID)
   return (
     <>
       <Link
@@ -37,6 +43,14 @@ export default function FollowingCard({
           <ComponentsButtonChat />
         </div>
       </Link>
+
+      <ConfirmModal
+        title="確認取消追蹤？"
+        content="您可隨時重新追蹤對方"
+        confirm={isFollow ? '取消追蹤' : '追蹤'}
+        cancel={isFollow ? '繼續追蹤' : '取消'}
+        handleModalAction={handleFollow}
+      />
     </>
   )
 }

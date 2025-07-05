@@ -9,7 +9,6 @@ import { FORUM_PAGE_URL } from '@/_route/page-url'
 import '../_style/forum.css' // 卡片css
 
 export default function ForumBar({ forum = {}, setHamMenuOpen = () => {} }) {
-  console.log(forum.content)
   return (
     <>
       <Link

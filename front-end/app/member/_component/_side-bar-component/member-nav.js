@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { toast } from 'react-toastify'
 
 export default function MemberNav({
   OpenMenu = false,
@@ -11,6 +12,11 @@ export default function MemberNav({
     open = 'open'
   } else {
     open = ''
+  }
+
+  const handleOnClick = (e) => {
+    e.preventDefault()
+    toast.info('功能已關閉')
   }
   return (
     <>
@@ -24,36 +30,6 @@ export default function MemberNav({
         }}
       >
         <ul>
-          <li className="title">個人</li>
-          <Link href="/member/profile">
-            <li>基本資料</li>
-          </Link>
-          <Link href="/member/password">
-            <li>密碼變更</li>
-          </Link>
-        </ul>
-        <ul>
-          <li className="title">購物</li>
-          <Link href="/member/like-list">
-            <li>願望清單</li>
-          </Link>
-          <Link href="/member/coupon">
-            <li>我的優惠券</li>
-          </Link>
-          <Link href="/member/order">
-            <li>訂單紀錄</li>
-          </Link>
-        </ul>
-        <ul>
-          <li className="title">課程</li>
-          <Link href="/member/course">
-            <li>我的課程</li>
-          </Link>
-          {/* <Link href="/member/teacher">
-            <li>教師管理</li>
-          </Link> */}
-        </ul>
-        <ul>
           <li className="title">文章</li>
           <Link href="/member/my-forum/my-following">
             <li>我的追蹤</li>
@@ -65,6 +41,33 @@ export default function MemberNav({
             <li>收藏文章</li>
           </Link>
         </ul>
+        {/* <ul>
+          <li className="title">個人</li>
+          <Link href="/member/profile" onClick={handleOnClick}>
+            <li>基本資料</li>
+          </Link>
+          <Link href="/member/password" onClick={handleOnClick}>
+            <li>密碼變更</li>
+          </Link>
+        </ul> */}
+        {/* <ul>
+          <li className="title">購物</li>
+          <Link href="/member/like-list" onClick={handleOnClick}>
+            <li>願望清單</li>
+          </Link>
+          <Link href="/member/coupon" onClick={handleOnClick}>
+            <li>我的優惠券</li>
+          </Link>
+          <Link href="/member/order" onClick={handleOnClick}>
+            <li>訂單紀錄</li>
+          </Link>
+        </ul>
+        <ul>
+          <li className="title">課程</li>
+          <Link href="/member/course" onClick={handleOnClick}>
+            <li>我的課程</li>
+          </Link>
+        </ul> */}
       </button>
     </>
   )

@@ -41,7 +41,7 @@ export function AuthProvider({ children }) {
     let newError = { email: '', password: '' }
     const serverErrors = data.errors
     if (Array.isArray(serverErrors)) {
-      console.log('Errors: ', serverErrors)
+      // console.log('Errors: ', serverErrors)
       serverErrors.forEach((serverError) => {
         switch (serverError.path) {
           case 'email':
@@ -65,7 +65,7 @@ export function AuthProvider({ children }) {
   const initAuth = async () => {
     const token = localStorage.getItem('jwtToken')
     if (!token) {
-      console.log('not get token')
+      // console.log('not get token')
       cleanStorage()
       return
     }
@@ -78,7 +78,7 @@ export function AuthProvider({ children }) {
 
       const data = await response.json()
       if (response.ok && data?.data) {
-        console.log('useAuth: ', data.data)
+        // console.log('useAuth: ', data.data)
         setUser({ ...data.data, token }) // ✅ token 傳進 user 確保可以從 localStorage取得
         // setUser(data.data)
         // setIsAuth(true)
@@ -86,7 +86,7 @@ export function AuthProvider({ children }) {
         cleanStorage()
       }
     } catch (err) {
-      console.error('驗證錯誤:', err)
+      // console.error('驗證錯誤:', err)
       cleanStorage()
     }
   }
@@ -108,19 +108,19 @@ export function AuthProvider({ children }) {
 
       if (response.ok) {
         if (!data || !data.data || !data.data.token) {
-          console.log('沒有取得token，登入失敗', data)
+          // console.log('沒有取得token，登入失敗', data)
           return
         }
         // set token to localStorage
         localStorage.setItem('jwtToken', data['data']['token'])
-        console.log('check token: ', data['data']['token'])
-        console.log('後端回應成功')
+        // console.log('check token: ', data['data']['token'])
+        // console.log('後端回應成功')
       } else {
         errorComfirm(data, setError)
-        // console.error('登入失敗', data.message)
+        console.error('登入失敗', data.message)
       }
     } catch (err) {
-      console.log(err)
+      // console.log(err)
     }
     // 取得使用者資料
     initAuth()

@@ -152,13 +152,13 @@ export const UseUserReview = (product_id, user_id) => {
           `http://localhost:3005/api/product-reviews/user/check?product_id=${product_id}&user_id=${user_id}`
         )
         if (res.data.success !== true) {
-          console.error('API 錯誤回傳:', res.data)
+          // console.error('API 錯誤回傳:', res.data)
           throw new Error('Failed to fetch product reviews')
         }
-        console.log('取得村民的評論資料:', res.data)
+        // console.log('取得村民的評論資料:', res.data)
         return res.data.data
       } catch (error) {
-        console.error(error)
+        // console.error(error)
       }
     },
     enabled: !!user_id && !!product_id,
@@ -184,7 +184,7 @@ export function UseSaveOrUpdateReview() {
       queryClient.invalidateQueries(['product-reviews', data.user_id])
     },
     onError: (error) => {
-      console.error('送出失敗:', error.response?.data?.message || error.message)
+      // console.error('送出失敗:', error.response?.data?.message || error.message)
     },
   })
 }

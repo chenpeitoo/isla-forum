@@ -6,14 +6,14 @@ import { toast } from 'react-toastify'
 
 const fetcher = (url) => fetch(url).then((res) => res.json())
 
-export default function UseFollow(userID, followID) {
+export default function useFollow(userID, followID) {
   const { data, isLoading, error, mutate } = useSWR(
     `${process.env.NEXT_PUBLIC_API_URL}/api/forum/follow?followID=${followID}&userID=${userID}`,
     fetcher
   )
-  console.log(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/forum/follow?followID=${followID}&userID=${userID}`
-  )
+  // console.log(
+  //   `${process.env.NEXT_PUBLIC_API_URL}/api/forum/follow?followID=${followID}&userID=${userID}`
+  // )
   const isFollow = data?.data.includes(userID)
   const followCount = data?.data.length
   const follows = data?.follows
@@ -40,5 +40,13 @@ export default function UseFollow(userID, followID) {
   if (isLoading || error || data.status !== 'success')
     return { isLoading, error, status: data?.status }
 
-  return { handleFollow, isFollow, followCount, follows, isLoading, error }
+  return {
+    handleFollow,
+    isFollow,
+    followCount,
+    follows,
+    isLoading,
+    error,
+    mutate,
+  }
 }

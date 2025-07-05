@@ -2,15 +2,16 @@
 
 import React, { useState, useEffect } from 'react'
 import { useAuth } from '../../../hook/use-auth'
-import { UseDirectToLogin } from '../_hooks/useDirectToLogin'
+import { useDirectToLogin } from '../_hooks/useDirectToLogin'
 import { useRouter } from 'next/navigation'
+import { toast } from 'react-toastify'
 
 export default function ComponentsButtonChat() {
   const router = useRouter()
   const { user } = useAuth()
   const userID = user.id
   const isAuth = user.id !== 0
-  const handleDirectLogin = UseDirectToLogin({ isAuth })
+  const handleDirectToLogin = useDirectToLogin({ isAuth })
   return (
     <>
       <button
@@ -18,6 +19,7 @@ export default function ComponentsButtonChat() {
         onClick={(e) => {
           e.stopPropagation()
           e.preventDefault()
+          !isAuth && handleDirectToLogin('')
           isAuth && router.push('/forum/chat')
         }}
       >

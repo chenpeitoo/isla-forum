@@ -8,7 +8,7 @@ import ComponentsSubCommentToggle from './subCommentToggle'
 import { useAuth } from '../../../../hook/use-auth'
 import { useParams, usePathname } from 'next/navigation'
 import { UseCommentSubmit } from '../../_hooks/useCommentSubmit'
-import { UseDirectToLogin } from '../../_hooks/useDirectToLogin'
+import { useDirectToLogin } from '../../_hooks/useDirectToLogin'
 
 export default function RecursiveComment({
   commentID = '',
@@ -41,7 +41,7 @@ export default function RecursiveComment({
     mutate,
   })
 
-  const handleDirectToLogin = UseDirectToLogin({ isAuth })
+  const handleDirectToLogin = useDirectToLogin({ isAuth })
 
   const handleCommentDelete = () => {}
 
