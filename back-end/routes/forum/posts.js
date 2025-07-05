@@ -10,9 +10,6 @@ import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 const router = express.Router()
 dayjs.extend(customParseFormat)
 
-const DEFAULT_MAX_POST_ID = 99999999999999
-const DEFAULT_MAX_CURSOR = 99999999999999
-
 function buildPostsQuery({ where = '', order = '', limit = '' }) {
   let sql = `
     SELECT 
@@ -70,17 +67,25 @@ function tidy(data) {
   })
 }
 
+function parseNull(value) {
+  if (value === undefined || value === null) return null // 沒帶參數
+  if (value === '' || value === 'null' || value === 'undefined') return null
+  return value // 保留原值
+}
+
 router.get('/home', async function (req, res) {
   try {
-    const tabQuery = req.query.tab
+    const tabQuery = Number(req.query.tab)
     const keywordQuery = req.query.keyword
     const productCateQuery = req.query.productCate?.split(',').map(Number)
     const postCateQuery = req.query.postCate?.split(',').map(Number)
-    // console.log({ tabQuery, keywordQuery, productCateQuery, postCateQuery })
+
+    const DEFAULT_MAX_POST_ID = 99999999999999
+    const DEFAULT_MAX_CURSOR =
+      tabQuery === 1 ? 99999999999999 : '3000:01:01 00:00:00'
 
     let sqlHome
     let posts
-    let otherPostsData = []
     let wherePlaceholder = []
     let whereParams = []
 
@@ -90,63 +95,67 @@ router.get('/home', async function (req, res) {
     }
     if (productCateQuery) {
       wherePlaceholder.push(
-        ` p.product_cate_id IN (${productCateQuery.map(() => '?').join(',')})`
+        `p.product_cate_id IN (${productCateQuery.map(() => '?').join(',')})`
       )
       whereParams.push(...productCateQuery)
     }
     if (postCateQuery) {
       wherePlaceholder.push(
-        ` p.cate_id IN (${postCateQuery.map(() => '?').join(',')})`
+        `p.cate_id IN (${postCateQuery.map(() => '?').join(',')})`
       )
       whereParams.push(...postCateQuery)
     }
 
-    if (tabQuery || keywordQuery || productCateQuery || postCateQuery) {
-      sqlHome = buildPostsQuery({
-        where: wherePlaceholder.join('AND'),
-      })
-      whereParams.push(...tabQuery, ...keywordQuery, ...productCateQuery)
-      console.log({ clg: '------', sqlHome, whereParams })
-      // posts = await db.query(sqlHome, [whereParams])
-      // const postsIdArr = posts[0].map((v) => v.id)
-      // console.log(postsIdArr)
-      // const [allPostsData] = await db.query(buildPostsQuery({}))
-      // otherPostsData = allPostsData?.filter((v) => !postsIdArr.includes(v.id))
+    // 接收請求中的cursor
+    const cursor = parseNull(req.query.cursor) || DEFAULT_MAX_CURSOR
+    const postID = parseNull(req.query.postID) || DEFAULT_MAX_POST_ID
+    console.log({ cursor, postID })
+
+    // 組織sql where order子句
+    let orderClause
+    if (tabQuery === 1) {
+      wherePlaceholder.push(`(
+        IFNULL(liked.count + saved.count + comment.count, 0) < ? 
+        OR (
+          IFNULL(liked.count + saved.count + comment.count, 0) = ? 
+          AND p.id < ?
+        )
+      )`)
+      whereParams.push(cursor, cursor, postID)
+      orderClause = `IFNULL(liked.count + saved.count + comment.count, 0) DESC, p.id DESC` //簡寫成popular則無法查詢
+    } else if (tabQuery === 2) {
+      wherePlaceholder.push(
+        `(p.updated_at < ? OR (updated_at = ? AND p.id < ?))`
+      )
+      whereParams.push(cursor, cursor, postID)
+      orderClause = `p.updated_at DESC, p.id DESC`
     }
 
-    const cursor = req.query.cursor || DEFAULT_MAX_CURSOR
-    const postID = req.query.postID || DEFAULT_MAX_POST_ID
-
-    const cursorClause =
-      tabQuery === 2
-        ? ``
-        : `(
-        IFNULL(liked.count + saved.count + comment.count, 0) < ${cursor} 
-        OR (
-          IFNULL(liked.count + saved.count + comment.count, 0) = ${cursor} 
-          AND p.id < ${postID}
-        )
-      )`
-    const orderClause =
-      tabQuery === 2
-        ? `p.updated_at DESC, p.id DESC`
-        : `IFNULL( liked.count + saved.count + comment.count, 0) DESC, p.id DESC`
-
+    const whereClause = wherePlaceholder.join(' AND ')
     const limit = 5
     sqlHome = buildPostsQuery({
-      where: cursorClause,
+      where: whereClause,
       order: orderClause,
       limit: limit,
     })
-    posts = await db.query(sqlHome)
+    console.log(sqlHome, { whereParams })
+
+    posts = await db.query(sqlHome, whereParams)
     const postsData = posts[0] ?? []
     const postsTidy = tidy(postsData)
 
+    // 製作lastCursor
     const last = postsTidy.at(-1)
     const lastCursor =
-      posts[0].length === limit ? { popular: last.popular, id: last.id } : null // 若資料是最尾端了，則cursor為null
+      posts[0].length === limit && tabQuery === 1
+        ? { popular: last.popular, id: last.id }
+        : posts[0].length === limit && tabQuery === 2
+        ? {
+            popular: last.updated_at.format('YYYY-MM-DD HH:mm:ss'),
+            id: last.id,
+          }
+        : null // 若資料是最尾端了，則cursor為null
 
-    console.log(sqlHome)
     return res.json({
       status: 'success',
       data: { posts: postsTidy, lastCursor },
