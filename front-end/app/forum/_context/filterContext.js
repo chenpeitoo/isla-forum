@@ -37,7 +37,9 @@ export function FilterProvider({ children }) {
       : params.delete('postCate')
     params.set('tab', tab)
 
-    router.push(`http://localhost:3000/forum?${params.toString()}`)
+    router.push(
+      `${process.env.NEXT_PUBLIC_PUBLIC_URL}/forum?${params.toString()}`
+    )
   }, [keyword, productCate, postCate, tab])
 
   return (

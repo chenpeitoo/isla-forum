@@ -27,7 +27,7 @@ export default function ForumPage(props) {
   const isOwnProfile = userID === followID
 
   // fetch每篇文章的資料
-  const postsAPI = `http://localhost:3005/api/forum/posts/profile?authorID=${authorID}&userID=${userID}`
+  const postsAPI = `${process.env.NEXT_PUBLIC_API_URL}/api/forum/posts/profile?authorID=${authorID}&userID=${userID}`
   const { data, isLoading, error, mutate } = useSWR(postsAPI, fetcher)
 
   // 新增 minimum loading 狀態

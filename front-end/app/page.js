@@ -1,8 +1,11 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import React, { useState, useEffect } from 'react'
 
 export default function AppPage(props) {
+  const router = useRouter()
+  router.push('/forum')
   return (
     <>
       <div>App Page</div>

@@ -30,28 +30,6 @@ export default function CommentInput({
   })
   const handleDirectToLogin = UseDirectToLogin({ userID })
 
-  // const handleCommentSubmit = async (e) => {
-  //   const content = e.target.value
-  //   const url = `http://localhost:3005/api/forum/comment`
-  //   const res = await fetch(url, {
-  //     method: 'POST',
-  //     headers: { 'Content-Type': 'application/json' },
-  //     body: JSON.stringify({ content, userID, postID, parentID }),
-  //   })
-  //   if (!res.ok) {
-  //     throw new Error('獲取資料錯誤')
-  //   }
-  //   const result = await res.json()
-  //   console.log(result)
-
-  //   if (result.status === 'success' && mutate) {
-  //     await mutate()
-  //     window.scrollTo({
-  //       top: document.body.scrollHeight,
-  //       behavior: 'smooth',
-  //     })
-  //   }
-  // }
   return (
     <>
       <div className="comment-input-block position-sticky bottom-0 d-flex align-items-center gap-2 px-4 py-2 bg-pure-white">

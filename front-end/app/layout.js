@@ -79,7 +79,7 @@ export default function RootLayout({ children }) {
               <Path />
               {children}
             </div>
-            <Footer />
+            {/* <Footer /> */}
             {/* <ToastContainer /> */}
             {/* <Chat /> */}
           </Provider>

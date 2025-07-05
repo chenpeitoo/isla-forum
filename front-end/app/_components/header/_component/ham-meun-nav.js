@@ -83,8 +83,9 @@ export default function HamMeunNav({
               <Image
                 src={
                   isAuth
-                    ? 'http://localhost:3005/images/member/' + user.ava_url
-                    : 'http://localhost:3000/images/member/default-user.jpg'
+                    ? `${process.env.NEXT_PUBLIC_API_URL}/images/member/` +
+                      user.ava_url
+                    : `${process.env.NEXT_PUBLIC_PUBLIC_URL}/images/member/default-user.jpg`
                 }
                 alt="Picture of the member"
                 width={100}

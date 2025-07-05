@@ -28,7 +28,7 @@ export default function PostIDPage(props) {
   const [lastCommentRef, setLastCommentRef] = useState()
   // if (commentMutate) console.log(commentMutate)
 
-  const postAPI = `http://localhost:3005/api/forum/posts/post-detail?postID=${postID}`
+  const postAPI = `${process.env.NEXT_PUBLIC_API_URL}/api/forum/posts/post-detail?postID=${postID}`
   const { data, isLoading, error, mutate } = useSWR(postAPI, fetcher)
   let posts = data?.data?.posts
   let post = {}
@@ -106,7 +106,7 @@ export default function PostIDPage(props) {
 
   const handleDeletePost = async () => {
     const res = await fetch(
-      `http://localhost:3005/api/forum/posts/soft-delete/${post.id}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/forum/posts/soft-delete/${post.id}`,
       { method: 'PUT' }
     )
     if (!res.ok) throw new Error('未成功連線')

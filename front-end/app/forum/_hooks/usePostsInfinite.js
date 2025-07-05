@@ -22,8 +22,7 @@ export default function usePostsInfinite(queryObj) {
       ? `&cursor=${lastCursor.popular}&postID=${lastCursor.id}`
       : '&cursor=null&postID=null'
 
-    const api = `http://localhost:3005/api/forum/posts/home?${params === '' ? 'tab=1' : params}${cursorClause}`
-    // const api = `http://localhost:3005/api/forum/posts/home?tab=1${cursorClause}`
+    const api = `${process.env.NEXT_PUBLIC_API_URL}/api/forum/posts/home?${params === '' ? 'tab=1' : params}${cursorClause}`
 
     console.log('💥triggerd getPostsInfinite')
     console.log({

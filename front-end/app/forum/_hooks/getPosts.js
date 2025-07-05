@@ -8,7 +8,7 @@ const fetcher = (url) => fetch(url).then((res) => res.json())
 // 發佈、更新文章也需要mutate更新畫面，因而拆成共用元件
 export default function GetPosts(params) {
   // 開抓
-  const postsAPI = `http://localhost:3005/api/forum/posts/home?${params}`
+  const postsAPI = `${process.env.NEXT_PUBLIC_API_URL}/api/forum/posts/home?${params}`
   const { data, isLoading, error, mutate } = useSWR(postsAPI, fetcher)
   console.log(data)
 

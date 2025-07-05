@@ -56,7 +56,7 @@ export default function ComponentsSearchBar() {
   return (
     <>
       <aside className="aside d-flex flex-column pt-2 position-sticky">
-        <form action="http://localhost:3005/api/forum/posts">
+        <form action={`${process.env.NEXT_PUBLIC_API_URL}/api/forum/posts`}>
           <div className="search-bar d-flex flex-row align-items-center bottom-stroke">
             <button
               className="d-inline-block button-clear sub-text-color me-2"

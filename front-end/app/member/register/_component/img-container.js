@@ -23,14 +23,14 @@ export default function ImgContainer(props) {
     <>
       <div className="position-relative register-img-container">
         <Image
-          src={'http://localhost:3000/images/register/banner1.jpg'}
+          src={`${process.env.NEXT_PUBLIC_PUBLIC_URL}/images/register/banner1.jpg`}
           alt="banner1"
           width={100}
           height={100}
           className={imgClass[0]}
         />
         <Image
-          src={'http://localhost:3000/images/register/banner2.jpg'}
+          src={`${process.env.NEXT_PUBLIC_PUBLIC_URL}/images/register/banner2.jpg`}
           alt="banner1"
           width={100}
           height={100}

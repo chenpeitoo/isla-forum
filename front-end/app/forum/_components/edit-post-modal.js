@@ -73,7 +73,7 @@ export default function EditPostModal({
     const method = isUpdated ? 'PUT' : 'POST'
 
     // 建立還是更新
-    fetch('http://localhost:3005/api/forum/posts', {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/forum/posts`, {
       method: method,
       body: fd,
     })

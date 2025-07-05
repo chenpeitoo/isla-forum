@@ -22,7 +22,7 @@ export default function Otp({ email }) {
     e.preventDefault()
     try {
       const response = await fetch(
-        'http://localhost:3005/api/member/forget-pass/verify-otp',
+        `${process.env.NEXT_PUBLIC_API_URL}/api/member/forget-pass/verify-otp`,
         {
           method: 'POST',
           headers: {
