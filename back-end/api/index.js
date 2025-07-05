@@ -36,7 +36,7 @@ const whitelist = [
   'http://localhost:3001',
   process.env.FRONTEND_ORIGIN,
   'https://isla-forum.up.railway.app',
-  'https://isla-forum-backend-production.up.railway.app/',
+  'https://isla-forum-backend-production.up.railway.app',
 ].filter(Boolean)
 
 const corsOptions = {

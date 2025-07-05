@@ -161,7 +161,10 @@ router.get('/home', async function (req, res) {
       data: { posts: postsTidy, lastCursor },
     })
   } catch (error) {
-    res.status(500).json({ status: 'error', message: error.message })
+    console.error('forum/posts/home error:', error, error?.stack)
+    res
+      .status(500)
+      .json({ status: 'error', message: error.message || String(error) })
   }
 })
 
