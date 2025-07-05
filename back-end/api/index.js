@@ -34,7 +34,9 @@ const whitelist = [
   process.env.FRONTEND_URL,
   'http://localhost:3000',
   'http://localhost:3001',
-  process.env.FRONTEND_ORIGIN || 'https://isla-forum.up.railway.app',
+  process.env.FRONTEND_ORIGIN,
+  'https://isla-forum.up.railway.app',
+  'https://isla-forum-backend-production.up.railway.app/',
 ].filter(Boolean)
 
 const corsOptions = {
@@ -134,6 +136,11 @@ app.use(
     saveUninitialized: false,
   })
 )
+
+// 抓蟲
+app.get('/api/health', (req, res) => {
+  res.send('OK')
+})
 
 // 根路由預設測試畫面
 app.get('/', (req, res) => res.send('Express server is running.'))
