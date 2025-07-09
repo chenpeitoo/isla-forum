@@ -31,7 +31,7 @@ export default function PostIDPage(props) {
   const postAPI = `${process.env.NEXT_PUBLIC_API_URL}/api/forum/posts/post-detail?postID=${postID}`
   const { data, isLoading, error, mutate } = useSWR(postAPI, fetcher)
   let posts = data?.data?.posts
-  let post = {}
+  const post = posts?.[0]
   let morePosts = data?.data?.morePosts
 
   // 新增 minimum loading 狀態
@@ -46,32 +46,8 @@ export default function PostIDPage(props) {
     }
   }, [isLoading])
 
-  if (Array.isArray(posts)) {
-    posts = posts.map((post) => {
-      return {
-        ...post,
-        liked_user_ids: post.liked_user_ids
-          ? post.liked_user_ids.split(',').map(Number)
-          : [],
-        saved_user_ids: post.saved_user_ids
-          ? post.saved_user_ids.split(',').map(Number)
-          : [],
-      }
-    })
-    post = posts[0]
-  }
-  if (Array.isArray(morePosts)) {
-    morePosts = morePosts.map((morePost) => {
-      return {
-        ...morePost,
-        // liked_user_ids: ''?.split(',').map(Number) ?? [], NOTE 這個會回覆[0]而非空陣列
-        liked_user_ids: morePost.liked_user_ids?.split(',').map(Number) ?? [],
-        saved_user_ids: morePost.saved_user_ids?.split(',').map(Number) ?? [],
-      }
-    })
-  }
-
   // 日期格式
+
   const date = new Date(post?.updated_at)
   const time = date.getTime()
   const month = date.getMonth() + 1
@@ -213,7 +189,7 @@ export default function PostIDPage(props) {
               <div className="evaluates d-flex mb-5 mx-4">
                 <ComponentsBtnLikedSaved
                   type="liked"
-                  active={post.liked_user_ids.includes(userID)}
+                  // active={post.liked_user_ids.includes(userID)}
                   count={post.liked_user_ids.length}
                   postID={postID}
                   userID={userID}

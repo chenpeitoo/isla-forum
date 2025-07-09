@@ -179,11 +179,12 @@ router.get('/post-detail', async function (req, res) {
     })
     const morePostsResult = await db.query(sqlMorePosts)
 
-    console.log(sqlMorePosts)
+    const postsTidy = tidy(postsResult[0])
+    const morePostsTidy = tidy(morePostsResult[0])
 
     return res.json({
       status: 'success',
-      data: { posts: postsResult[0], morePosts: morePostsResult[0] },
+      data: { posts: postsTidy, morePosts: morePostsTidy },
     })
   } catch (error) {
     res.status(500).json({ status: 'error', message: error.message })

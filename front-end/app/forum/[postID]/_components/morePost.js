@@ -21,8 +21,8 @@ export default function ComponentsMorePost({
     <>
       <Link
         className="more-card d-flex align-items-center gap-2 px-3 py-2 main-text-color rounded-4"
-        href={`/forum/${postID}`}
-        target="_top"
+        href={`${process.env.NEXT_PUBLIC_PUBLIC_URL}/forum/${postID}`}
+        // target="_top" //NOTE 這個寫法為瀏覽器原生跳轉，Next.js<Link>不該搭配它
       >
         <div className="more-content d-flex flex-column gap-2 flex-grow-1">
           <div className="more-title text-truncate fw-medium">{postTitle}</div>
@@ -62,11 +62,6 @@ export default function ComponentsMorePost({
             </div>
           </div>
         </div>
-        {/* <Image
-                    className="more-img object-fit-cover rounded-3"
-                    src="./images/7aeeb949-922a-46aa-8f6d-79b7c7134bc8.jpeg"
-                    layout="fill"
-                  /> */}
       </Link>
     </>
   )
