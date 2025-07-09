@@ -16,6 +16,7 @@ function buildPostsQuery({ where = '', order = '', limit = '' }) {
         p.*,
         pc.id AS cate_id,
         pc.name AS cate_name,
+        prc.name AS prodcut_cate_name,
         u.nickname AS user_nick,
         u.ava_url AS user_img,
         IFNULL (liked.user_ids, '') AS liked_user_ids,
@@ -24,6 +25,7 @@ function buildPostsQuery({ where = '', order = '', limit = '' }) {
         IFNULL (comment.count, 0) AS comment_count
     FROM post p
     JOIN post_category pc ON p.cate_id = pc.id
+    JOIN categories prc ON p.product_cate_id = prc.category_id
     JOIN users u ON p.user_id = u.id
     LEFT JOIN (
         SELECT post_id,

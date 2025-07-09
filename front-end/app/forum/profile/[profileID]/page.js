@@ -129,6 +129,7 @@ export default function ForumPage(props) {
                   postID={post.id}
                   postTitle={post.title}
                   postCateName={post.cate_name}
+                  productCateName={post.prodcut_cate_name}
                   postContent={post.content}
                   authorID={post.user_id}
                   width="21"

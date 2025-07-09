@@ -10,6 +10,7 @@ export default function ComponentsPostCard({
   postID = '',
   postTitle = '',
   postCateName = '',
+  productCateName = '',
   postContent = '',
   authorID = '',
   width = '',
@@ -102,11 +103,14 @@ export default function ComponentsPostCard({
         </div>
       </div>
       <div className="post-header d-flex px-4">
+        <div className="post-title fw-medium text-truncate main-text-color me-auto">
+          {postTitle}
+        </div>
         <div className="post-tag px-2 py-1 me-2 rounded-pill fs12 text-nowrap bg-light-hover main-color">
           {postCateName}
         </div>
-        <div className="post-title fw-medium text-truncate main-text-color">
-          {postTitle}
+        <div className="post-tag px-2 py-1 rounded-pill fs12 text-nowrap bg-light-hover main-color">
+          {productCateName}
         </div>
       </div>
       <div
