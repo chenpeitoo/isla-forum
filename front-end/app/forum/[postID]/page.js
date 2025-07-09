@@ -121,10 +121,13 @@ export default function PostIDPage(props) {
             <div className="post d-flex flex-column gap-2 rounded-top-4 shadow-forum bg-pure-white pt-4 card-border position-relative">
               <div className="post-header d-flex  align-items-start mx-4">
                 <div className="post-title flex-grow-1 me-3 fs24 fw-medium">
-                  <span className="post-tag d-inline align-middle px-2 py-1 me-2 my-auto rounded-pill fs12 text-nowrap bg-light-hover main-color">
+                  {post.title}
+                  <span className="post-tag d-inline align-middle px-2 py-1 ms-2 my-auto rounded-pill fs12 text-nowrap bg-light-hover main-color">
                     {post.cate_name}
                   </span>
-                  {post.title}
+                  <span className="post-tag d-inline align-middle px-2 py-1 ms-2 my-auto rounded-pill fs12 text-nowrap bg-light-hover main-color">
+                    {post.prodcut_cate_name}
+                  </span>
                 </div>
                 <div className="btn-group">
                   <button
