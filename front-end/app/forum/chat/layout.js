@@ -31,7 +31,9 @@ export default function ChatLayout({ children }) {
                 <i className="bi bi-pencil-square"></i>
               </button>
             </div>
-            <div className="chat-list-items-block position-absolute overflow-auto px-2 py-2"></div>
+            <div className="chat-list-items-block position-absolute overflow-auto px-2 py-2">
+              <ChatList />
+            </div>
           </div>
           <div
             className={`chat-room col col-md-7 p-0 pe-3 ${isInRoom ? 'd-block' : 'd-none d-md-block'} d-md-block overflow-auto`}

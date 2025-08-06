@@ -54,7 +54,7 @@ export default function ChatRoom() {
 
   // console.log(messages) //sender_id, content, nick, ava_url
 
-  ws.addEventListener('close', (event) => {
+  ws.addEventListener('close', () => {
     console.log('連線關閉')
   })
 

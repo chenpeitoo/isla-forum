@@ -1,6 +1,4 @@
 'use client'
-
-import React, { useState, useEffect } from 'react'
 import useSWR from 'swr'
 
 const fetcher = (url) => fetch(url).then((res) => res.json())
@@ -13,8 +11,9 @@ export default function GetChatList(userID) {
     ...room,
     msg: JSON.parse(room.msg),
   }))
-  const roomHeader = data?.roomHeader
-  return { isLoading, error, mutate, rooms, roomHeader }
+  const roomHeaders = data?.roomHeader
+  // console.log({ url, data, rooms, roomHeaders })
+  return { isLoading, error, mutate, rooms, roomHeaders }
 }
 
 //BUG https://isla-forum-backend-production.up.railway.app/api/forum/chat?userID=1 失敗

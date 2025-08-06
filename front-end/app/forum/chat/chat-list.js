@@ -8,22 +8,20 @@ import GetChatList from './_method/getChatList'
 // /* TODO 換成幾小時 */
 
 export default function ChatList({ setListMutate }) {
-  const { user, isAuth } = useAuth()
-  const userID = user.id
+  const userID = useAuth().user.id
 
-  const { data, isLoading, error, mutate } = GetChatList(userID)
-  const rooms = data?.roomList?.map((room) => ({
-    ...room,
-    msg: JSON.parse(room.msg),
-  }))
-  const roomHeader = data?.roomHeader
+  const { rooms, roomHeaders, isLoading, error } = GetChatList(userID)
+  // const roomItems = rooms?.map((item) => ({
+  //   ...item,
+  //   msg: JSON.parse(item.msg),
+  // }))
+  const roomItems = rooms
 
-  console.log(data)
+  console.log({ rooms, roomItems })
   return (
     <>
       <div className="chat-list-items">
-        test
-        {/* {error ? (
+        {error ? (
           <div className="d-flex align-items-center justify-content-center h-100">
             連線失敗，請再試一次
           </div>
@@ -32,18 +30,18 @@ export default function ChatList({ setListMutate }) {
             Loading
           </div>
         ) : (
-          rooms &&
-          rooms.map((room, i) => {
-            const date = new Date(room.msg.created_at)
+          roomItems &&
+          roomItems.map((item, i) => {
+            const date = new Date(item.msg.created_at)
             const dateFormat = `${date.getMonth()}月${date.getDate()}日`
             return (
               <Link
-                href={`/forum/chat/${room.room_id}`}
+                href={`/forum/chat/${item.room_id}`}
                 className="chat-list-item d-flex gap-2 p-3 rounded-3 main-text-color"
                 key={i}
               >
-                {roomHeader
-                  .filter((v) => v.room_id === room.room_id)[0]
+                {roomHeaders
+                  .filter((v) => v.room_id === item.room_id)[0]
                   .imgs?.split(',')
                   .slice(0, 2)
                   .map((ava, i) => {
@@ -61,7 +59,7 @@ export default function ChatList({ setListMutate }) {
                   <div className="friend-name-date d-flex justify-content-between gap-2">
                     <div className="text-truncate">
                       {
-                        roomHeader.filter((v) => v.room_id === room.room_id)[0]
+                        roomHeaders.filter((v) => v.room_id === item.room_id)[0]
                           .nicks
                       }
                     </div>
@@ -70,14 +68,14 @@ export default function ChatList({ setListMutate }) {
                     </div>
                   </div>
                   <div className="cotent-preview text-truncate sub-text-color fs14 fw-normal">
-                    <span className="fw-medium">{room.msg.nick}：</span>
-                    <span className="fw-light">{room.msg.content}</span>
+                    <span className="fw-medium">{item.msg.nick}：</span>
+                    <span className="fw-light">{item.msg.content}</span>
                   </div>
                 </div>
               </Link>
             )
           })
-        )} */}
+        )}
       </div>
     </>
   )
