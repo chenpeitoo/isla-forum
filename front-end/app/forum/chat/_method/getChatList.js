@@ -7,12 +7,15 @@ export default function GetChatList(userID) {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/forum/chat?userID=${userID}`
   const { data, isLoading, error, mutate } = useSWR(url, fetcher)
 
+  // 將每項msg從json轉為object
   const rooms = data?.roomList?.map((room) => ({
     ...room,
-    msg: JSON.parse(room.msg),
+    // NOTE 防呆
+    msg: typeof room.msg === 'string' ? JSON.parse(room.msg) : room.msg,
   }))
+
   const roomHeaders = data?.roomHeader
-  // console.log({ url, data, rooms, roomHeaders })
+  // console.log({ url, data: data?.roomList, rooms, roomHeaders })
   return { isLoading, error, mutate, rooms, roomHeaders }
 }
 

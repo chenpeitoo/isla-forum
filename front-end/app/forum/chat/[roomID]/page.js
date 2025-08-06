@@ -1,14 +1,12 @@
 'use client'
 
 import { useParams, useRouter } from 'next/navigation'
-import React, { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useAuth } from '../../../../hook/use-auth'
 import ReconnectingWebSocket from 'reconnecting-websocket'
 import useSWR from 'swr'
 import ComponentsAvatar from '../../_components/avatar'
-import UseImg from '../../_hooks/useImg'
 import { BeatLoader } from 'react-spinners'
-import ConfirmModal from '../../_components/confirmModal'
 import GetChatList from '../_method/getChatList'
 
 const fetcher = (url) => fetch(url).then((res) => res.json())
@@ -21,9 +19,11 @@ export default function ChatRoom() {
   const userUrl = user.ava_url
 
   const roomID = useParams().roomID
-  const [messages, setMessages] = useState([])
+  const [messages, setMessages] = useState([]) //樂觀更新訊息畫面
   const messagesRef = useRef()
   const inputRef = useRef()
+  const backendAPI = process.env.NEXT_PUBLIC_API_URL
+  const ws = new ReconnectingWebSocket(backendAPI)
 
   const { data, isLoading, error } = useSWR(
     `${process.env.NEXT_PUBLIC_API_URL}/api/forum/chat?userID=${userID}&roomID=${roomID}`,
@@ -31,34 +31,35 @@ export default function ChatRoom() {
   )
   const roomHeader = data?.roomHeader?.[0] || {}
 
+  // 帶入訊息資料
   useEffect(() => {
-    if (data?.messages?.[0]?.msg) {
-      // console.log(data?.messages?.[0]?.msg)
-      setMessages(JSON.parse(data?.messages?.[0].msg))
-    } //QU 沒if data的話會無限迴圈
+    if (data) {
+      typeof data?.messages?.[0].msg === 'string'
+        ? setMessages(JSON.parse(data.messages[0].msg))
+        : setMessages(data.messages[0].msg)
+    }
   }, [data])
 
-  const backendAPI = process.env.NEXT_PUBLIC_API_URL
-  const ws = new ReconnectingWebSocket(backendAPI)
-
+  // (1)新增訊息for畫面
+  const handleMessage = async (event) => {
+    const newMsg = await event.data.text().then((txt) => JSON.parse(txt))
+    setMessages([...messages, newMsg])
+  }
   useEffect(() => {
-    const handleMessage = async (event) => {
-      const newMsg = await event.data.text().then((txt) => JSON.parse(txt))
-      // console.log(newMsg)
-      setMessages([...messages, newMsg])
-    }
     ws.addEventListener('message', handleMessage)
+
+    // 有新訊息時聊天室拉至最底
     const msgCurr = messagesRef.current
     if (msgCurr) msgCurr.scrollTop = msgCurr.scrollHeight
-    return () => ws.removeEventListener('message', handleMessage)
-  }, [ws])
 
-  // console.log(messages) //sender_id, content, nick, ava_url
+    return () => ws.removeEventListener('message', handleMessage)
+  }, [messages])
 
   ws.addEventListener('close', () => {
     console.log('連線關閉')
   })
 
+  // (2)新增訊息for資料庫
   const handleCreateMsg = async (newMsg) => {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/forum/chat?roomID=${roomID}`,
@@ -116,9 +117,6 @@ export default function ChatRoom() {
                 <>開始聊天</>
               ) : (
                 messages.map((m, i) => {
-                  {
-                    /* if (m.sender_id === userID) { */
-                  }
                   return (
                     <div
                       className="d-flex align-items-top gap-1 w-100 text-break"
@@ -127,7 +125,6 @@ export default function ChatRoom() {
                       <div
                         className={`d-flex flex-column ${m.sender_id == userID ? 'ms-auto psForumMsg align-items-end order-0' : 'me-auto peForumMsg order-1'}`}
                       >
-                        {/* <div className="fs14 sub-text-color">{m.nick}</div> */}
                         <div
                           className={`message fw-light ${m.sender_id == userID ? 'bg-chat-me text-white' : 'bg-light-hover main-text-color'}`}
                         >
@@ -163,8 +160,6 @@ export default function ChatRoom() {
               placeholder="輸入訊息⋯⋯"
               onKeyDown={async (e) => {
                 if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
-                  // setMessages([...messages, e.target.value])
-                  // ws.send(e.target.value)
                   // NOTE 傳送時自動轉buffer
                   ws.send(
                     JSON.stringify({

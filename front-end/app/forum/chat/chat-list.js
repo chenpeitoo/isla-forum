@@ -11,10 +11,6 @@ export default function ChatList({ setListMutate }) {
   const userID = useAuth().user.id
 
   const { rooms, roomHeaders, isLoading, error } = GetChatList(userID)
-  // const rooms = rooms?.map((item) => ({
-  //   ...item,
-  //   msg: JSON.parse(item.msg),
-  // }))
   return (
     <>
       <div className="chat-list-items">
