@@ -1,6 +1,5 @@
 import express from 'express'
 import db from '../../config/mysql.js'
-import multer from 'multer'
 
 const router = express.Router()
 router.post('/add-chat', async (req, res) => {
@@ -52,7 +51,6 @@ router.post('/add-chat', async (req, res) => {
 
 router.get('/', async (req, res) => {
   const userID = req.query.userID
-  console.log(userID)
   const [room] = await db.query(
     `SELECT GROUP_CONCAT(room_id) AS room_id
     FROM chat_room_user
@@ -85,14 +83,14 @@ router.get('/', async (req, res) => {
     JOIN (
       SELECT room_id, MAX(created_at) AS latest_at
       FROM chat_message
-      WHERE room_id IN (${rooms})
+      WHERE room_id IN (?)
       GROUP BY room_id
     ) AS lm
     ON m.room_id = lm.room_id
     AND m.created_at = lm.latest_at
     JOIN users u ON m.sender_id = u.id
-    GROUP BY m.room_id
-    ORDER BY m.created_at DESC`
+    ORDER BY m.created_at DESC`,
+    [rooms]
   )
 
   const [roomHeader] = await db.query(

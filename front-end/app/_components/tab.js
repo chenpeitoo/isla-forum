@@ -1,5 +1,5 @@
 'use client'
-import React, { useRef, useState, useEffect, useMemo, useCallback } from 'react'
+import { useRef, useState, useEffect, useCallback } from 'react'
 import './tab.css'
 import { useSearchParams } from 'next/navigation'
 
@@ -19,22 +19,19 @@ export default function Componentstab({
   // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   const searchParams = useSearchParams()
-  const tabParam = useMemo(
-    () => Number(searchParams.get('tab') ?? 1),
-    [searchParams]
-  )
-  const [activeIndex, setActiveIndex] = useState(
-    () => parseInt(tabParam, 10) - 1
-  )
+  const tabParam = Number(searchParams.get('tab') ?? 1)
+
+  const [activeIndex, setActiveIndex] = useState(() => tabParam - 1)
   const containerRef = useRef(null)
   const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 })
-  const [enableTransition, setEnableTransition] = useState(false) //載入時無動畫
+  const [enableTransition, setEnableTransition] = useState(false)
 
   // 讓首尾底線的漸層在不同邊
   const edgeClass =
     activeIndex === 0 ? 'start' : activeIndex === cates.length - 1 ? 'end' : ''
 
   // 功能：將underline移到點擊的按鈕下方
+  // 使用useCallback記憶函式，減少每次渲染時重新建立
   const updateUnderline = useCallback((index) => {
     const btn = containerRef.current?.children[index]
     if (btn) {
@@ -45,11 +42,18 @@ export default function Componentstab({
     }
   }, [])
 
+  // 點擊sub-nav時也能更新底線位置
+  useEffect(() => {
+    setActiveIndex(tabParam - 1)
+  }, [tabParam])
+
   // 首次載入就定位，並開啟 transition
   useEffect(() => {
+    console.log('💥trigger updateUnderline cb', activeIndex)
     updateUnderline(activeIndex)
   }, [activeIndex, updateUnderline])
 
+  // 動態縮放時底線不跑版
   useEffect(() => {
     let resizeTimer
     const handleResize = () => {
@@ -67,8 +71,8 @@ export default function Componentstab({
     }
   }, [activeIndex, updateUnderline])
 
+  // 初次載入時底線不動畫
   useEffect(() => {
-    // setEnableTransition(true)
     const timer = setTimeout(() => setEnableTransition(true), 0)
     return () => clearTimeout(timer)
   }, [])

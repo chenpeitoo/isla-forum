@@ -2,8 +2,8 @@
 
 import './forum.css'
 import Link from 'next/link'
-import { useParams, usePathname } from 'next/navigation'
-import { useEffect, useRef, useState } from 'react'
+import { usePathname } from 'next/navigation'
+import { useEffect, useRef } from 'react'
 // import EditPostModal from './edit-post-modal'
 import ComponentsAuthorInfo from './author-info'
 import EditPostModal from './edit-post-modal'
@@ -41,7 +41,7 @@ export default function ComponentsSubNav() {
 
   const userID = useAuth().user.id
   const isAuth = userID !== 0
-  const { data, isLoading, error, mutate } = useSWR(
+  const { data } = useSWR(
     [
       `${process.env.NEXT_PUBLIC_API_URL}/api/forum/follow/get-follow-list`,
       { userID, pageName: 'subNav' },

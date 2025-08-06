@@ -11,7 +11,7 @@ import PostLoader from './_components/loader-post'
 import usePostsInfinite from './_hooks/usePostsInfinite'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useFilter } from './_context/filterContext'
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 
 export default function ForumPage() {
   const postsRef = useRef()
@@ -41,8 +41,8 @@ export default function ForumPage() {
   }
 
   const handleTabChange = (tabNumber) => {
-    // 跳轉等工作都交還給filter context 處理
     setTab(tabNumber)
+
     postsRef?.current.scrollTo({
       top: 0,
       behavior: 'smooth',

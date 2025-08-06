@@ -33,7 +33,7 @@ export default function ChatRoom() {
 
   useEffect(() => {
     if (data?.messages?.[0]?.msg) {
-      console.log(data?.messages?.[0]?.msg)
+      // console.log(data?.messages?.[0]?.msg)
       setMessages(JSON.parse(data?.messages?.[0].msg))
     } //QU 沒if data的話會無限迴圈
   }, [data])

@@ -18,16 +18,18 @@ export default function ChatList({ setListMutate }) {
   }))
   const roomHeader = data?.roomHeader
 
+  console.log(data)
   return (
     <>
       <div className="chat-list-items">
-        {error ? (
+        test
+        {/* {error ? (
           <div className="d-flex align-items-center justify-content-center h-100">
             連線失敗，請再試一次
           </div>
         ) : isLoading ? (
           <div className="d-flex align-items-center justify-content-center h-100">
-            {/* <BeatLoader color="#fd7061" /> */}
+            Loading
           </div>
         ) : (
           rooms &&
@@ -55,18 +57,8 @@ export default function ChatList({ setListMutate }) {
                       </div>
                     )
                   })}
-                {/* <div className="card-border rounded-circle">
-                  <ComponentsAvatar
-                    src={room.msg.ava_url}
-                    alt=""
-                    classWidth="44"
-                  />
-                </div> */}
                 <div className="friend-info d-flex flex-column gap-1 w-100">
                   <div className="friend-name-date d-flex justify-content-between gap-2">
-                    {/* <div className="name text-nowrap text-truncate fs16 fw-medium">
-                      {room.msg.nick}
-                    </div> */}
                     <div className="text-truncate">
                       {
                         roomHeader.filter((v) => v.room_id === room.room_id)[0]
@@ -85,7 +77,7 @@ export default function ChatList({ setListMutate }) {
               </Link>
             )
           })
-        )}
+        )} */}
       </div>
     </>
   )

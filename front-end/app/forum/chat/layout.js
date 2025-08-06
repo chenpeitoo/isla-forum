@@ -1,28 +1,18 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '../../../hook/use-auth'
 import './_components/chat.css'
 import ChatList from './chat-list'
 import ComponentsAddChat from './_components/add-chat'
 import { useParams } from 'next/navigation'
-import EditPostModal from '../_components/edit-post-modal'
 
 export default function ChatLayout({ children }) {
-  const router = useRouter()
-  const userID = useAuth().user.id
-  // useEffect(() => {
-  //   if (userID === 0) {
-  //     confirm('請先登入')
-  //     router.push('/member/login')
-  //   }
-  // }, [userID, router])
-
   const [listMutate, setListMutate] = useState(() => {})
 
-  console.log(useParams().roomID)
-  const isInRoom = !!useParams().roomID
+  // console.log(useParams().roomID)
+  const isInRoom = !!useParams().roomID //為響應式判斷顯示list或room
   return (
     <>
       <main className="main col col-10 col-xl-10 d-flex flex-column align-items-center mx-0 px-0 h-100">
@@ -41,9 +31,7 @@ export default function ChatLayout({ children }) {
                 <i className="bi bi-pencil-square"></i>
               </button>
             </div>
-            <div className="chat-list-items-block position-absolute overflow-auto px-2 py-2">
-              {userID !== 0 && <ChatList setListMutate={setListMutate} />}
-            </div>
+            <div className="chat-list-items-block position-absolute overflow-auto px-2 py-2"></div>
           </div>
           <div
             className={`chat-room col col-md-7 p-0 pe-3 ${isInRoom ? 'd-block' : 'd-none d-md-block'} d-md-block overflow-auto`}
@@ -53,8 +41,6 @@ export default function ChatLayout({ children }) {
         </div>
       </main>
       <ComponentsAddChat listMutate={listMutate} />
-      {/* <EditPostModal isUpdated={false} mutate={() => {}} /> */}
-      {/* FIXME 這裡的modal要怎麼mutate??? */}
     </>
   )
 }

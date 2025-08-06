@@ -48,7 +48,7 @@ export default function Header() {
         src={
           user.ava_url
             ? USER_AVA_URL + user.ava_url
-            : `${process.env.NEXT_PUBLIC_PUBLIC_URL}/images/member/default-user.jpg`
+            : `${process.env.NEXT_PUBLIC_API_URL}/images/member/default-user.jpg`
         }
         alt={USER_AVA_URL + user.ava_url}
         width={40}

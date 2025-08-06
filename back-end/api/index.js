@@ -72,7 +72,7 @@ app.use(express.static(path.join(process.cwd(), 'public')))
 // <<<<<<<<<<<<<<<<WebSocket<<<<<<<<<<<<<<<<<
 const wss = new WebSocketServer({ port: 8080 })
 wss.on('connection', (connection) => {
-  // console.log('使用者已連線')
+  console.log('使用者已連線')
   connection.on('message', (message) => {
     // NOTE toString(): buffer to JSON, parse(): JSON to Object
     // console.log('收到訊息', JSON.parse(message.toString()))

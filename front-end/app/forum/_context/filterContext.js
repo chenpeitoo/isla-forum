@@ -1,12 +1,14 @@
 'use client'
 
-import { useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useState, createContext, useContext, useEffect } from 'react'
 
 const FilterContext = createContext()
 
+// 跳轉等工作都交還給filter context 處理（但僅限/forum）
 export function FilterProvider({ children }) {
   const router = useRouter()
+  const pathname = usePathname()
 
   const [keyword, setKeyword] = useState('')
   const [productCate, setProductCate] = useState([])
@@ -26,6 +28,7 @@ export function FilterProvider({ children }) {
   ]
 
   useEffect(() => {
+    if (pathname !== '/forum') return //非篩選頁面則不觸發
     keyword.length > 0
       ? params.set('keyword', keyword)
       : params.delete('keyword')
@@ -37,9 +40,7 @@ export function FilterProvider({ children }) {
       : params.delete('postCate')
     params.set('tab', tab)
 
-    router.push(
-      `${process.env.NEXT_PUBLIC_PUBLIC_URL}/forum?${params.toString()}`
-    )
+    router.push(`/forum?${params.toString()}`)
   }, [keyword, productCate, postCate, tab])
 
   return (
