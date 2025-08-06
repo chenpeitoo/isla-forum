@@ -22,7 +22,11 @@ export default function ChatRoom() {
   const [messages, setMessages] = useState([]) //樂觀更新訊息畫面
   const messagesRef = useRef()
   const inputRef = useRef()
-  const backendAPI = process.env.NEXT_PUBLIC_API_URL
+  const backendAPI =
+    process.env.NEXT_HOST === 'localhost'
+      ? process.env.NEXT_PUBLIC_API_URL
+      : process.env.NEXT_PUBLIC_WS_URL
+
   const ws = new ReconnectingWebSocket(backendAPI)
 
   const { data, isLoading, error } = useSWR(

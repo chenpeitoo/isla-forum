@@ -31,10 +31,8 @@ const app = express()
 // cors設定，參數為必要，注意不要只寫`app.use(cors())`
 // 設定白名單，只允許特定網址存取
 const whitelist = [
-  process.env.FRONTEND_URL,
   'http://localhost:3000',
   'http://localhost:3001',
-  process.env.FRONTEND_ORIGIN,
   'https://isla-forum.up.railway.app',
   'https://isla-forum-backend-production.up.railway.app',
 ].filter(Boolean)
