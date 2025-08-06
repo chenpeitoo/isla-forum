@@ -21,7 +21,7 @@ import { pathToFileURL } from 'url'
 // const __dirname = path.dirname(__filename)
 
 import 'dotenv/config.js'
-import { request } from 'http'
+import { createServer, request } from 'http'
 // import wishlistRouter from '../routes/course/wishlist.js'
 // import courseManageRoutes from '../routes/courses-manage/course-list.js'
 
@@ -70,13 +70,13 @@ app.use(cookieParser())
 app.use(express.static(path.join(process.cwd(), 'public')))
 
 // <<<<<<<<<<<<<<<<WebSocket<<<<<<<<<<<<<<<<<
-const wss = new WebSocketServer({ port: 8080 })
+// const wss = new WebSocketServer({ PORT: 8080 })
+const server = createServer(app)
+const wss = new WebSocketServer({ server })
 wss.on('connection', (connection) => {
-  console.log('使用者已連線')
+  // console.log('使用者已連線')
   connection.on('message', (message) => {
     // NOTE toString(): buffer to JSON, parse(): JSON to Object
-    // console.log('收到訊息', JSON.parse(message.toString()))
-    // console.log('收到訊息', message.toString())
     const json = message
     wss.clients.forEach((client) => {
       if (client.readyState === WebSocket.OPEN) {
@@ -224,9 +224,9 @@ app.use(function (err, req, res) {
   res.status(500).send({ error: err })
 })
 
-const port = process.env.PORT || 3000
-
-app.listen(port, () => console.log(`Server ready on port ${port}`))
+const PORT = process.env.PORT
+// app.listen(PORT, () => console.log(`Server ready on PORT ${PORT}`))
+server.listen(PORT, () => console.log(`WebSocket is running on PORT ${PORT}`))
 
 // app.use('/api/course/wishlist', wishlistRouter)
 // app.use('/api/courses-manage/course-list', courseManageRoutes)

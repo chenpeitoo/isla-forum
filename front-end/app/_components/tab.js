@@ -49,7 +49,6 @@ export default function Componentstab({
 
   // 首次載入就定位，並開啟 transition
   useEffect(() => {
-    console.log('💥trigger updateUnderline cb', activeIndex)
     updateUnderline(activeIndex)
   }, [activeIndex, updateUnderline])
 

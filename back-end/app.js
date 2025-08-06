@@ -23,7 +23,7 @@ app.use(express.json())
 // 掛載產品 API 路由
 // app.use('/products', productRoutes)
 
-// 啟動伺服器
-app.listen(PORT, () => {
-  console.log(`伺服器正在運行：http://localhost:${PORT}`)
-})
+// 啟動伺服器 NOTE 與index.js功能重複
+// app.listen(PORT, () => {
+//   console.log(`伺服器正在運行：http://localhost:${PORT}`)
+// })

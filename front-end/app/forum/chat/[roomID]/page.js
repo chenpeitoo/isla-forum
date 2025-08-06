@@ -38,7 +38,8 @@ export default function ChatRoom() {
     } //QU 沒if data的話會無限迴圈
   }, [data])
 
-  const ws = new ReconnectingWebSocket('ws://localhost:8080')
+  const backendAPI = process.env.NEXT_PUBLIC_API_URL
+  const ws = new ReconnectingWebSocket(backendAPI)
 
   useEffect(() => {
     const handleMessage = async (event) => {

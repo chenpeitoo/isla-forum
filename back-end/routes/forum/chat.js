@@ -135,8 +135,6 @@ router.get('/', async (req, res) => {
       WHERE room_id = ?`,
       [roomID]
     )
-
-    console.log({ line: 23, userID, room, rooms })
     return res.json({ status: 'success', roomHeader, messages })
   }
   return res.json({ status: 'success', roomList, roomHeader })

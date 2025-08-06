@@ -11,13 +11,10 @@ export default function ChatList({ setListMutate }) {
   const userID = useAuth().user.id
 
   const { rooms, roomHeaders, isLoading, error } = GetChatList(userID)
-  // const roomItems = rooms?.map((item) => ({
+  // const rooms = rooms?.map((item) => ({
   //   ...item,
   //   msg: JSON.parse(item.msg),
   // }))
-  const roomItems = rooms
-
-  console.log({ rooms, roomItems })
   return (
     <>
       <div className="chat-list-items">
@@ -30,18 +27,18 @@ export default function ChatList({ setListMutate }) {
             Loading
           </div>
         ) : (
-          roomItems &&
-          roomItems.map((item, i) => {
-            const date = new Date(item.msg.created_at)
+          rooms &&
+          rooms.map((room, i) => {
+            const date = new Date(room.msg.created_at)
             const dateFormat = `${date.getMonth()}月${date.getDate()}日`
             return (
               <Link
-                href={`/forum/chat/${item.room_id}`}
+                href={`/forum/chat/${room.room_id}`}
                 className="chat-list-item d-flex gap-2 p-3 rounded-3 main-text-color"
                 key={i}
               >
                 {roomHeaders
-                  .filter((v) => v.room_id === item.room_id)[0]
+                  .filter((v) => v.room_id === room.room_id)[0]
                   .imgs?.split(',')
                   .slice(0, 2)
                   .map((ava, i) => {
@@ -59,7 +56,7 @@ export default function ChatList({ setListMutate }) {
                   <div className="friend-name-date d-flex justify-content-between gap-2">
                     <div className="text-truncate">
                       {
-                        roomHeaders.filter((v) => v.room_id === item.room_id)[0]
+                        roomHeaders.filter((v) => v.room_id === room.room_id)[0]
                           .nicks
                       }
                     </div>
@@ -68,8 +65,8 @@ export default function ChatList({ setListMutate }) {
                     </div>
                   </div>
                   <div className="cotent-preview text-truncate sub-text-color fs14 fw-normal">
-                    <span className="fw-medium">{item.msg.nick}：</span>
-                    <span className="fw-light">{item.msg.content}</span>
+                    <span className="fw-medium">{room.msg.nick}：</span>
+                    <span className="fw-light">{room.msg.content}</span>
                   </div>
                 </div>
               </Link>
