@@ -40,10 +40,20 @@ export default function ChatRoom() {
 
   // 帶入訊息資料
   useEffect(() => {
-    if (data) {
-      typeof data?.messages?.[0].msg === 'string'
-        ? setMessages(JSON.parse(data.messages[0].msg))
-        : setMessages(data.messages[0].msg)
+    if (data && Array.isArray(data?.messages) && data?.messages?.length > 0) {
+      const rawMsg = data.messages[0]?.msg
+      try {
+        if (typeof rawMsg === 'string') {
+          setMessages(JSON.parse(rawMsg))
+        } else if (Array.isArray(rawMsg)) {
+          setMessages(rawMsg)
+        } else {
+          setMessages([])
+        }
+      } catch (err) {
+        console.log('JSON parse error:', err)
+        setMessages([])
+      }
     }
   }, [data])
 
