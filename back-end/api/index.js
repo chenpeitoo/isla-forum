@@ -222,7 +222,7 @@ app.use(function (err, req, res) {
   res.status(500).send({ error: err })
 })
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 3000
 // app.listen(PORT, () => console.log(`Server ready on PORT ${PORT}`))
 server.listen(PORT, () => console.log(`WebSocket is running on PORT ${PORT}`))
 

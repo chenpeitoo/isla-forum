@@ -123,8 +123,8 @@ router.get('/', async (req, res) => {
       FROM chat_message msg
       JOIN users u ON msg.sender_id = u.id
       WHERE room_id = ${roomID}
-      GROUP BY msg.room_id
-      ORDER BY msg.created_at`)
+      GROUP BY msg.room_id`)
+    // ORDER BY msg.created_at`) BUG 地端正常，部署錯誤
 
     const [roomHeader] = await db.query(
       `SELECT

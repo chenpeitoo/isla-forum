@@ -23,8 +23,8 @@ export default function ChatRoom() {
   const messagesRef = useRef()
   const inputRef = useRef()
   const backendAPI =
-    process.env.NEXT_HOST === 'localhost'
-      ? process.env.NEXT_PUBLIC_API_URL
+    process.env.NEXT_PUBLIC_HOST === 'localhost'
+      ? 'ws://localhost:3005'
       : process.env.NEXT_PUBLIC_WS_URL
 
   const ws = new ReconnectingWebSocket(backendAPI)
@@ -33,6 +33,9 @@ export default function ChatRoom() {
     `${process.env.NEXT_PUBLIC_API_URL}/api/forum/chat?userID=${userID}&roomID=${roomID}`,
     fetcher
   )
+  // http://localhost:3005/api/forum/chat?userID=1&roomID=8（可行
+  // https://isla-forum-backend-production.up.railway.app/api/forum/chat?userID=1&roomID=8（故障
+  // https://isla-forum-backend-production.up.railway.app/api/forum/chat?userID=1 （可行
   const roomHeader = data?.roomHeader?.[0] || {}
 
   // 帶入訊息資料

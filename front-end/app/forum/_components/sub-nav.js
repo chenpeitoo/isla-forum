@@ -111,7 +111,7 @@ export default function ComponentsSubNav() {
                 }}
               >
                 <i
-                  className={`bi ${url === '/forum/chat' ? 'bi-chat-dots-fill' : 'bi-chat-dots'}`}
+                  className={`bi ${url.includes('/forum/chat') ? 'bi-chat-dots-fill' : 'bi-chat-dots'}`}
                 />
                 <span className="">我的訊息</span>
               </Link>
